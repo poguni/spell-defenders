@@ -1,0 +1,646 @@
+[
+  {
+    "id": "L3-buchi-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "붙이다/부치다, 반드시/반듯이",
+    "rule": "한글 맞춤법 제57항",
+    "wrong": "방학 때 시골 할머니께 편지를 붙였다.",
+    "correct": "방학 때 시골 할머니께 편지를 부쳤다.",
+    "target": {
+      "wrongText": "붙였다",
+      "start": 17
+    },
+    "choices": [
+      "부쳤다",
+      "붙였다",
+      "부첬다"
+    ],
+    "acceptedAnswers": [
+      "방학 때 시골 할머니께 편지를 부쳤다."
+    ],
+    "explain": "편지나 물건을 보내는 것은 '부치다'예요. 그래서 '부쳤다'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-buchi-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "붙이다/부치다, 반드시/반듯이",
+    "rule": "한글 맞춤법 제57항",
+    "wrong": "게시판에 우리 반 시간표를 부쳤다.",
+    "correct": "게시판에 우리 반 시간표를 붙였다.",
+    "target": {
+      "wrongText": "부쳤다",
+      "start": 15
+    },
+    "choices": [
+      "붙였다",
+      "부쳤다",
+      "붙엿다"
+    ],
+    "acceptedAnswers": [
+      "게시판에 우리 반 시간표를 붙였다."
+    ],
+    "explain": "떨어지지 않게 딱 대는 것은 '붙이다'예요. 그래서 '붙였다'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-buchi-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "붙이다/부치다, 반드시/반듯이",
+    "rule": "한글 맞춤법 제57항",
+    "wrong": "엄마가 저녁으로 김치전을 붙이셨다.",
+    "correct": "엄마가 저녁으로 김치전을 부치셨다.",
+    "target": {
+      "wrongText": "붙이셨다",
+      "start": 14
+    },
+    "choices": [
+      "부치셨다",
+      "붙이셨다",
+      "부치셧다"
+    ],
+    "acceptedAnswers": [
+      "엄마가 저녁으로 김치전을 부치셨다."
+    ],
+    "explain": "기름 두른 팬에 전을 익혀 만드는 것은 '부치다'예요. 그래서 '부치셨다'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-buchi-004",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "붙이다/부치다, 반드시/반듯이",
+    "rule": "한글 맞춤법 제57항",
+    "wrong": "숙제는 반듯이 내일까지 내야 한다.",
+    "correct": "숙제는 반드시 내일까지 내야 한다.",
+    "target": {
+      "wrongText": "반듯이",
+      "start": 4
+    },
+    "choices": [
+      "반드시",
+      "반듯이",
+      "반듯시"
+    ],
+    "acceptedAnswers": [
+      "숙제는 반드시 내일까지 내야 한다."
+    ],
+    "explain": "'꼭, 틀림없이'라는 뜻은 '반드시'예요. '반듯이'는 비뚤지 않고 바르다는 뜻이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-deunji-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "든지/던지",
+    "rule": "한글 맞춤법 제56항",
+    "wrong": "너와 함께라면 어디던지 갈 수 있어.",
+    "correct": "너와 함께라면 어디든지 갈 수 있어.",
+    "target": {
+      "wrongText": "어디던지",
+      "start": 8
+    },
+    "choices": [
+      "어디든지",
+      "어디던지",
+      "어디든찌"
+    ],
+    "acceptedAnswers": [
+      "너와 함께라면 어디든지 갈 수 있어."
+    ],
+    "explain": "'어느 곳이나 상관없이'라는 뜻이니까 고르는 뜻의 '든지'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-deunji-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "든지/던지",
+    "rule": "한글 맞춤법 제56항",
+    "wrong": "어제는 얼마나 춥든지 손이 꽁꽁 얼었다.",
+    "correct": "어제는 얼마나 춥던지 손이 꽁꽁 얼었다.",
+    "target": {
+      "wrongText": "춥든지",
+      "start": 8
+    },
+    "choices": [
+      "춥던지",
+      "춥든지",
+      "춥던찌"
+    ],
+    "acceptedAnswers": [
+      "어제는 얼마나 춥던지 손이 꽁꽁 얼었다."
+    ],
+    "explain": "지난 일을 떠올리며 말할 때는 '-던지'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-deunji-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "든지/던지",
+    "rule": "한글 맞춤법 제56항",
+    "noError": true,
+    "wrong": "그날 동생이 얼마나 울던지 모두 놀랐다.",
+    "correct": "그날 동생이 얼마나 울던지 모두 놀랐다.",
+    "acceptedAnswers": [
+      "그날 동생이 얼마나 울던지 모두 놀랐다."
+    ],
+    "explain": "지난 일을 떠올리며 말하니까 '-던지'가 맞아요. 고칠 곳이 없어요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-eotteok-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "어떡해/어떻게",
+    "rule": "표준국어대사전 '어떡하다', '어떻다'",
+    "wrong": "준비물을 안 가져왔는데 어떻해?",
+    "correct": "준비물을 안 가져왔는데 어떡해?",
+    "target": {
+      "wrongText": "어떻해",
+      "start": 13
+    },
+    "choices": [
+      "어떡해",
+      "어떻해",
+      "어떢해"
+    ],
+    "acceptedAnswers": [
+      "준비물을 안 가져왔는데 어떡해?"
+    ],
+    "explain": "'어떻게 해'를 줄인 말은 '어떡해'예요. '어떻해'라는 말은 없어요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-eotteok-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "어떡해/어떻게",
+    "rule": "표준국어대사전 '어떡하다', '어떻다'",
+    "wrong": "이 문제는 어떡해 푸는 거야?",
+    "correct": "이 문제는 어떻게 푸는 거야?",
+    "target": {
+      "wrongText": "어떡해",
+      "start": 6
+    },
+    "choices": [
+      "어떻게",
+      "어떡해",
+      "어떡게"
+    ],
+    "acceptedAnswers": [
+      "이 문제는 어떻게 푸는 거야?"
+    ],
+    "explain": "푸는 방법을 묻는 말이니까 '어떻게'를 써요. '어떡해'는 '어떻게 해'를 줄인 말이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-eotteok-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "어떡해/어떻게",
+    "rule": "표준국어대사전 '어떡하다', '어떻다'",
+    "wrong": "동생이 아파서 울면 어떻하지?",
+    "correct": "동생이 아파서 울면 어떡하지?",
+    "target": {
+      "wrongText": "어떻하지",
+      "start": 11
+    },
+    "choices": [
+      "어떡하지",
+      "어떻하지",
+      "어떡카지"
+    ],
+    "acceptedAnswers": [
+      "동생이 아파서 울면 어떡하지?"
+    ],
+    "explain": "'어떻게 하지'를 줄인 말은 '어떡하지'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-ihi-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "-이/-히",
+    "rule": "한글 맞춤법 제51항",
+    "wrong": "손을 깨끗히 씻고 급식을 먹었다.",
+    "correct": "손을 깨끗이 씻고 급식을 먹었다.",
+    "target": {
+      "wrongText": "깨끗히",
+      "start": 3
+    },
+    "choices": [
+      "깨끗이",
+      "깨끗히",
+      "깨끄시"
+    ],
+    "acceptedAnswers": [
+      "손을 깨끗이 씻고 급식을 먹었다."
+    ],
+    "explain": "'깨끗하다'처럼 'ㅅ' 받침 뒤에서는 '이'로 써요. 그래서 '깨끗이'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-ihi-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "-이/-히",
+    "rule": "한글 맞춤법 제51항",
+    "wrong": "친구의 발표를 꼼꼼이 들었다.",
+    "correct": "친구의 발표를 꼼꼼히 들었다.",
+    "target": {
+      "wrongText": "꼼꼼이",
+      "start": 8
+    },
+    "choices": [
+      "꼼꼼히",
+      "꼼꼼이",
+      "꼼꼬미"
+    ],
+    "acceptedAnswers": [
+      "친구의 발표를 꼼꼼히 들었다."
+    ],
+    "explain": "'꼼꼼하다'에서 온 말이고 끝소리가 '히'로 나니까 '꼼꼼히'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-ihi-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "-이/-히",
+    "rule": "한글 맞춤법 제51항",
+    "noError": true,
+    "wrong": "동생은 번번이 숙제를 잊어버린다.",
+    "correct": "동생은 번번이 숙제를 잊어버린다.",
+    "acceptedAnswers": [
+      "동생은 번번이 숙제를 잊어버린다."
+    ],
+    "explain": "'번번이'는 끝소리가 '이'로만 나서 '이'로 써요. 고칠 곳이 없어요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-matchi-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "맞히다/맞추다",
+    "rule": "표준국어대사전 '맞히다', '맞추다'",
+    "wrong": "나는 수학 퀴즈의 정답을 모두 맞췄다.",
+    "correct": "나는 수학 퀴즈의 정답을 모두 맞혔다.",
+    "target": {
+      "wrongText": "맞췄다",
+      "start": 17
+    },
+    "choices": [
+      "맞혔다",
+      "맞췄다",
+      "맞춰다"
+    ],
+    "acceptedAnswers": [
+      "나는 수학 퀴즈의 정답을 모두 맞혔다."
+    ],
+    "explain": "문제의 답을 틀리지 않게 하는 것은 '맞히다'예요. 그래서 '맞혔다'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-matchi-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "맞히다/맞추다",
+    "rule": "표준국어대사전 '맞히다', '맞추다'",
+    "wrong": "형이 공을 던져 과녁 한가운데를 맞췄다.",
+    "correct": "형이 공을 던져 과녁 한가운데를 맞혔다.",
+    "target": {
+      "wrongText": "맞췄다",
+      "start": 18
+    },
+    "choices": [
+      "맞혔다",
+      "맞췄다",
+      "마쳤다"
+    ],
+    "acceptedAnswers": [
+      "형이 공을 던져 과녁 한가운데를 맞혔다."
+    ],
+    "explain": "던진 것이 목표에 닿게 하는 것은 '맞히다'예요. 그래서 '맞혔다'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-matchi-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "맞히다/맞추다",
+    "rule": "표준국어대사전 '맞히다', '맞추다'",
+    "wrong": "시험이 끝나고 짝과 답을 서로 맞혀 보았다.",
+    "correct": "시험이 끝나고 짝과 답을 서로 맞춰 보았다.",
+    "target": {
+      "wrongText": "맞혀",
+      "start": 17
+    },
+    "choices": [
+      "맞춰",
+      "맞혀",
+      "맞쳐"
+    ],
+    "acceptedAnswers": [
+      "시험이 끝나고 짝과 답을 서로 맞춰 보았다."
+    ],
+    "explain": "두 가지를 나란히 놓고 비교해 보는 것은 '맞추다'예요. 그래서 '맞춰'가 맞아요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-matchi-004",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "맞히다/맞추다",
+    "rule": "표준국어대사전 '맞히다', '맞추다'",
+    "noError": true,
+    "wrong": "퍼즐 조각을 하나씩 맞추어 그림을 완성했다.",
+    "correct": "퍼즐 조각을 하나씩 맞추어 그림을 완성했다.",
+    "acceptedAnswers": [
+      "퍼즐 조각을 하나씩 맞추어 그림을 완성했다."
+    ],
+    "explain": "조각을 제자리에 맞게 대어 붙이는 것은 '맞추다'예요. 고칠 곳이 없어요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-roseo-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "로서/로써",
+    "rule": "한글 맞춤법 제57항",
+    "wrong": "나는 반장으로써 회의를 이끌었다.",
+    "correct": "나는 반장으로서 회의를 이끌었다.",
+    "target": {
+      "wrongText": "반장으로써",
+      "start": 3
+    },
+    "choices": [
+      "반장으로서",
+      "반장으로써",
+      "반장으루서"
+    ],
+    "acceptedAnswers": [
+      "나는 반장으로서 회의를 이끌었다."
+    ],
+    "explain": "'반장이라는 자격으로'라는 뜻이니까 자격을 나타내는 '로서'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-roseo-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "로서/로써",
+    "rule": "한글 맞춤법 제57항",
+    "wrong": "우리는 대화로서 다툼을 풀었다.",
+    "correct": "우리는 대화로써 다툼을 풀었다.",
+    "target": {
+      "wrongText": "대화로서",
+      "start": 4
+    },
+    "choices": [
+      "대화로써",
+      "대화로서",
+      "대화로쎠"
+    ],
+    "acceptedAnswers": [
+      "우리는 대화로써 다툼을 풀었다."
+    ],
+    "explain": "'대화를 가지고'라는 뜻이니까 방법·도구를 나타내는 '로써'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-roseo-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "로서/로써",
+    "rule": "한글 맞춤법 제57항",
+    "noError": true,
+    "wrong": "할머니께서 쌀로써 떡을 만드셨다.",
+    "correct": "할머니께서 쌀로써 떡을 만드셨다.",
+    "acceptedAnswers": [
+      "할머니께서 쌀로써 떡을 만드셨다."
+    ],
+    "explain": "'쌀을 가지고(재료로 써서)'라는 뜻이니까 '로써'가 맞아요. 고칠 곳이 없어요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-saisiot-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "사이시옷",
+    "rule": "한글 맞춤법 제30항",
+    "wrong": "여름 방학에 바다가에서 모래성을 쌓았다.",
+    "correct": "여름 방학에 바닷가에서 모래성을 쌓았다.",
+    "target": {
+      "wrongText": "바다가에서",
+      "start": 7
+    },
+    "choices": [
+      "바닷가에서",
+      "바다가에서",
+      "바닺가에서"
+    ],
+    "acceptedAnswers": [
+      "여름 방학에 바닷가에서 모래성을 쌓았다."
+    ],
+    "explain": "'바다'와 '가'가 만나 '가'가 [까]로 소리 나니까 사이시옷을 넣어 '바닷가'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-saisiot-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "사이시옷",
+    "rule": "한글 맞춤법 제30항",
+    "wrong": "나무잎이 바람에 살랑살랑 흔들렸다.",
+    "correct": "나뭇잎이 바람에 살랑살랑 흔들렸다.",
+    "target": {
+      "wrongText": "나무잎이",
+      "start": 0
+    },
+    "choices": [
+      "나뭇잎이",
+      "나무잎이",
+      "나묻잎이"
+    ],
+    "acceptedAnswers": [
+      "나뭇잎이 바람에 살랑살랑 흔들렸다."
+    ],
+    "explain": "'나무'와 '잎'이 만나 [나문닙]으로 소리 나니까 사이시옷을 넣어 '나뭇잎'으로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-saisiot-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "사이시옷",
+    "rule": "한글 맞춤법 제30항",
+    "wrong": "아침 해빛이 교실 창문으로 들어왔다.",
+    "correct": "아침 햇빛이 교실 창문으로 들어왔다.",
+    "target": {
+      "wrongText": "해빛이",
+      "start": 3
+    },
+    "choices": [
+      "햇빛이",
+      "해빛이",
+      "햅빛이"
+    ],
+    "acceptedAnswers": [
+      "아침 햇빛이 교실 창문으로 들어왔다."
+    ],
+    "explain": "'해'와 '빛'이 만나 '빛'이 [삗]으로 소리 나니까 사이시옷을 넣어 '햇빛'으로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-uijon-001",
+    "level": 3,
+    "kind": "spacing",
+    "tag": "의존 명사 띄어쓰기",
+    "rule": "한글 맞춤법 제42항",
+    "wrong": "나도 혼자서 자전거를 탈수 있다.",
+    "correct": "나도 혼자서 자전거를 탈 수 있다.",
+    "acceptedAnswers": [
+      "나도 혼자서 자전거를 탈 수 있다."
+    ],
+    "explain": "'수'는 '방법, 힘'을 뜻하는 낱말이라 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-uijon-002",
+    "level": 3,
+    "kind": "spacing",
+    "tag": "의존 명사 띄어쓰기",
+    "rule": "한글 맞춤법 제42항",
+    "wrong": "준비물 중에 필요한것을 가방에 넣었다.",
+    "correct": "준비물 중에 필요한 것을 가방에 넣었다.",
+    "acceptedAnswers": [
+      "준비물 중에 필요한 것을 가방에 넣었다."
+    ],
+    "explain": "'것'은 혼자 쓰이지 못하는 낱말(의존 명사)이지만 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-uijon-003",
+    "level": 3,
+    "kind": "spacing",
+    "tag": "의존 명사 띄어쓰기",
+    "rule": "한글 맞춤법 제42항",
+    "wrong": "새 친구를 만난지 벌써 한 달이 지났다.",
+    "correct": "새 친구를 만난 지 벌써 한 달이 지났다.",
+    "acceptedAnswers": [
+      "새 친구를 만난 지 벌써 한 달이 지났다."
+    ],
+    "explain": "시간이 얼마나 지났는지 말하는 '지'는 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-uijon-004",
+    "level": 3,
+    "kind": "spacing",
+    "tag": "의존 명사 띄어쓰기",
+    "rule": "한글 맞춤법 제42항",
+    "wrong": "급식은 먹을만큼만 접시에 담자.",
+    "correct": "급식은 먹을 만큼만 접시에 담자.",
+    "acceptedAnswers": [
+      "급식은 먹을 만큼만 접시에 담자."
+    ],
+    "explain": "'먹을 만큼'처럼 꾸며 주는 말 뒤에 오는 '만큼'은 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-wen-001",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "웬/왠",
+    "rule": "표준국어대사전 '웬', '왠지'",
+    "wrong": "왠일로 오늘은 일찍 일어났니?",
+    "correct": "웬일로 오늘은 일찍 일어났니?",
+    "target": {
+      "wrongText": "왠일로",
+      "start": 0
+    },
+    "choices": [
+      "웬일로",
+      "왠일로",
+      "웬닐로"
+    ],
+    "acceptedAnswers": [
+      "웬일로 오늘은 일찍 일어났니?"
+    ],
+    "explain": "'어찌 된 일'이라는 뜻의 '웬일'은 '웬'으로 써요. '왜인지'라는 뜻일 때만 '왠지'라고 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-wen-002",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "웬/왠",
+    "rule": "표준국어대사전 '웬', '왠지'",
+    "wrong": "교실 앞에 왠 상자가 놓여 있었다.",
+    "correct": "교실 앞에 웬 상자가 놓여 있었다.",
+    "target": {
+      "wrongText": "왠",
+      "start": 6
+    },
+    "choices": [
+      "웬",
+      "왠",
+      "웽"
+    ],
+    "acceptedAnswers": [
+      "교실 앞에 웬 상자가 놓여 있었다."
+    ],
+    "explain": "'어찌 된, 어떠한'이라는 뜻은 '웬'으로 써요. '왠'은 '왠지'에만 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L3-wen-003",
+    "level": 3,
+    "kind": "spelling",
+    "tag": "웬/왠",
+    "rule": "표준국어대사전 '웬', '왠지'",
+    "noError": true,
+    "wrong": "운동회 날이라 왠지 아침부터 설렌다.",
+    "correct": "운동회 날이라 왠지 아침부터 설렌다.",
+    "acceptedAnswers": [
+      "운동회 날이라 왠지 아침부터 설렌다."
+    ],
+    "explain": "'왜인지'를 줄인 말이라 '왠지'가 맞아요. 고칠 곳이 없어요.",
+    "source": "builtin",
+    "reviewed": false
+  }
+]
