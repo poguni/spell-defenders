@@ -1,0 +1,32 @@
+[
+  {
+    "id": "L1-punct-temp-001",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "밥 먹었니.",
+    "correct": "밥 먹었니?",
+    "target": { "wrongText": ".", "start": 5 },
+    "choices": ["?", ".", "!"],
+    "acceptedAnswers": ["밥 먹었니?"],
+    "explain": "묻는 문장 끝에는 물음표(?)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-punct-temp-002",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "너는 몇 살이니!",
+    "correct": "너는 몇 살이니?",
+    "target": { "wrongText": "!", "start": 8 },
+    "choices": ["?", ".", "!"],
+    "acceptedAnswers": ["너는 몇 살이니?"],
+    "explain": "묻는 문장 끝에는 물음표(?)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  }
+]

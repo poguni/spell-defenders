@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { judgeFix, judgeNoError, judgeSpacing, judgeTap, toGaps } from './judge';
+import { fromGaps, judgeFix, judgeNoError, judgeSpacing, judgeTap, toGaps } from './judge';
 import { normalize } from './normalize';
 import type { Problem } from './types';
 
@@ -176,6 +176,12 @@ describe('toGaps', () => {
 
   it('빈 문자열은 글자도 틈도 없다', () => {
     expect(toGaps('  ')).toEqual({ letters: [], gaps: [] });
+  });
+
+  it('fromGaps로 되돌리면 정규화한 문장과 같다', () => {
+    const { letters, gaps } = toGaps('  나도  할 수 있다. ');
+    expect(fromGaps(letters, gaps)).toBe('나도 할 수 있다.');
+    expect(fromGaps([], [])).toBe('');
   });
 });
 

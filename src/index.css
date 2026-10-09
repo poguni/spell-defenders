@@ -25,6 +25,12 @@
   --color-gate: #8a5a32;
   --color-defender-cape: #7cc3f2;
   --color-defender-head: #f6d4b0;
+  --color-correct: #2f8f4f;
+  --color-wrong: #d64545;
+  --color-wrong-soft: #ffd6d6;
+  --color-backdrop: rgba(20, 24, 36, 0.55);
+  --color-star: #ffc83d;
+  --color-star-off: #d9d4cc;
 }
 
 * {
@@ -45,6 +51,8 @@ body {
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
+  /* 한국어 낱말 중간에서 줄이 바뀌지 않게 */
+  word-break: keep-all;
 }
 
 button {
@@ -105,6 +113,20 @@ button {
 
 .btn.is-selected {
   background: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.btn:disabled:active {
+  transform: none;
+}
+
+.btn-danger {
+  background: var(--color-wrong);
   color: var(--color-primary-text);
 }
 
@@ -198,28 +220,77 @@ button {
   position: absolute;
   width: 360px;
   height: 180px;
+  padding: 0;
+  border: 0;
+  background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   z-index: 1;
+  cursor: pointer;
+  animation: monster-appear 0.4s ease-out;
+}
+
+.monster:disabled {
+  cursor: default;
+}
+
+.monster.is-selected .ph-monster {
+  outline: 8px solid var(--color-target);
+  outline-offset: 4px;
+}
+
+.monster.is-selected .monster-bubble {
+  background: var(--color-target);
+}
+
+/* 틀려서 고칠 수 없는 몬스터: 흐리게 계속 걷는다 */
+.monster.is-failed {
+  opacity: 0.55;
+}
+
+.monster.is-purified {
+  animation: monster-purify 0.9s ease-out forwards;
+}
+
+.monster.is-purified .ph-monster {
+  background: var(--color-card) !important;
+}
+
+@keyframes monster-appear {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes monster-purify {
+  40% {
+    transform: scale(1.25);
+    filter: brightness(1.6);
+  }
+  100% {
+    transform: scale(1.4) translateY(-40px);
+    opacity: 0;
+  }
 }
 
 .monster-bubble {
-  height: 60px;
+  height: 64px;
   padding: 0 20px;
   display: flex;
   align-items: center;
   border: 3px solid var(--color-card-edge);
   border-radius: 16px;
   background: var(--color-card);
-  font-size: 30px;
+  font-size: 42px;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .castle-area {
   position: absolute;
+  z-index: 1;
   right: 20px;
   top: 150px;
   width: 260px;
@@ -238,12 +309,12 @@ button {
   left: 40px;
   right: 40px;
   bottom: 24px;
-  height: 260px;
+  min-height: 260px;
   padding: 24px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 28px;
+  gap: 20px;
   border: 5px solid var(--color-card-edge);
   border-radius: 28px;
   background: var(--color-card);
@@ -252,7 +323,7 @@ button {
 
 .sentence-text {
   margin: 0;
-  font-size: 56px;
+  font-size: 52px;
   font-weight: 700;
   text-align: center;
 }
@@ -261,6 +332,56 @@ button {
   background: var(--color-target);
   border-radius: 8px;
   padding: 0 4px;
+}
+
+/* 문장 부호 빈칸 */
+.sentence-target.is-blank {
+  display: inline-block;
+  min-width: 60px;
+  border: 4px dashed var(--color-card-edge);
+}
+
+/* 내용은 왼쪽, 큰 버튼(고칠 곳 없음, 자르기)은 오른쪽 */
+.sentence-card.card-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+}
+
+.card-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-hint {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
+.card-hint.is-warning {
+  color: var(--color-wrong);
+}
+
+.card-hint-idle {
+  font-size: 44px;
+}
+
+.word-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-word {
+  padding: 0 18px;
+  font-size: 48px;
+  border-width: 3px;
 }
 
 .choice-buttons {
@@ -374,4 +495,553 @@ button {
   border-radius: 40px 40px 10px 10px;
   background: var(--color-defender-cape);
   border: 4px solid var(--color-card-edge);
+}
+
+/* 띄어쓰기 칼: 글자 칸 하나가 80px(실제 48px 이상)이라 글자 사이를 누르기 쉽다 */
+.spacing-letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  row-gap: 16px;
+}
+
+.letter-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.letter {
+  width: 80px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  font-weight: 700;
+  background: var(--color-button);
+  border: 3px solid var(--color-lane-edge);
+}
+
+.gap {
+  position: relative;
+  width: 0;
+  height: 88px;
+  padding: 0;
+  border: 0;
+  background: none;
+  flex: none;
+  z-index: 1;
+}
+
+.gap.is-spaced {
+  width: 40px;
+}
+
+/* 띄운 곳에 칼자국 */
+.gap.is-spaced::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  bottom: 8px;
+  border-left: 4px dashed var(--color-text-soft);
+}
+
+.gap.is-wrong {
+  width: 16px;
+  background: var(--color-wrong);
+  border-radius: 6px;
+}
+
+.gap.is-wrong.is-spaced {
+  width: 40px;
+  background: var(--color-wrong-soft);
+  border: 4px solid var(--color-wrong);
+}
+
+.gap.is-wrong::after {
+  display: none;
+}
+
+/* 누르는 영역: 양옆 글자 칸의 가운데까지 */
+.gap-hit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 80px;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+/* 정답·오답 설명 */
+.feedback-backdrop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-backdrop);
+  z-index: 5;
+}
+
+.feedback-card {
+  width: 1500px;
+  max-height: 1000px;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  border: 5px solid var(--color-card-edge);
+  border-radius: 32px;
+  background: var(--color-card);
+}
+
+.feedback-title {
+  margin: 0;
+  font-size: 72px;
+  font-weight: 900;
+}
+
+.feedback-title.is-correct {
+  color: var(--color-correct);
+}
+
+.feedback-title.is-wrong {
+  color: var(--color-wrong);
+}
+
+.feedback-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.feedback-label {
+  margin: 0;
+  font-size: 40px;
+  color: var(--color-text-soft);
+}
+
+.feedback-sentence {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.feedback-explain {
+  margin: 0;
+  padding: 20px 32px;
+  font-size: 40px;
+  line-height: 1.4;
+  text-align: center;
+  background: var(--color-sky);
+  border-radius: 20px;
+}
+
+.feedback-mana {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+/* 결과 화면 */
+.result-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  background: linear-gradient(var(--color-sky), var(--color-grass));
+}
+
+.result-title {
+  margin: 0;
+  font-size: 110px;
+  font-weight: 900;
+}
+
+.result-stars {
+  display: flex;
+  gap: 40px;
+}
+
+.star {
+  width: 160px;
+  height: 160px;
+  background: var(--color-star-off);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.star.is-on {
+  background: var(--color-star);
+}
+
+.result-numbers {
+  margin: 0;
+  display: flex;
+  gap: 80px;
+}
+
+.result-numbers div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result-numbers dt {
+  font-size: 40px;
+  color: var(--color-text-soft);
+}
+
+.result-numbers dd {
+  margin: 0;
+  font-size: 80px;
+  font-weight: 900;
+}
+
+/* 성벽 낙서(임시 그림) */
+.graffiti-layer {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 280px;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.ph-graffiti {
+  position: absolute;
+  width: 90px;
+  height: 46px;
+  border: 8px solid;
+  border-radius: 40% 60% 50% 45%;
+  border-style: dashed solid;
+  animation: monster-appear 0.4s ease-out;
+}
+
+/* 시작 화면 아래: 내 기록 지우기 */
+.start-footer {
+  position: absolute;
+  bottom: 40px;
+}
+
+.start-note {
+  margin: 0;
+  font-size: 40px;
+  color: var(--color-text-soft);
+}
+
+.start-screen {
+  position: relative;
+}
+
+/* 단계 선택 */
+.level-buttons {
+  display: flex;
+  gap: 40px;
+}
+
+.level-button {
+  width: 400px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.level-name {
+  font-size: 52px;
+}
+
+.level-grade {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.nickname-field {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.nickname-field input {
+  width: 560px;
+  height: 96px;
+  padding: 0 24px;
+  border: 4px solid var(--color-card-edge);
+  border-radius: 20px;
+  font: inherit;
+  font-size: 44px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* 지도·오답 노트·도감 위쪽 막대 */
+.screen-header {
+  height: 130px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-hud);
+  border-bottom: 4px solid var(--color-card-edge);
+}
+
+.screen-title {
+  margin: 0;
+  font-size: 60px;
+  font-weight: 900;
+}
+
+.screen-header-spacer {
+  width: 180px;
+}
+
+/* 스테이지 지도: 단계마다 바탕색(1단계 마을 → 2단계 숲 → 3단계 성) */
+.map-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  background: linear-gradient(var(--color-sky), var(--color-grass));
+}
+
+.map-screen .screen-header {
+  align-self: stretch;
+}
+
+.map-level-2 {
+  background: linear-gradient(#bfe3c0, #5fa86a);
+}
+
+.map-level-3 {
+  background: linear-gradient(#ffd9a8, #c9a27a);
+}
+
+.map-stages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 40px;
+}
+
+.map-stage {
+  width: 400px;
+  height: 480px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  border: 5px solid var(--color-card-edge);
+  border-radius: 32px;
+  background: var(--color-card);
+  cursor: pointer;
+}
+
+.map-stage.is-locked {
+  cursor: default;
+  background: var(--color-castle);
+  color: var(--color-text-soft);
+}
+
+.map-stage-number {
+  font-size: 52px;
+  font-weight: 900;
+}
+
+.map-stars {
+  display: flex;
+  gap: 12px;
+}
+
+.star.star-small {
+  width: 70px;
+  height: 70px;
+}
+
+.map-stage-tags {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: pre-line;
+  text-align: center;
+}
+
+/* 오답 노트·도감: 목록이 길면 무대 안에서 위아래로 넘긴다 */
+.list-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-sky);
+}
+
+.list-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.list-empty,
+.list-guide {
+  margin: 0;
+  font-size: 44px;
+  text-align: center;
+}
+
+.list-guide {
+  font-size: 40px;
+  color: var(--color-text-soft);
+}
+
+.note-section {
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 4px solid var(--color-card-edge);
+  border-radius: 28px;
+  background: var(--color-card);
+}
+
+.note-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.note-tag {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 900;
+}
+
+.note-streak {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.rule-card {
+  margin: 0;
+  padding: 20px 28px;
+  font-size: 40px;
+  line-height: 1.45;
+  background: var(--color-target);
+  border-radius: 20px;
+}
+
+.note-problems {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 42px;
+}
+
+.note-wrong {
+  color: var(--color-wrong);
+  text-decoration: line-through;
+}
+
+.note-arrow {
+  margin: 0 16px;
+  color: var(--color-text-soft);
+}
+
+.note-correct {
+  font-weight: 700;
+}
+
+/* 몬스터 도감 */
+.dex-grid {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+.dex-card {
+  width: 540px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: 4px solid var(--color-card-edge);
+  border-radius: 28px;
+  background: var(--color-card);
+  text-align: center;
+}
+
+.dex-card.is-unknown .ph-monster {
+  filter: grayscale(1) brightness(0.4);
+}
+
+.dex-name {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.dex-tag {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.dex-rule {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+/* 낙서 지우기 */
+.review-screen {
+  position: relative;
+  height: 100%;
+}
+
+.castle-area.is-clean .ph-castle-wall {
+  animation: wall-clean 1.2s ease-out;
+}
+
+@keyframes wall-clean {
+  30% {
+    filter: brightness(1.5);
+    box-shadow: 0 0 80px 30px var(--color-target);
+  }
+}
+
+.review-done {
+  align-items: center;
+}
+
+.result-news {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--color-correct);
+  text-align: center;
 }

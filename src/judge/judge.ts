@@ -51,6 +51,11 @@ export function toGaps(text: string): { letters: string[]; gaps: boolean[] } {
   return { letters, gaps };
 }
 
+/** toGaps의 반대: 글자와 띄움/붙임 값으로 문장을 만든다 */
+export function fromGaps(letters: string[], gaps: boolean[]): string {
+  return letters.map((ch, i) => (i > 0 && gaps[i - 1] ? ' ' : '') + ch).join('');
+}
+
 export interface SpacingResult {
   correct: boolean;
   /** 띄어야 하는데 붙인 곳. 값 i는 i번째 글자와 i+1번째 글자 사이(공백을 뺀 글자 기준) */
