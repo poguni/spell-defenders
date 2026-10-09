@@ -77,6 +77,7 @@ test('간격 반복: 오답 노트 문제가 다음 스테이지에 섞여 나�
     tagStreaks: {},
     wrongNotes: { [note.id]: note.tag },
     dex: [],
+    soundOn: true,
   }));
   await page.goto('/');
   await enterStage(page, 1); // 스테이지 1에는 '웬/왠' 태그가 없다
@@ -131,6 +132,7 @@ for (const size of SIZES) {
       tagStreaks: {},
       wrongNotes: notes,
       dex: TAGS[3],
+      soundOn: true,
     }));
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
@@ -140,12 +142,12 @@ for (const size of SIZES) {
     await page.getByRole('button', { name: '시작하기' }).click();
     await expectInsideStage(page, '.map-stage, .map-screen .btn');
     await expectTouchSize(page, '.map-stage, .map-screen .btn');
-    await page.screenshot({ path: `docs/screenshots/M4/map-${name}.png` });
+    await page.screenshot({ path: `docs/screenshots/M5/map-${name}.png` });
 
     await page.getByRole('button', { name: '단계 바꾸기' }).click();
     await expectInsideStage(page, '.level-button, .nickname-field, .level-screen .btn-primary');
     await expectTouchSize(page, '.level-button, .nickname-field input');
-    await page.screenshot({ path: `docs/screenshots/M4/level-${name}.png` });
+    await page.screenshot({ path: `docs/screenshots/M5/level-${name}.png` });
     await page.getByRole('button', { name: '출발!' }).click();
 
     for (const [button, file] of [
@@ -157,13 +159,25 @@ for (const size of SIZES) {
       // 목록은 세로로만 넘기고 가로로 넘치지 않는다
       const overflowX = await page.locator('.list-body').evaluate((el) => el.scrollWidth - el.clientWidth);
       expect(overflowX).toBeLessThanOrEqual(1);
-      await page.screenshot({ path: `docs/screenshots/M4/${file}-${name}.png` });
+      await page.screenshot({ path: `docs/screenshots/M5/${file}-${name}.png` });
       await page.getByRole('button', { name: '지도로' }).click();
     }
 
     await page.getByRole('button', { name: '처음으로' }).click();
     await page.getByRole('button', { name: '내 기록 지우기' }).click();
     await expectInsideStage(page, '[role="dialog"]');
-    await page.screenshot({ path: `docs/screenshots/M4/clear-confirm-${name}.png` });
+    await page.screenshot({ path: `docs/screenshots/M5/clear-confirm-${name}.png` });
   });
 }
+
+test('효과음 끄기는 기기에 저장된다', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto('/');
+  await enterStage(page);
+  await page.getByRole('button', { name: '소리 끄기' }).click();
+  await expect(page.getByRole('button', { name: '소리 켜기' })).toBeVisible();
+
+  await page.reload();
+  await enterStage(page);
+  await expect(page.getByRole('button', { name: '소리 켜기' })).toBeVisible();
+});

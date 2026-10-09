@@ -3,6 +3,7 @@ import { Stage } from './components/Stage';
 import { ALL_PROBLEMS } from './data/problems';
 import { availableProblems, readPlayOptions } from './game/pool';
 import { buildStageProblems, noteProblems, recordReview, recordStage } from './game/progress';
+import { setSoundEnabled } from './game/sound';
 import { STAGE_PROBLEM_COUNT, stageOutcomes, summarize, type GameState, type StageSummary } from './game/stage';
 import { findStage, isUnlocked, stagePool, stagesOf, type StageDef } from './game/stages';
 import { TAGS, type Level, type Problem } from './judge/types';
@@ -50,6 +51,8 @@ export function App() {
   const [round, setRound] = useState(0);
 
   useEffect(() => writeSave(save), [save]);
+  useEffect(() => setSoundEnabled(save.soundOn), [save.soundOn]);
+  const toggleSound = () => setSave((s) => ({ ...s, soundOn: !s.soundOn }));
 
   const level = save.level;
 
@@ -127,6 +130,8 @@ export function App() {
         <BattleScreen
           key={round}
           problems={screen.problems}
+          soundOn={save.soundOn}
+          onToggleSound={toggleSound}
           onFinish={(state) => finishStage(screen.stageId, state)}
         />
       )}
@@ -146,6 +151,8 @@ export function App() {
       {screen.name === 'review' && (
         <ReviewScreen
           problems={screen.problems}
+          soundOn={save.soundOn}
+          onToggleSound={toggleSound}
           onAnswer={(problem, correct) => setSave((s) => recordReview(s, problem, correct))}
           onDone={goMap}
         />

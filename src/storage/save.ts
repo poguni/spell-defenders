@@ -19,6 +19,8 @@ export interface SaveData {
   wrongNotes: Record<string, string>;
   /** 도감에 등록된(정화한 적 있는) 태그 */
   dex: string[];
+  /** 효과음 켜짐(기본 켜짐) */
+  soundOn: boolean;
 }
 
 export function emptySave(): SaveData {
@@ -30,6 +32,7 @@ export function emptySave(): SaveData {
     tagStreaks: {},
     wrongNotes: {},
     dex: [],
+    soundOn: true,
   };
 }
 
@@ -76,6 +79,7 @@ function sanitize(data: RawSave): SaveData {
     tagStreaks: pickEntries(data.tagStreaks, isCount),
     wrongNotes: pickEntries(data.wrongNotes, isText),
     dex: Array.isArray(data.dex) ? [...new Set(data.dex.filter(isText))] : [],
+    soundOn: data.soundOn !== false,
   };
 }
 

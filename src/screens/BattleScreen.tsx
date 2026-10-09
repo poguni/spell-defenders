@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { FeedbackOverlay, type Feedback } from '../components/FeedbackOverlay';
-import { PlaceholderArt } from '../components/PlaceholderArt';
+import { Background, Castle, Graffiti, LANE_TOPS, MonsterArt } from '../components/GameArt';
 import { SentenceCard, type AnswerResult } from '../components/SentenceCard';
-import { TAGS, type Problem } from '../judge/types';
+import { SoundButton } from '../components/SoundButton';
+import { playSound } from '../game/sound';
+import type { Problem } from '../judge/types';
 import {
   WALL_MAX,
   answer,
@@ -16,10 +18,9 @@ import {
 import { useGameLoop } from '../game/useGameLoop';
 
 // 무대 좌표(1920×1080) 배치
-const LANE_TOPS = [200, 380, 560];
-const MONSTER_TOP_OFFSET = 105 - 180;
+const MONSTER_TOP_OFFSET = -84; // 몬스터 발이 레인 아래쪽에 오도록
 const MONSTER_START_LEFT = 40; // progress 0: 말풍선까지 화면 안에서 나타난다
-const MONSTER_END_LEFT = 1425; // progress 1: 몸이 성벽에 닿는 곳
+const MONSTER_END_LEFT = 1340; // progress 1: 몸이 길 끝(성 앞)에 닿는 곳
 const BUBBLE_LETTERS = 8;
 
 const SPEEDS: { value: Speed; label: string }[] = [
@@ -41,10 +42,12 @@ function monsterClass(monster: Monster, selectedId: number | null) {
 interface Props {
   /** 이번 스테이지에 낼 문제 */
   problems: Problem[];
+  soundOn: boolean;
+  onToggleSound: () => void;
   onFinish: (state: GameState) => void;
 }
 
-export function BattleScreen({ problems, onFinish }: Props) {
+export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Props) {
   const [game, setGame] = useState(() => createStage(problems));
   const [speed, setSpeed] = useState<Speed>('normal');
   const [feedback, setFeedback] = useState<Feedback | null>(null);
@@ -61,21 +64,30 @@ export function BattleScreen({ problems, onFinish }: Props) {
     onFinish(game);
   }, [game, feedback, onFinish]);
 
+  const level = problems[0]?.level ?? 3;
   const selected = game.monsters.find((m) => m.id === game.selectedId) ?? null;
   const visible = game.monsters.filter(
     (m) => m.wave === game.wave && m.status !== 'waiting' && m.status !== 'arrived',
   );
   const graffitiCount = game.monsters.filter((m) => m.status === 'arrived').length;
 
+  // 몬스터가 성에 닿을 때마다 소리
+  const lastGraffiti = useRef(0);
+  useEffect(() => {
+    if (graffitiCount > lastGraffiti.current) playSound('arrive');
+    lastGraffiti.current = graffitiCount;
+  }, [graffitiCount]);
+
   const handleResult = (result: AnswerResult) => {
     if (!selected) return;
     setGame((g) => answer(g, selected.id, result.correct));
     setFeedback({ ...result, problem: selected.problem });
+    playSound(result.correct ? 'correct' : 'wrong');
   };
 
   return (
     <div className="battle-screen">
-      <PlaceholderArt kind="background" />
+      <Background level={level} />
 
       <header className="hud">
         <div className="hud-item">
@@ -112,6 +124,7 @@ export function BattleScreen({ problems, onFinish }: Props) {
               {label}
             </button>
           ))}
+          <SoundButton on={soundOn} onToggle={onToggleSound} />
         </div>
       </header>
 
@@ -126,21 +139,21 @@ export function BattleScreen({ problems, onFinish }: Props) {
           }}
           disabled={m.status !== 'walking'}
           aria-label={`오타 몬스터: ${m.problem.wrong}`}
-          onClick={() => setGame((g) => selectMonster(g, m.id))}
+          onClick={() => {
+            playSound('select');
+            setGame((g) => selectMonster(g, m.id));
+          }}
         >
           <span className="monster-bubble">{bubbleText(m.problem.wrong)}</span>
-          <PlaceholderArt kind="monster" variant={TAGS[m.problem.level].indexOf(m.problem.tag)} />
+          <MonsterArt level={m.problem.level} tag={m.problem.tag} purified={m.status === 'purified'} />
         </button>
       ))}
 
       <div className="castle-area">
-        <div className="defender-spot">
-          <PlaceholderArt kind="defender" />
-        </div>
-        <PlaceholderArt kind="castle" />
+        <Castle casting={feedback?.correct ?? false} />
         <div className="graffiti-layer" data-testid="graffiti" data-count={graffitiCount}>
           {Array.from({ length: graffitiCount }, (_, i) => (
-            <PlaceholderArt key={i} kind="graffiti" variant={i} />
+            <Graffiti key={i} variant={i} />
           ))}
         </div>
       </div>

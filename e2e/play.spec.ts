@@ -75,14 +75,14 @@ test('한 스테이지를 처음부터 끝까지 플레이한다', async ({ page
   expect(purified + missed).toBe(10);
   expect(missed).toBeGreaterThanOrEqual(1);
   expect(missedTapDone).toBe(true);
-  await page.screenshot({ path: 'docs/screenshots/M4/result-1920x1080.png' });
+  await page.screenshot({ path: 'docs/screenshots/M5/result-1920x1080.png' });
 
   // 낙서 지우기: 틀리거나 놓친 문제를 다시 풀면 낙서가 하나씩 지워진다
   await page.getByRole('button', { name: `낙서 지우기 (${missed})` }).click();
   await expect(page.getByTestId('graffiti')).toHaveAttribute('data-count', String(missed));
   await cleanGraffiti(page);
   await expect(page.getByTestId('graffiti')).toHaveAttribute('data-count', '0');
-  await page.screenshot({ path: 'docs/screenshots/M4/review-clean-1920x1080.png' });
+  await page.screenshot({ path: 'docs/screenshots/M5/review-clean-1920x1080.png' });
   await page.getByRole('button', { name: '지도로' }).first().click();
 
   // 지도: 별이 기록되고 다음 스테이지가 열린다

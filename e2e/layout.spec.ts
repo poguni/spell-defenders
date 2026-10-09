@@ -82,7 +82,7 @@ for (const size of SIZES) {
     await expectInsideStage(page, page.locator('.start-title'));
     await expectInsideStage(page, page.locator('.start-buttons .btn'));
     await expectTouchSize(page.locator('.start-buttons .btn'));
-    await page.screenshot({ path: `docs/screenshots/M3/start-${name}.png` });
+    await page.screenshot({ path: `docs/screenshots/M5/start-${name}.png` });
 
     await enterStage(page);
     await expectInsideStage(page, page.locator('.hud'));
@@ -106,19 +106,19 @@ for (const size of SIZES) {
         await expectReadable(page.locator('.letter'));
         await expectTouchSize(page.locator('.gap-hit'));
         await expectTouchSize(page.locator('.sentence-card .btn'));
-        await page.screenshot({ path: `docs/screenshots/M3/battle-spacing-${name}.png` });
+        await page.screenshot({ path: `docs/screenshots/M5/battle-spacing-${name}.png` });
       } else {
         // 틀린 낱말 찾기
         await expectCardFits(page);
         await expectReadable(page.locator('.btn-word'));
         await expectTouchSize(page.locator('.sentence-card .btn'));
-        await page.screenshot({ path: `docs/screenshots/M3/battle-find-${name}.png` });
+        await page.screenshot({ path: `docs/screenshots/M5/battle-find-${name}.png` });
         // 보기 고르기
         await tapTargetWord(page, problem);
         await expectCardFits(page);
         await expectReadable(page.locator('.sentence-text'));
         await expectTouchSize(page.locator('.sentence-card .btn'));
-        await page.screenshot({ path: `docs/screenshots/M3/battle-choose-${name}.png` });
+        await page.screenshot({ path: `docs/screenshots/M5/battle-choose-${name}.png` });
       }
 
       // 설명 창
@@ -127,7 +127,7 @@ for (const size of SIZES) {
       await expectInsideStage(page, dialog);
       await expectReadable(dialog.locator('.feedback-explain'));
       await expectTouchSize(dialog.locator('.btn'));
-      if (problem.kind === 'spacing') await page.screenshot({ path: `docs/screenshots/M3/feedback-${name}.png` });
+      if (problem.kind === 'spacing') await page.screenshot({ path: `docs/screenshots/M5/feedback-${name}.png` });
       await dialog.getByRole('button', { name: '계속하기' }).click();
     }
   });

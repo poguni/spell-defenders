@@ -1,6 +1,6 @@
-import { PlaceholderArt } from '../components/PlaceholderArt';
+import { MonsterArt } from '../components/GameArt';
 import { tagInfo } from '../data/tagInfo';
-import { TAGS, type Level } from '../judge/types';
+import type { Level } from '../judge/types';
 
 interface Props {
   level: Level;
@@ -32,7 +32,7 @@ export function DexScreen({ level, tags, dex, onBack }: Props) {
           const info = tagInfo(tag);
           return (
             <section key={tag} className={`dex-card${registered ? '' : ' is-unknown'}`} aria-label={tag}>
-              <PlaceholderArt kind="monster" variant={TAGS[level].indexOf(tag)} />
+              <MonsterArt level={level} tag={tag} purified={registered} />
               <h2 className="dex-name">{registered ? info.monster : '???'}</h2>
               <p className="dex-tag">{tag}</p>
               <p className="dex-rule">{registered ? info.rule : '아직 정화하지 못했어요.'}</p>

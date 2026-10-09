@@ -7,7 +7,6 @@
   --color-page: #1f2433;
   --color-sky: #cfe8ff;
   --color-grass: #9fd88a;
-  --color-lane: #e3c896;
   --color-lane-edge: #c7a874;
   --color-text: #22262f;
   --color-text-soft: #555c6b;
@@ -20,11 +19,6 @@
   --color-hp: #4caf6a;
   --color-hud: rgba(255, 255, 255, 0.88);
   --color-castle: #d9d4cc;
-  --color-castle-edge: #8a8378;
-  --color-roof: #4a78c2;
-  --color-gate: #8a5a32;
-  --color-defender-cape: #7cc3f2;
-  --color-defender-head: #f6d4b0;
   --color-correct: #2f8f4f;
   --color-wrong: #d64545;
   --color-wrong-soft: #ffd6d6;
@@ -219,26 +213,41 @@ button {
 .monster {
   position: absolute;
   width: 360px;
-  height: 180px;
+  height: 204px;
   padding: 0;
   border: 0;
   background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   z-index: 1;
   cursor: pointer;
   animation: monster-appear 0.4s ease-out;
+}
+
+/* 걷는 몬스터: 통통 튀며 흔들린다 */
+.monster.is-walking .art-monster,
+.monster.is-failed .art-monster {
+  animation: monster-walk 0.8s ease-in-out infinite;
+}
+
+@keyframes monster-walk {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
 }
 
 .monster:disabled {
   cursor: default;
 }
 
-.monster.is-selected .ph-monster {
-  outline: 8px solid var(--color-target);
-  outline-offset: 4px;
+.monster.is-selected .art-monster {
+  filter: drop-shadow(0 0 6px var(--color-target)) drop-shadow(0 0 14px var(--color-target));
 }
 
 .monster.is-selected .monster-bubble {
@@ -250,12 +259,13 @@ button {
   opacity: 0.55;
 }
 
+/* 정화: 정화 상태 그림으로 바뀐 뒤 반짝이며 떠오른다 */
 .monster.is-purified {
-  animation: monster-purify 0.9s ease-out forwards;
+  animation: monster-purify 1.2s ease-out forwards;
 }
 
-.monster.is-purified .ph-monster {
-  background: var(--color-card) !important;
+.monster.is-purified .monster-bubble {
+  visibility: hidden;
 }
 
 @keyframes monster-appear {
@@ -265,12 +275,16 @@ button {
 }
 
 @keyframes monster-purify {
-  40% {
-    transform: scale(1.25);
-    filter: brightness(1.6);
+  30% {
+    transform: scale(1.2);
+    filter: brightness(1.4) drop-shadow(0 0 20px var(--color-target));
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
   }
   100% {
-    transform: scale(1.4) translateY(-40px);
+    transform: scale(1.3) translateY(-80px);
     opacity: 0;
   }
 }
@@ -291,17 +305,10 @@ button {
 .castle-area {
   position: absolute;
   z-index: 1;
-  right: 20px;
-  top: 150px;
-  width: 260px;
-  height: 610px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.defender-spot {
-  height: 170px;
+  right: 0;
+  top: 120px;
+  width: 330px;
+  height: 590px;
 }
 
 .sentence-card {
@@ -400,33 +407,60 @@ button {
   color: var(--color-text-soft);
 }
 
-/* 임시 그림 (PlaceholderArt) */
-.ph-background {
+/* 게임 그림 (GameArt) */
+.art-background {
   position: absolute;
   inset: 0;
-  background: linear-gradient(var(--color-sky) 0 18%, var(--color-grass) 18% 100%);
 }
 
-.ph-lane {
+.art-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 배경 그림 위에 몬스터가 걷는 흙길 3줄을 깐다(배경 그림의 길은 2줄이라 위치가 맞지 않음) */
+.art-lane {
   position: absolute;
   left: 0;
-  right: 280px;
+  right: 330px;
   height: 120px;
-  background: var(--color-lane);
-  border-top: 4px solid var(--color-lane-edge);
-  border-bottom: 4px solid var(--color-lane-edge);
+  background: rgba(222, 190, 135, 0.82);
+  border-top: 5px solid rgba(160, 120, 70, 0.7);
+  border-bottom: 5px solid rgba(160, 120, 70, 0.7);
+  border-radius: 0 60px 60px 0;
 }
 
-.ph-monster {
-  width: 110px;
-  height: 110px;
+.art-monster {
+  width: 170px;
+  height: 170px;
   flex: none;
+  object-fit: contain;
+}
+
+/* 몬스터 그림은 위쪽 1/4이 비어 있어 말풍선 아래로 끌어올린다 */
+.monster .art-monster {
+  margin-top: -36px;
+}
+
+.monster .ph-monster {
+  margin-top: 0;
+}
+
+/* 그림이 없는 몬스터(임시 그림) */
+.ph-monster {
+  width: 130px;
+  height: 130px;
   border: 5px solid var(--color-card-edge);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
+}
+
+.ph-monster.is-clean {
+  filter: brightness(1.3) saturate(0.7);
 }
 
 .ph-eye {
@@ -437,64 +471,25 @@ button {
   border: 3px solid var(--color-card-edge);
 }
 
-.ph-castle {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ph-castle-roof {
-  width: 0;
-  height: 0;
-  border-left: 130px solid transparent;
-  border-right: 130px solid transparent;
-  border-bottom: 110px solid var(--color-roof);
-}
-
-.ph-castle-wall {
-  flex: 1;
-  width: 220px;
-  position: relative;
-  background: var(--color-castle);
-  border: 5px solid var(--color-castle-edge);
-}
-
-.ph-castle-gate {
+/* 성문: 그림 1792×2400 안에서 탑은 가운데, 문은 왼쪽 아래 */
+.art-castle {
   position: absolute;
-  left: 50%;
+  right: 0;
   bottom: 0;
-  width: 110px;
-  height: 150px;
-  transform: translateX(-50%);
-  border-radius: 55px 55px 0 0;
-  background: var(--color-gate);
+  width: 330px;
 }
 
-.ph-defender {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+/* 수비대원: 탑 왼쪽 벽 앞에 서서 왼쪽(몬스터 쪽)을 본다 */
+.art-defender {
+  position: absolute;
+  left: -10px;
+  top: 150px;
+  width: 190px;
+  z-index: 2;
 }
 
-.ph-defender-head {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--color-defender-head);
-  border: 4px solid var(--color-card-edge);
-}
-
-.ph-defender-body {
-  width: 90px;
-  height: 90px;
-  margin-top: -6px;
-  border-radius: 40px 40px 10px 10px;
-  background: var(--color-defender-cape);
-  border: 4px solid var(--color-card-edge);
+.art-defender.is-casting {
+  transform: translateX(-10px);
 }
 
 /* 띄어쓰기 칼: 글자 칸 하나가 80px(실제 48px 이상)이라 글자 사이를 누르기 쉽다 */
@@ -706,23 +701,20 @@ button {
   font-weight: 900;
 }
 
-/* 성벽 낙서(임시 그림) */
+/* 성벽 낙서: 탑 벽 위에 겹쳐 놓는다 */
 .graffiti-layer {
   position: absolute;
-  left: 20px;
-  right: 20px;
-  top: 280px;
-  bottom: 0;
+  left: 70px;
+  width: 230px;
+  top: 250px;
+  height: 300px;
   pointer-events: none;
+  z-index: 1;
 }
 
-.ph-graffiti {
+.art-graffiti {
   position: absolute;
-  width: 90px;
-  height: 46px;
-  border: 8px solid;
-  border-radius: 40% 60% 50% 45%;
-  border-style: dashed solid;
+  width: 100px;
   animation: monster-appear 0.4s ease-out;
 }
 
@@ -992,8 +984,8 @@ button {
   text-align: center;
 }
 
-.dex-card.is-unknown .ph-monster {
-  filter: grayscale(1) brightness(0.4);
+.dex-card.is-unknown .art-monster {
+  filter: grayscale(1) brightness(0.2);
 }
 
 .dex-name {
@@ -1021,14 +1013,13 @@ button {
   height: 100%;
 }
 
-.castle-area.is-clean .ph-castle-wall {
+.castle-area.is-clean .art-castle {
   animation: wall-clean 1.2s ease-out;
 }
 
 @keyframes wall-clean {
   30% {
-    filter: brightness(1.5);
-    box-shadow: 0 0 80px 30px var(--color-target);
+    filter: brightness(1.5) drop-shadow(0 0 30px var(--color-target));
   }
 }
 

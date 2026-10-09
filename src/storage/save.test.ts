@@ -20,6 +20,7 @@ const FULL: SaveData = {
   tagStreaks: { '로서/로써': 2 },
   wrongNotes: { 'L3-roseo-001': '로서/로써' },
   dex: ['로서/로써', '사이시옷'],
+  soundOn: false,
 };
 
 // Vitest는 브라우저가 아니라서 localStorage를 흉내 낸다
@@ -107,6 +108,11 @@ describe('parseSave: 깨진 데이터', () => {
       dex: ['사이시옷'],
       wrongNotes: {},
     });
+  });
+
+  it('효과음 칸이 없는 옛 저장 데이터는 켜짐으로 채운다', () => {
+    const { soundOn: _soundOn, ...withoutSound } = FULL;
+    expect(parseSave(JSON.stringify(withoutSound)).soundOn).toBe(true);
   });
 });
 
