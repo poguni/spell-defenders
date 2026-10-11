@@ -40,6 +40,11 @@ describe('스테이지 지도', () => {
     for (const stage of stagesOf(3)) expect(stagePool(stage, reviewed).length).toBeGreaterThanOrEqual(10);
   });
 
+  it('지금 문제로 2단계 스테이지마다 10문제씩 낼 수 있다', () => {
+    const reviewed = ALL_PROBLEMS.filter((p) => p.reviewed);
+    for (const stage of stagesOf(2)) expect(stagePool(stage, reviewed).length).toBeGreaterThanOrEqual(10);
+  });
+
   it('지금 문제로 1단계 스테이지마다 8문제씩 낼 수 있다', () => {
     const reviewed = ALL_PROBLEMS.filter((p) => p.reviewed);
     for (const stage of stagesOf(1)) expect(stagePool(stage, reviewed).length).toBeGreaterThanOrEqual(8);

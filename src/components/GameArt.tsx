@@ -17,6 +17,13 @@ const MONSTER_FILES: Record<string, string> = {
   된소리: 'mon-doen',
   '문장 부호': 'mon-punct',
   '띄어쓰기 기초': 'mon-wool',
+  // 2단계(docs/몬스터 그림 프롬프트 (2단계).md)
+  '되/돼': 'mon-doe',
+  '안/않': 'mon-an',
+  '자주 틀리는 낱말': 'mon-jaju',
+  '뜻이 다른 낱말': 'mon-tteut',
+  '조사 붙여 쓰기': 'mon-josa',
+  '단위 띄어쓰기': 'mon-danwi',
   // 3단계
   '로서/로써': 'mon-roseo',
   '든지/던지': 'mon-deunji',

@@ -123,13 +123,22 @@ test('속도 버튼: 일시정지하면 몬스터가 멈추고, 몬스터를 누
   expect(await left(1)).not.toBe(other);
 });
 
-test('문제가 없는 단계는 "준비 중"이라 고를 수 없다', async ({ page }) => {
-  // 2단계에는 아직 문제가 없다. 검수 전 문제를 내지 않는 것은 pool.test.ts가 확인한다
+test('세 단계 모두 고를 수 있고, 문제가 없는 단계는 "준비 중"이다', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '시작하기' }).click();
-  await expect(page.getByRole('button', { name: /2단계 숲/ })).toBeDisabled();
-  await expect(page.getByRole('button', { name: /2단계 숲/ })).toContainText('준비 중');
-  await expect(page.getByRole('button', { name: /1단계 마을/ })).toBeEnabled();
+  for (const name of [/1단계 마을/, /2단계 숲/, /3단계 성/]) {
+    await expect(page.getByRole('button', { name })).toBeEnabled();
+    await expect(page.getByRole('button', { name })).not.toContainText('준비 중');
+  }
+
+  // 개발 스위치로 3단계 문제 하나만 남기면 1·2단계는 낼 문제가 없다
+  const one = ALL_PROBLEMS.find((p) => p.level === 3 && p.reviewed)!;
+  await page.goto(`/?dev&problem=${one.id}`);
+  await page.getByRole('button', { name: '시작하기' }).click();
+  for (const name of [/1단계 마을/, /2단계 숲/]) {
+    await expect(page.getByRole('button', { name })).toBeDisabled();
+    await expect(page.getByRole('button', { name })).toContainText('준비 중');
+  }
   await expect(page.getByRole('button', { name: /3단계 성/ })).toBeEnabled();
 });
 

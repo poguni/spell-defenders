@@ -21,7 +21,7 @@
     ],
     "explain": "'되어요'로 바꿔도 말이 되니까 '돼요'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-doe-002",
@@ -45,7 +45,7 @@
     ],
     "explain": "'안 되어'로 바꿔도 말이 되니까 '돼'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-doe-003",
@@ -69,7 +69,7 @@
     ],
     "explain": "'놀아도 되어'로 바꿔도 말이 되니까 '돼'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-doe-004",
@@ -93,7 +93,7 @@
     ],
     "explain": "'되었어요'를 줄이면 '됐어요'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-doe-005",
@@ -117,7 +117,7 @@
     ],
     "explain": "'되어고'는 말이 안 되니까 '되고'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-an-001",
@@ -141,7 +141,7 @@
     ],
     "explain": "'먹지 아니해요'를 줄인 말이라 '않아요'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-an-002",
@@ -165,7 +165,7 @@
     ],
     "explain": "'아니 했어요'를 줄인 말이라 '안'이에요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-an-003",
@@ -189,7 +189,7 @@
     ],
     "explain": "'울지 아니하였다'를 줄인 말이라 '않았다'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-an-004",
@@ -213,7 +213,7 @@
     ],
     "explain": "'아니 나갔어'를 줄인 말이라 '안'이에요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-an-005",
@@ -237,7 +237,7 @@
     ],
     "explain": "'쉽지 아니하다'를 줄인 말이라 '않다'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-jaju-001",
@@ -261,7 +261,7 @@
     ],
     "explain": "'몇일'이 아니라 '며칠'이 바른 말이에요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-jaju-002",
@@ -285,7 +285,7 @@
     ],
     "explain": "'금시에'가 줄어든 말이라 '금세'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-jaju-003",
@@ -309,7 +309,7 @@
     ],
     "explain": "그릇을 씻는 일은 '설거지'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-jaju-004",
@@ -333,7 +333,7 @@
     ],
     "explain": "'오래간만'이 줄어든 말이라 '오랜만'이에요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-jaju-005",
@@ -357,7 +357,7 @@
     ],
     "explain": "마음먹고 한다는 뜻은 '일부러'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-tteut-001",
@@ -381,7 +381,7 @@
     ],
     "explain": "손가락으로 어느 쪽을 보이면 '가리키다'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-tteut-002",
@@ -405,7 +405,7 @@
     ],
     "explain": "알도록 깨우쳐 주면 '가르치다'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-tteut-003",
@@ -429,7 +429,7 @@
     ],
     "explain": "개가 소리를 내면 '짖다'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-tteut-004",
@@ -453,7 +453,7 @@
     ],
     "explain": "병이 없어지면 '낫다'라서 '나았어요'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-tteut-005",
@@ -477,7 +477,7 @@
     ],
     "explain": "기억하지 못하면 '잊어버리다'예요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-josa-001",
@@ -492,7 +492,7 @@
     ],
     "explain": "'와'는 앞말에 붙여 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-josa-002",
@@ -507,7 +507,7 @@
     ],
     "explain": "'이', '을'은 앞말에 붙여 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-josa-003",
@@ -522,7 +522,7 @@
     ],
     "explain": "'는', '에서'는 앞말에 붙여 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-josa-004",
@@ -537,7 +537,7 @@
     ],
     "explain": "'도', '을'은 앞말에 붙여 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-josa-005",
@@ -552,7 +552,7 @@
     ],
     "explain": "'에게', '을'은 앞말에 붙여 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-danwi-001",
@@ -567,7 +567,7 @@
     ],
     "explain": "수를 세는 '개'는 앞말과 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-danwi-002",
@@ -582,7 +582,7 @@
     ],
     "explain": "수를 세는 '마리'는 앞말과 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-danwi-003",
@@ -597,7 +597,7 @@
     ],
     "explain": "수를 세는 '권'은 앞말과 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-danwi-004",
@@ -612,7 +612,7 @@
     ],
     "explain": "수를 세는 '명'은 앞말과 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L2-danwi-005",
@@ -627,6 +627,6 @@
     ],
     "explain": "나이를 세는 '살'은 앞말과 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   }
 ]

@@ -126,10 +126,9 @@ test('1단계 스테이지 1을 끝까지: 8마리·웨이브 2개, 보기 2개,
       await expect(dialog.getByRole('heading', { name: '아쉬워요' })).toBeVisible();
     } else {
       await answerCorrectly(page, problem);
-      await expect(page.locator('.monster.is-purified img.art-monster').first()).toHaveAttribute(
-        'src',
-        /-clean\.webp$/,
-      );
+      // 웨이브의 마지막 몬스터면 바로 다음 웨이브로 넘어가 정화된 몬스터가 사라진다
+      const purifiedArt = page.locator('.monster.is-purified img.art-monster');
+      if (await purifiedArt.count()) await expect(purifiedArt.first()).toHaveAttribute('src', /-clean\.webp$/);
     }
     answered++;
     await dialog.getByRole('button', { name: '계속하기' }).click();
