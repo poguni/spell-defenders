@@ -37,6 +37,8 @@ export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onImpor
 
   return (
     <div className="start-screen">
+      {/* 제목은 배경 그림에 들어 있다. 글자 제목은 화면 읽기용으로만 남긴다 */}
+      <img className="start-bg" src={`${import.meta.env.BASE_URL}assets/backgrounds/bg-start.webp`} alt="" />
       <h1 className="start-title">맞춤법 수비대</h1>
       <p className="start-subtitle">
         {nickname ? `${nickname} 수비대원, 어서 와요!` : '오타 몬스터를 바르게 고쳐 성을 지켜요'}
