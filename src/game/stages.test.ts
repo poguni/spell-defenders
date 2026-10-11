@@ -31,6 +31,11 @@ describe('스테이지 지도', () => {
     for (const stage of stagesOf(3)) expect(stagePool(stage, reviewed).length).toBeGreaterThanOrEqual(10);
   });
 
+  it('지금 문제로 1단계 스테이지마다 8문제씩 낼 수 있다', () => {
+    const reviewed = ALL_PROBLEMS.filter((p) => p.reviewed);
+    for (const stage of stagesOf(1)) expect(stagePool(stage, reviewed).length).toBeGreaterThanOrEqual(8);
+  });
+
   it('첫 스테이지는 열려 있고, 앞 스테이지를 끝내야 다음이 열린다', () => {
     const [s1, s2, s3] = stagesOf(3);
     expect(isUnlocked(s1, {})).toBe(true);

@@ -1152,6 +1152,35 @@ button {
   color: var(--color-primary);
 }
 
+/* 1단계(초2): 문장이 15자 이하라 글자를 키운다. 학급 수비전 규칙이 아래에 있어 학급 수비전에서는 그쪽이 이긴다 */
+.level-1 .sentence-text {
+  font-size: 68px;
+}
+
+.level-1 .card-hint {
+  font-size: 44px;
+}
+
+.level-1 .btn-choice {
+  min-width: 340px;
+  min-height: 116px;
+  font-size: 60px;
+}
+
+.level-1 .letter {
+  width: 88px;
+  height: 100px;
+  font-size: 64px;
+}
+
+.level-1 .gap {
+  height: 100px;
+}
+
+.level-1 .gap-hit {
+  width: 88px;
+}
+
 .class-battle .sentence-card {
   top: 340px;
   border-width: 6px;

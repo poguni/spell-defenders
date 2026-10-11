@@ -10,6 +10,14 @@ const BACKGROUNDS: Record<Level, string> = { 1: 'bg-village', 2: 'bg-forest', 3:
 
 // 태그 → 몬스터 그림 파일 이름(기획서 16.3). 없는 태그는 임시 그림
 const MONSTER_FILES: Record<string, string> = {
+  // 1단계(docs/몬스터 그림 프롬프트 (1단계).md)
+  '소리 나는 대로 쓰기': 'mon-sori',
+  받침: 'mon-batchim',
+  'ㅐ/ㅔ': 'mon-aee',
+  된소리: 'mon-doen',
+  '문장 부호': 'mon-punct',
+  '띄어쓰기 기초': 'mon-wool',
+  // 3단계
   '로서/로써': 'mon-roseo',
   '든지/던지': 'mon-deunji',
   '맞히다/맞추다': 'mon-maja',

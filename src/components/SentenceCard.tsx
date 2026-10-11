@@ -31,6 +31,19 @@ export function SentenceCard({ problem, onResult }: { problem: Problem | null; o
   );
 }
 
+/** 1단계(초2)는 글자를 더 크게 */
+function levelClass(problem: Problem) {
+  return problem.level === 1 ? ' level-1' : '';
+}
+
+/** 보기 고르기 안내. 1단계는 더 짧게 */
+function chooseHint(problem: Problem) {
+  if (problem.kind === 'punctuation') {
+    return problem.level === 1 ? '알맞은 부호를 골라요.' : '빈칸에 알맞은 문장 부호를 골라 주세요.';
+  }
+  return problem.level === 1 ? '바른 말을 골라요.' : '바르게 고친 말을 골라 주세요.';
+}
+
 function splitWords(sentence: string) {
   const words: { text: string; start: number; end: number }[] = [];
   let start = 0;
@@ -93,8 +106,8 @@ function FixCard({ problem, onResult }: CardProps) {
   const isPunctuation = problem.kind === 'punctuation';
 
   return (
-    <section className="sentence-card" aria-label="문장 카드" data-problem-id={problem.id}>
-      <p className="card-hint">{isPunctuation ? '빈칸에 알맞은 문장 부호를 골라 주세요.' : '바르게 고친 말을 골라 주세요.'}</p>
+    <section className={`sentence-card${levelClass(problem)}`} aria-label="문장 카드" data-problem-id={problem.id}>
+      <p className="card-hint">{chooseHint(problem)}</p>
       <p className="sentence-text">
         {before}
         <mark className={`sentence-target${isPunctuation ? ' is-blank' : ''}`}>
@@ -131,9 +144,13 @@ function SpacingCard({ problem, onResult }: CardProps) {
   };
 
   return (
-    <section className="sentence-card card-row" aria-label="문장 카드" data-problem-id={problem.id}>
+    <section className={`sentence-card card-row${levelClass(problem)}`} aria-label="문장 카드" data-problem-id={problem.id}>
       <div className="card-main">
-        <p className="card-hint">글자 사이를 눌러 띄우거나 붙인 뒤 '자르기'를 눌러 주세요.</p>
+        <p className="card-hint">
+          {problem.level === 1
+            ? "띄울 곳을 누르고 '자르기'를 눌러요."
+            : "글자 사이를 눌러 띄우거나 붙인 뒤 '자르기'를 눌러 주세요."}
+        </p>
         <SpacingLetters letters={letters} gaps={gaps} onToggle={toggle} />
       </div>
       <button type="button" className="btn btn-choice btn-primary" onClick={cut}>

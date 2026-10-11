@@ -123,17 +123,14 @@ test('속도 버튼: 일시정지하면 몬스터가 멈추고, 몬스터를 누
   expect(await left(1)).not.toBe(other);
 });
 
-test('개발 스위치가 꺼져 있으면 검수 전 문제만 있는 단계는 고를 수 없다', async ({ page }) => {
-  // 1단계에는 아직 검수 전 샘플 문제만 있다
+test('문제가 없는 단계는 "준비 중"이라 고를 수 없다', async ({ page }) => {
+  // 2단계에는 아직 문제가 없다. 검수 전 문제를 내지 않는 것은 pool.test.ts가 확인한다
   await page.goto('/');
   await page.getByRole('button', { name: '시작하기' }).click();
-  await expect(page.getByRole('button', { name: /1단계 마을/ })).toBeDisabled();
-  await expect(page.getByRole('button', { name: /1단계 마을/ })).toContainText('준비 중');
-  await expect(page.getByRole('button', { name: /3단계 성/ })).toBeEnabled();
-
-  await page.goto('/?dev');
-  await page.getByRole('button', { name: '시작하기' }).click();
+  await expect(page.getByRole('button', { name: /2단계 숲/ })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /2단계 숲/ })).toContainText('준비 중');
   await expect(page.getByRole('button', { name: /1단계 마을/ })).toBeEnabled();
+  await expect(page.getByRole('button', { name: /3단계 성/ })).toBeEnabled();
 });
 
 test('더 풀 몬스터가 없으면 틀린 몬스터를 기다리지 않고 건너뛴다', async ({ page }) => {
