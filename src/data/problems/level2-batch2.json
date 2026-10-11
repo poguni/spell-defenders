@@ -1,0 +1,632 @@
+[
+  {
+    "id": "L2-doe-006",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "되/돼",
+    "rule": "한글 맞춤법 제35항 붙임 2",
+    "wrong": "이제 집에 가도 되요?",
+    "correct": "이제 집에 가도 돼요?",
+    "target": {
+      "wrongText": "되요",
+      "start": 9
+    },
+    "choices": [
+      "돼요",
+      "되요",
+      "되여요"
+    ],
+    "acceptedAnswers": [
+      "이제 집에 가도 돼요?"
+    ],
+    "explain": "'가도 되어요'로 바꿔도 말이 되니까 '돼요'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-doe-007",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "되/돼",
+    "rule": "한글 맞춤법 제35항 붙임 2",
+    "wrong": "형은 중학생이 됬다.",
+    "correct": "형은 중학생이 됐다.",
+    "target": {
+      "wrongText": "됬다",
+      "start": 8
+    },
+    "choices": [
+      "됐다",
+      "됬다",
+      "됫다"
+    ],
+    "acceptedAnswers": [
+      "형은 중학생이 됐다."
+    ],
+    "explain": "'되었다'를 줄이면 '됐다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-doe-008",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "되/돼",
+    "rule": "한글 맞춤법 제35항 붙임 2",
+    "wrong": "그림이 멋지게 완성됬어요.",
+    "correct": "그림이 멋지게 완성됐어요.",
+    "target": {
+      "wrongText": "완성됬어요",
+      "start": 8
+    },
+    "choices": [
+      "완성됐어요",
+      "완성됬어요",
+      "완성됏어요"
+    ],
+    "acceptedAnswers": [
+      "그림이 멋지게 완성됐어요."
+    ],
+    "explain": "'완성되었어요'를 줄이면 '완성됐어요'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-doe-009",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "되/돼",
+    "rule": "한글 맞춤법 제35항 붙임 2",
+    "wrong": "어른이 되서 다시 올게.",
+    "correct": "어른이 돼서 다시 올게.",
+    "target": {
+      "wrongText": "되서",
+      "start": 4
+    },
+    "choices": [
+      "돼서",
+      "되서",
+      "돼써"
+    ],
+    "acceptedAnswers": [
+      "어른이 돼서 다시 올게."
+    ],
+    "explain": "'되어서'로 바꿔도 말이 되니까 '돼서'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-doe-010",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "되/돼",
+    "rule": "한글 맞춤법 제35항 붙임 2",
+    "wrong": "줄을 서야 돼는데 늦었다.",
+    "correct": "줄을 서야 되는데 늦었다.",
+    "target": {
+      "wrongText": "돼는데",
+      "start": 6
+    },
+    "choices": [
+      "되는데",
+      "돼는데",
+      "되는대"
+    ],
+    "acceptedAnswers": [
+      "줄을 서야 되는데 늦었다."
+    ],
+    "explain": "'되어는데'는 말이 안 되니까 '되는데'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-an-006",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "안/않",
+    "rule": "표준국어대사전 '않다'",
+    "wrong": "나는 거짓말을 하지 안았어.",
+    "correct": "나는 거짓말을 하지 않았어.",
+    "target": {
+      "wrongText": "안았어",
+      "start": 11
+    },
+    "choices": [
+      "않았어",
+      "안았어",
+      "않앗어"
+    ],
+    "acceptedAnswers": [
+      "나는 거짓말을 하지 않았어."
+    ],
+    "explain": "'하지 아니하였어'를 줄인 말이라 '않았어'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-an-007",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "안/않",
+    "rule": "표준국어대사전 '않다'",
+    "wrong": "배가 고프지 안니?",
+    "correct": "배가 고프지 않니?",
+    "target": {
+      "wrongText": "안니",
+      "start": 7
+    },
+    "choices": [
+      "않니",
+      "안니",
+      "안이"
+    ],
+    "acceptedAnswers": [
+      "배가 고프지 않니?"
+    ],
+    "explain": "'고프지 아니하니'를 줄인 말이라 '않니'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-an-008",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "안/않",
+    "rule": "표준국어대사전 '안'",
+    "wrong": "오늘은 비가 않 와요.",
+    "correct": "오늘은 비가 안 와요.",
+    "target": {
+      "wrongText": "않",
+      "start": 7
+    },
+    "choices": [
+      "안",
+      "않",
+      "않이"
+    ],
+    "acceptedAnswers": [
+      "오늘은 비가 안 와요."
+    ],
+    "explain": "'아니 와요'를 줄인 말이라 '안'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-an-009",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "안/않",
+    "rule": "표준국어대사전 '안'",
+    "wrong": "동생은 우유를 않 마셔요.",
+    "correct": "동생은 우유를 안 마셔요.",
+    "target": {
+      "wrongText": "않",
+      "start": 8
+    },
+    "choices": [
+      "안",
+      "않",
+      "안이"
+    ],
+    "acceptedAnswers": [
+      "동생은 우유를 안 마셔요."
+    ],
+    "explain": "'아니 마셔요'를 줄인 말이라 '안'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-an-010",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "안/않",
+    "rule": "표준국어대사전 '않다'",
+    "wrong": "날씨가 춥지 안아서 좋다.",
+    "correct": "날씨가 춥지 않아서 좋다.",
+    "target": {
+      "wrongText": "안아서",
+      "start": 7
+    },
+    "choices": [
+      "않아서",
+      "안아서",
+      "않아써"
+    ],
+    "acceptedAnswers": [
+      "날씨가 춥지 않아서 좋다."
+    ],
+    "explain": "'춥지 아니하여서'를 줄인 말이라 '않아서'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-jaju-006",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "자주 틀리는 낱말",
+    "rule": "표준국어대사전 '역할'",
+    "wrong": "나는 반장 역활을 맡았다.",
+    "correct": "나는 반장 역할을 맡았다.",
+    "target": {
+      "wrongText": "역활을",
+      "start": 6
+    },
+    "choices": [
+      "역할을",
+      "역활을",
+      "역할를"
+    ],
+    "acceptedAnswers": [
+      "나는 반장 역할을 맡았다."
+    ],
+    "explain": "맡은 일은 '역할'이라고 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-jaju-007",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "자주 틀리는 낱말",
+    "rule": "표준국어대사전 '희한하다'",
+    "wrong": "길이 희안하게 생겼다.",
+    "correct": "길이 희한하게 생겼다.",
+    "target": {
+      "wrongText": "희안하게",
+      "start": 3
+    },
+    "choices": [
+      "희한하게",
+      "희안하게",
+      "히한하게"
+    ],
+    "acceptedAnswers": [
+      "길이 희한하게 생겼다."
+    ],
+    "explain": "매우 드물고 신기하면 '희한하다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-jaju-008",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "자주 틀리는 낱말",
+    "rule": "표준국어대사전 '어이없다'",
+    "wrong": "어의없는 실수를 했다.",
+    "correct": "어이없는 실수를 했다.",
+    "target": {
+      "wrongText": "어의없는",
+      "start": 0
+    },
+    "choices": [
+      "어이없는",
+      "어의없는",
+      "어이업는"
+    ],
+    "acceptedAnswers": [
+      "어이없는 실수를 했다."
+    ],
+    "explain": "너무 뜻밖이라 기가 막히면 '어이없다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-jaju-009",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "자주 틀리는 낱말",
+    "rule": "표준국어대사전 '설렘'",
+    "wrong": "내 마음은 설레임으로 가득했다.",
+    "correct": "내 마음은 설렘으로 가득했다.",
+    "target": {
+      "wrongText": "설레임으로",
+      "start": 6
+    },
+    "choices": [
+      "설렘으로",
+      "설레임으로",
+      "설래임으로"
+    ],
+    "acceptedAnswers": [
+      "내 마음은 설렘으로 가득했다."
+    ],
+    "explain": "'설레다'에서 온 말이라 '설렘'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-jaju-010",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "자주 틀리는 낱말",
+    "rule": "표준국어대사전 '거'",
+    "wrong": "이 연필은 내 꺼야.",
+    "correct": "이 연필은 내 거야.",
+    "target": {
+      "wrongText": "꺼야",
+      "start": 8
+    },
+    "choices": [
+      "거야",
+      "꺼야",
+      "꺼여"
+    ],
+    "acceptedAnswers": [
+      "이 연필은 내 거야."
+    ],
+    "explain": "[꺼]로 소리 나도 '거야'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-tteut-006",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "뜻이 다른 낱말",
+    "rule": "표준국어대사전 '짓다'",
+    "wrong": "새가 둥지를 짖는다.",
+    "correct": "새가 둥지를 짓는다.",
+    "target": {
+      "wrongText": "짖는다",
+      "start": 7
+    },
+    "choices": [
+      "짓는다",
+      "짖는다",
+      "짇는다"
+    ],
+    "acceptedAnswers": [
+      "새가 둥지를 짓는다."
+    ],
+    "explain": "집이나 둥지를 만들면 '짓다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-tteut-007",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "뜻이 다른 낱말",
+    "rule": "표준국어대사전 '낳다'",
+    "wrong": "닭이 알을 나았어요.",
+    "correct": "닭이 알을 낳았어요.",
+    "target": {
+      "wrongText": "나았어요",
+      "start": 6
+    },
+    "choices": [
+      "낳았어요",
+      "나았어요",
+      "낫았어요"
+    ],
+    "acceptedAnswers": [
+      "닭이 알을 낳았어요."
+    ],
+    "explain": "알이나 아기를 세상에 내놓으면 '낳다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-tteut-008",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "뜻이 다른 낱말",
+    "rule": "표준국어대사전 '바라다'",
+    "wrong": "감기가 빨리 낫기를 바래요.",
+    "correct": "감기가 빨리 낫기를 바라요.",
+    "target": {
+      "wrongText": "바래요",
+      "start": 11
+    },
+    "choices": [
+      "바라요",
+      "바래요",
+      "바레요"
+    ],
+    "acceptedAnswers": [
+      "감기가 빨리 낫기를 바라요."
+    ],
+    "explain": "원하는 것은 '바라다'라서 '바라요'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-tteut-009",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "뜻이 다른 낱말",
+    "rule": "표준국어대사전 '낮다'",
+    "wrong": "이 의자는 너무 낫아요.",
+    "correct": "이 의자는 너무 낮아요.",
+    "target": {
+      "wrongText": "낫아요",
+      "start": 9
+    },
+    "choices": [
+      "낮아요",
+      "낫아요",
+      "낳아요"
+    ],
+    "acceptedAnswers": [
+      "이 의자는 너무 낮아요."
+    ],
+    "explain": "높이가 작으면 '낮다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-tteut-010",
+    "level": 2,
+    "kind": "spelling",
+    "tag": "뜻이 다른 낱말",
+    "rule": "표준국어대사전 '닫히다'",
+    "wrong": "문이 바람에 다쳤다.",
+    "correct": "문이 바람에 닫혔다.",
+    "target": {
+      "wrongText": "다쳤다",
+      "start": 7
+    },
+    "choices": [
+      "닫혔다",
+      "다쳤다",
+      "닫혓다"
+    ],
+    "acceptedAnswers": [
+      "문이 바람에 닫혔다."
+    ],
+    "explain": "문이 저절로 닫아지면 '닫히다'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-josa-006",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "조사 붙여 쓰기",
+    "rule": "한글 맞춤법 제41항",
+    "wrong": "나 는 사과 를 좋아해요.",
+    "correct": "나는 사과를 좋아해요.",
+    "acceptedAnswers": [
+      "나는 사과를 좋아해요."
+    ],
+    "explain": "'는', '를'은 앞말에 붙여 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-josa-007",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "조사 붙여 쓰기",
+    "rule": "한글 맞춤법 제41항",
+    "wrong": "언니 가 학교 에 갔어요.",
+    "correct": "언니가 학교에 갔어요.",
+    "acceptedAnswers": [
+      "언니가 학교에 갔어요."
+    ],
+    "explain": "'가', '에'는 앞말에 붙여 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-josa-008",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "조사 붙여 쓰기",
+    "rule": "한글 맞춤법 제41항",
+    "wrong": "바다 에서 조개 를 주웠다.",
+    "correct": "바다에서 조개를 주웠다.",
+    "acceptedAnswers": [
+      "바다에서 조개를 주웠다."
+    ],
+    "explain": "'에서', '를'은 앞말에 붙여 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-josa-009",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "조사 붙여 쓰기",
+    "rule": "한글 맞춤법 제41항",
+    "wrong": "아빠 와 함께 공원 에 갔다.",
+    "correct": "아빠와 함께 공원에 갔다.",
+    "acceptedAnswers": [
+      "아빠와 함께 공원에 갔다."
+    ],
+    "explain": "'와', '에'는 앞말에 붙여 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-josa-010",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "조사 붙여 쓰기",
+    "rule": "한글 맞춤법 제41항",
+    "wrong": "할머니 께 편지 를 썼어요.",
+    "correct": "할머니께 편지를 썼어요.",
+    "acceptedAnswers": [
+      "할머니께 편지를 썼어요."
+    ],
+    "explain": "'께', '를'은 앞말에 붙여 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-danwi-006",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "단위 띄어쓰기",
+    "rule": "한글 맞춤법 제43항",
+    "wrong": "연필세자루를 샀다.",
+    "correct": "연필 세 자루를 샀다.",
+    "acceptedAnswers": [
+      "연필 세 자루를 샀다."
+    ],
+    "explain": "수를 세는 '자루'는 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-danwi-007",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "단위 띄어쓰기",
+    "rule": "한글 맞춤법 제43항",
+    "wrong": "물한컵을 마셨어요.",
+    "correct": "물 한 컵을 마셨어요.",
+    "acceptedAnswers": [
+      "물 한 컵을 마셨어요."
+    ],
+    "explain": "양을 세는 '컵'은 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-danwi-008",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "단위 띄어쓰기",
+    "rule": "한글 맞춤법 제43항",
+    "wrong": "토끼네마리가 있어요.",
+    "correct": "토끼 네 마리가 있어요.",
+    "acceptedAnswers": [
+      "토끼 네 마리가 있어요."
+    ],
+    "explain": "수를 세는 '마리'는 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-danwi-009",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "단위 띄어쓰기",
+    "rule": "한글 맞춤법 제43항",
+    "wrong": "우리 형은 열두살이에요.",
+    "correct": "우리 형은 열두 살이에요.",
+    "acceptedAnswers": [
+      "우리 형은 열두 살이에요."
+    ],
+    "explain": "나이를 세는 '살'은 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L2-danwi-010",
+    "level": 2,
+    "kind": "spacing",
+    "tag": "단위 띄어쓰기",
+    "rule": "한글 맞춤법 제43항",
+    "wrong": "꽃다섯송이를 샀다.",
+    "correct": "꽃 다섯 송이를 샀다.",
+    "acceptedAnswers": [
+      "꽃 다섯 송이를 샀다."
+    ],
+    "explain": "수를 세는 '송이'는 앞말과 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  }
+]
