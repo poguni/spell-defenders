@@ -722,6 +722,9 @@ button {
 .start-footer {
   position: absolute;
   bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
 }
 
 .start-note {
@@ -1229,4 +1232,125 @@ button {
   margin: 0;
   font-size: 44px;
   font-weight: 600;
+}
+
+/* 교사 메뉴(기획서 5.3) */
+.teacher-body {
+  flex: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.teacher-gate .list-guide {
+  max-width: 1400px;
+  text-align: center;
+}
+
+.text-field {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.text-field span {
+  flex: none;
+}
+
+.text-field input {
+  width: 360px;
+  height: 88px;
+  padding: 0 20px;
+  border: 4px solid var(--color-card-edge);
+  border-radius: 20px;
+  font: inherit;
+  font-size: 40px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.text-field.is-wide {
+  align-self: stretch;
+}
+
+.text-field.is-wide input {
+  flex: 1;
+  width: auto;
+}
+
+.teacher-row .text-field.is-wide {
+  flex: 1;
+}
+
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 34px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.check-field input {
+  flex: none;
+  width: 56px;
+  height: 56px;
+}
+
+.teacher-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.teacher-actions {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.teacher-message {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.teacher-message.is-error {
+  color: var(--color-wrong);
+}
+
+ul.teacher-message {
+  padding-left: 40px;
+}
+
+.teacher-sentence {
+  margin: 0;
+  font-size: 42px;
+}
+
+.teacher-badge {
+  padding: 8px 20px;
+  border-radius: 16px;
+  font-size: 34px;
+  font-weight: 800;
+  background: var(--color-wrong-soft);
+  color: var(--color-wrong);
+}
+
+.teacher-badge.is-approved {
+  background: #d4f0dc;
+  color: var(--color-correct);
+}
+
+.teacher-rejected {
+  font-size: 34px;
+}
+
+.teacher-editor {
+  border-color: var(--color-primary);
 }

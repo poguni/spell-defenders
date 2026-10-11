@@ -4,10 +4,11 @@ interface Props {
   nickname: string | null;
   onStart: () => void;
   onClassMode: () => void;
+  onTeacher: () => void;
   onClearRecords: () => void;
 }
 
-export function StartScreen({ nickname, onStart, onClassMode, onClearRecords }: Props) {
+export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onClearRecords }: Props) {
   const [isFullscreen, setIsFullscreen] = useState(Boolean(document.fullscreenElement));
   const [confirming, setConfirming] = useState(false);
   const [cleared, setCleared] = useState(false);
@@ -53,6 +54,9 @@ export function StartScreen({ nickname, onStart, onClassMode, onClearRecords }: 
       </div>
 
       <div className="start-footer">
+        <button type="button" className="btn btn-small" onClick={onTeacher}>
+          교사 메뉴
+        </button>
         {cleared ? (
           <p className="start-note">기록을 모두 지웠어요.</p>
         ) : (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Stage } from './components/Stage';
 import { ALL_PROBLEMS } from './data/problems';
 import { availableProblems, readPlayOptions } from './game/pool';
@@ -11,27 +11,28 @@ import { BattleScreen } from './screens/BattleScreen';
 import { ClassBattleScreen } from './screens/ClassBattleScreen';
 import { ClassSetupScreen, type ClassSettings } from './screens/ClassSetupScreen';
 import { DexScreen } from './screens/DexScreen';
+import { GenerateScreen } from './screens/GenerateScreen';
+import { KeySettingsScreen } from './screens/KeySettingsScreen';
 import { LevelSelectScreen } from './screens/LevelSelectScreen';
 import { MapScreen } from './screens/MapScreen';
 import { NotesScreen } from './screens/NotesScreen';
+import { ProblemSetScreen } from './screens/ProblemSetScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { ReviewScreen } from './screens/ReviewScreen';
 import { StartScreen } from './screens/StartScreen';
+import { TeacherGateScreen } from './screens/TeacherGateScreen';
+import { TeacherMenuScreen } from './screens/TeacherMenuScreen';
 import { cleanNickname, clearSave, emptySave, loadSave, writeSave } from './storage/save';
+import {
+  activeProblems,
+  emptyTeacher,
+  loadTeacher,
+  resetTeacher,
+  writeTeacher,
+  type ProblemSet,
+} from './storage/teacher';
 
 const PLAY = readPlayOptions(window.location.search, import.meta.env.DEV);
-const AVAILABLE = availableProblems(ALL_PROBLEMS, PLAY);
-
-/** 스테이지에서 낼 수 있는 문제. 개발 스위치로 문제를 골랐으면 그 문제만 */
-function poolOf(stage: StageDef): Problem[] {
-  return PLAY.problemIds ? AVAILABLE : stagePool(stage, AVAILABLE);
-}
-
-const levelProblems = (level: Level) => AVAILABLE.filter((p) => p.level === level);
-const OPEN_LEVELS = ([1, 2, 3] as Level[]).filter((level) => levelProblems(level).length > 0);
-const levelTags = (level: Level) => TAGS[level].filter((tag) => levelProblems(level).some((p) => p.tag === tag));
-const classPool = ({ level, tags }: Pick<ClassSettings, 'level' | 'tags'>) =>
-  levelProblems(level).filter((p) => tags.includes(p.tag));
 
 type Screen =
   | { name: 'start' }
@@ -50,7 +51,12 @@ type Screen =
   | { name: 'notes' }
   | { name: 'dex' }
   | { name: 'classSetup' }
-  | { name: 'classBattle'; problems: Problem[] };
+  | { name: 'classBattle'; problems: Problem[] }
+  | { name: 'teacherGate' }
+  | { name: 'teacher' }
+  | { name: 'teacherKey' }
+  | { name: 'teacherGenerate' }
+  | { name: 'teacherSet'; setId: string };
 
 export function App() {
   const [save, setSave] = useState(loadSave);
@@ -58,6 +64,36 @@ export function App() {
   const [round, setRound] = useState(0);
   // 학급 수비전에서 마지막으로 고른 값. 기록이 아니라서 저장하지 않는다
   const [classSettings, setClassSettings] = useState<ClassSettings | null>(null);
+  const [teacher, setTeacher] = useState(loadTeacher);
+  // PIN을 한 번 맞히면 페이지를 새로 열 때까지 교사 메뉴가 열려 있다
+  const [teacherUnlocked, setTeacherUnlocked] = useState(false);
+
+  useEffect(() => writeTeacher(teacher), [teacher]);
+
+  // 출제할 문제: 내장 문제 + 출제가 켜진 교사 세트의 승인한 문제
+  const AVAILABLE = useMemo(() => availableProblems([...ALL_PROBLEMS, ...activeProblems(teacher)], PLAY), [teacher]);
+
+  /** 스테이지에서 낼 수 있는 문제. 개발 스위치로 문제를 골랐으면 그 문제만 */
+  const poolOf = (stage: StageDef): Problem[] => (PLAY.problemIds ? AVAILABLE : stagePool(stage, AVAILABLE));
+  const levelProblems = (level: Level) => AVAILABLE.filter((p) => p.level === level);
+  const OPEN_LEVELS = ([1, 2, 3] as Level[]).filter((level) => levelProblems(level).length > 0);
+  const levelTags = (level: Level) => TAGS[level].filter((tag) => levelProblems(level).some((p) => p.tag === tag));
+  const classPool = ({ level, tags }: Pick<ClassSettings, 'level' | 'tags'>) =>
+    levelProblems(level).filter((p) => tags.includes(p.tag));
+
+  const updateSets = (change: (sets: ProblemSet[]) => ProblemSet[]) =>
+    setTeacher((t) => ({ ...t, sets: change(t.sets) }));
+
+  /** 생성한 문제를 새 세트(setId null)나 기존 세트에 더하고, 그 세트 id를 돌려준다 */
+  const saveGenerated = (setId: string | null, name: string, problems: Problem[]) => {
+    const id = setId ?? `set-${Date.now().toString(36)}`;
+    updateSets((sets) =>
+      setId
+        ? sets.map((s) => (s.id === setId ? { ...s, problems: [...s.problems, ...problems] } : s))
+        : [...sets, { id, name, active: true, problems }],
+    );
+    return id;
+  };
 
   useEffect(() => writeSave(save), [save]);
   useEffect(() => setSoundEnabled(save.soundOn), [save.soundOn]);
@@ -106,6 +142,7 @@ export function App() {
           nickname={save.nickname}
           onStart={goMap}
           onClassMode={() => setScreen({ name: 'classSetup' })}
+          onTeacher={() => setScreen(teacherUnlocked ? { name: 'teacher' } : { name: 'teacherGate' })}
           onClearRecords={() => {
             clearSave();
             setSave(emptySave());
@@ -214,6 +251,65 @@ export function App() {
           onHome={() => setScreen({ name: 'start' })}
         />
       )}
+
+      {screen.name === 'teacherGate' && (
+        <TeacherGateScreen
+          pinHash={teacher.pinHash}
+          onSetPin={(pinHash) => setTeacher((t) => ({ ...t, pinHash }))}
+          onUnlock={() => {
+            setTeacherUnlocked(true);
+            setScreen({ name: 'teacher' });
+          }}
+          onReset={() => {
+            resetTeacher();
+            setTeacher(emptyTeacher());
+          }}
+          onBack={() => setScreen({ name: 'start' })}
+        />
+      )}
+
+      {screen.name === 'teacher' && (
+        <TeacherMenuScreen
+          sets={teacher.sets}
+          onToggleSet={(setId) => updateSets((sets) => sets.map((s) => (s.id === setId ? { ...s, active: !s.active } : s)))}
+          onOpenSet={(setId) => setScreen({ name: 'teacherSet', setId })}
+          onDeleteSet={(setId) => updateSets((sets) => sets.filter((s) => s.id !== setId))}
+          onGenerate={() => setScreen({ name: 'teacherGenerate' })}
+          onKeySettings={() => setScreen({ name: 'teacherKey' })}
+          onBack={() => setScreen({ name: 'start' })}
+        />
+      )}
+
+      {screen.name === 'teacherKey' && (
+        <KeySettingsScreen
+          model={teacher.model}
+          onModel={(model) => setTeacher((t) => ({ ...t, model }))}
+          onBack={() => setScreen({ name: 'teacher' })}
+        />
+      )}
+
+      {screen.name === 'teacherGenerate' && (
+        <GenerateScreen
+          model={teacher.model}
+          sets={teacher.sets}
+          onSave={saveGenerated}
+          onOpenSet={(setId) => setScreen({ name: 'teacherSet', setId })}
+          onKeySettings={() => setScreen({ name: 'teacherKey' })}
+          onBack={() => setScreen({ name: 'teacher' })}
+        />
+      )}
+
+      {screen.name === 'teacherSet' &&
+        (() => {
+          const set = teacher.sets.find((s) => s.id === screen.setId);
+          return set ? (
+            <ProblemSetScreen
+              set={set}
+              onChange={(problems) => updateSets((sets) => sets.map((s) => (s.id === set.id ? { ...s, problems } : s)))}
+              onBack={() => setScreen({ name: 'teacher' })}
+            />
+          ) : null;
+        })()}
     </Stage>
   );
 }
