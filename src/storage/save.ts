@@ -88,6 +88,17 @@ export function cleanNickname(text: string): string | null {
   return trimmed === '' ? null : trimmed;
 }
 
+/**
+ * 기록 데이터를 읽는다. 바꿀 수 없으면 이유를 돌려준다(기록 파일 불러오기용).
+ * invalid: 기록이 아니거나 옛 버전에서 바꿀 수 없음, newer: 앱보다 새 버전
+ */
+export function readSaveData(data: unknown): SaveData | 'invalid' | 'newer' {
+  if (!isObject(data) || !Number.isInteger(data.version)) return 'invalid';
+  if ((data.version as number) > CURRENT_VERSION) return 'newer';
+  const migrated = migrate(data);
+  return migrated ? sanitize(migrated) : 'invalid';
+}
+
 /** 저장된 글자를 읽는다. 비었거나 깨졌거나 알 수 없는 버전이면 빈 기록 */
 export function parseSave(raw: string | null): SaveData {
   if (!raw) return emptySave();
@@ -97,9 +108,8 @@ export function parseSave(raw: string | null): SaveData {
   } catch {
     return emptySave();
   }
-  if (!isObject(data)) return emptySave();
-  const migrated = migrate(data);
-  return migrated ? sanitize(migrated) : emptySave();
+  const save = readSaveData(data);
+  return typeof save === 'string' ? emptySave() : save;
 }
 
 // localStorage는 사생활 보호 모드 등에서 오류를 낼 수 있어 모두 감싼다

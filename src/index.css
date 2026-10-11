@@ -855,12 +855,6 @@ button {
   gap: 24px;
 }
 
-.start-note {
-  margin: 0;
-  font-size: 40px;
-  color: var(--color-text-soft);
-}
-
 .start-screen {
   position: relative;
 }
@@ -1018,6 +1012,88 @@ button {
 }
 
 /* 오답 노트·도감: 목록이 길면 무대 안에서 위아래로 넘긴다 */
+/* 내 기록: 요약, 저장하기·불러오기·지우기 */
+.record-body {
+  flex: 1;
+  padding: 40px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.record-summary {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(360px, auto));
+  gap: 16px 48px;
+  padding: 32px 48px;
+  border: 4px solid var(--color-card-edge);
+  border-radius: 28px;
+  background: var(--color-card);
+}
+
+.record-summary div {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+}
+
+.record-summary dt {
+  font-size: 36px;
+  color: var(--color-text-soft);
+}
+
+.record-summary dd {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 800;
+}
+
+.record-sub {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-text-soft);
+}
+
+.record-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.record-message {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--color-correct);
+}
+
+.record-message.is-error {
+  color: var(--color-wrong);
+}
+
+.record-dialog {
+  width: 1700px;
+}
+
+/* 불러오기 확인: 지금 기록과 파일 기록을 나란히 */
+.record-compare {
+  display: flex;
+  gap: 40px;
+}
+
+.record-compare .record-summary {
+  grid-template-columns: auto;
+  padding: 24px 36px;
+}
+
+.record-compare-title {
+  margin: 0 0 12px;
+  font-size: 44px;
+  text-align: center;
+}
+
 .list-screen {
   height: 100%;
   display: flex;

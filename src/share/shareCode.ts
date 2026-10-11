@@ -3,6 +3,7 @@
 // 받는 쪽은 모양을 하나하나 다시 검사하고(M2 검증 모듈), 승인한(reviewed: true) 문제만 받는다.
 import type { Level, Problem, ProblemKind } from '../judge/types';
 import { validateProblem } from '../judge/validate';
+import { RECORD_FORMAT } from '../storage/recordFile';
 
 export const SHARE_MAX = 30; // 링크 한 개에 담는 최대 문제 수(기획서 13장)
 export const FILE_MAX = 200; // 파일 한 개에 담는 최대 문제 수
@@ -150,6 +151,9 @@ export function importFile(text: string): ImportResult {
   try {
     if (text.length > JSON_MAX) return { ok: false, error: BROKEN };
     const data = JSON.parse(text) as { format?: unknown; version?: unknown; name?: unknown; problems?: unknown };
+    if (data?.format === RECORD_FORMAT) {
+      return { ok: false, error: "내 기록 파일이에요. 처음 화면의 '내 기록'에서 불러와 주세요." };
+    }
     if (data?.format !== FILE_FORMAT || data.version !== 1 || !Array.isArray(data.problems)) {
       return { ok: false, error: BROKEN };
     }

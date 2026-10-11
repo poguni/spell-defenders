@@ -19,6 +19,7 @@ import { MapScreen } from './screens/MapScreen';
 import { NotesScreen } from './screens/NotesScreen';
 import { ProblemSetScreen } from './screens/ProblemSetScreen';
 import { ResultScreen } from './screens/ResultScreen';
+import { RecordScreen } from './screens/RecordScreen';
 import { ReviewScreen } from './screens/ReviewScreen';
 import { ShareScreen } from './screens/ShareScreen';
 import { StartScreen } from './screens/StartScreen';
@@ -52,6 +53,7 @@ const firstScreen = (): Screen =>
 
 type Screen =
   | { name: 'start' }
+  | { name: 'record' }
   | { name: 'level' }
   | { name: 'map' }
   | { name: 'battle'; stageId: string; problems: Problem[] }
@@ -189,10 +191,19 @@ export function App() {
           onClassMode={() => setScreen({ name: 'classSetup' })}
           onTeacher={() => setScreen(teacherUnlocked ? { name: 'teacher' } : { name: 'teacherGate' })}
           onImportFile={(fileText) => setScreen({ name: 'import', source: { fileText } })}
-          onClearRecords={() => {
+          onRecord={() => setScreen({ name: 'record' })}
+        />
+      )}
+
+      {screen.name === 'record' && (
+        <RecordScreen
+          save={save}
+          onReplace={setSave}
+          onClear={() => {
             clearSave();
             setSave(emptySave());
           }}
+          onHome={() => setScreen({ name: 'start' })}
         />
       )}
 

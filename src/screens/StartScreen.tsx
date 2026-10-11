@@ -7,13 +7,12 @@ interface Props {
   onTeacher: () => void;
   /** 선생님이 보낸 문제 파일 */
   onImportFile: (text: string) => void;
-  onClearRecords: () => void;
+  /** 내 기록(저장하기·불러오기·지우기) */
+  onRecord: () => void;
 }
 
-export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onImportFile, onClearRecords }: Props) {
+export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onImportFile, onRecord }: Props) {
   const [isFullscreen, setIsFullscreen] = useState(Boolean(document.fullscreenElement));
-  const [confirming, setConfirming] = useState(false);
-  const [cleared, setCleared] = useState(false);
 
   useEffect(() => {
     const onChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
@@ -27,12 +26,6 @@ export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onImpor
     } else {
       void document.documentElement.requestFullscreen();
     }
-  };
-
-  const clear = () => {
-    onClearRecords();
-    setConfirming(false);
-    setCleared(true);
   };
 
   return (
@@ -73,33 +66,10 @@ export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onImpor
             }}
           />
         </label>
-        {cleared ? (
-          <p className="start-note">기록을 모두 지웠어요.</p>
-        ) : (
-          <button type="button" className="btn btn-small" onClick={() => setConfirming(true)}>
-            내 기록 지우기
-          </button>
-        )}
+        <button type="button" className="btn btn-small" onClick={onRecord}>
+          내 기록
+        </button>
       </div>
-
-      {confirming && (
-        <div className="feedback-backdrop">
-          <section className="feedback-card" role="dialog" aria-label="내 기록 지우기">
-            <h2 className="feedback-title is-wrong">내 기록을 지울까요?</h2>
-            <p className="feedback-explain">
-              이 기기에 저장된 별, 오답 노트, 몬스터 도감, 닉네임이 모두 지워지고 되돌릴 수 없어요.
-            </p>
-            <div className="start-buttons">
-              <button type="button" className="btn btn-large btn-danger" onClick={clear}>
-                지우기
-              </button>
-              <button type="button" className="btn btn-large" onClick={() => setConfirming(false)}>
-                그만두기
-              </button>
-            </div>
-          </section>
-        </div>
-      )}
     </div>
   );
 }

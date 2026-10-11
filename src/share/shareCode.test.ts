@@ -143,4 +143,9 @@ describe('파일 내보내기·불러오기', () => {
     tampered.problems[0].choices = ['아무거나'];
     expect(importFile(JSON.stringify(tampered)).ok).toBe(false);
   });
+
+  it('내 기록 파일이면 어디서 불러오는지 알려 준다', () => {
+    const result = importFile('{"format":"spell-defenders-record","save":{"version":1}}');
+    expect(result).toEqual({ ok: false, error: "내 기록 파일이에요. 처음 화면의 '내 기록'에서 불러와 주세요." });
+  });
 });

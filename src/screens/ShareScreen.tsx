@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { downloadText } from '../share/download';
 import { qrImage } from '../share/qr';
 import { SHARE_MAX, ShareError, encodeSet, exportFile, shareLink } from '../share/shareCode';
 import type { ProblemSet } from '../storage/teacher';
@@ -46,15 +47,7 @@ export function ShareScreen({ set, onBack }: Props) {
     }
   };
 
-  const download = () => {
-    const blob = new Blob([exportFile(set.name, set.problems)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${set.name}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  const download = () => downloadText(`${set.name}.json`, exportFile(set.name, set.problems));
 
   return (
     <div className="list-screen">
