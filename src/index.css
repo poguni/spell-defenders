@@ -1036,3 +1036,197 @@ button {
   color: var(--color-correct);
   text-align: center;
 }
+
+/*
+  학급 수비전(전자칠판 1920×1080, 기획서 10.3)
+  문제 글자는 개인 모드의 2배 이상: 문장 52→104, 낱말 48→96, 보기 44→88, 설명 40→80
+  바탕은 흰색·진한 글자로 대비를 높인다
+*/
+.class-setup-body {
+  flex: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+.class-setup-row {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.class-setup-label {
+  flex: none;
+  width: 180px;
+  margin: 0;
+  line-height: 80px;
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.class-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.class-battle {
+  position: relative;
+  height: 100%;
+  background: var(--color-card);
+}
+
+.class-battle .hud {
+  background: var(--color-sky);
+}
+
+.class-battle .hud-item {
+  font-size: 48px;
+}
+
+.class-battle .hud-label {
+  color: var(--color-text);
+}
+
+.class-monster {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.class-monster .art-monster {
+  width: 210px;
+  height: 210px;
+}
+
+.class-monster-name {
+  margin: 0;
+  font-size: 72px;
+  font-weight: 900;
+}
+
+.class-monster-tag {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.class-battle .sentence-card {
+  top: 340px;
+  border-width: 6px;
+  background: var(--color-button);
+}
+
+/* 큰 버튼(고칠 곳 없음, 자르기)은 문장 아래에 */
+.class-battle .sentence-card.card-row {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.class-battle .card-main {
+  align-self: stretch;
+}
+
+.class-battle .card-hint {
+  font-size: 56px;
+  color: var(--color-text);
+}
+
+.class-battle .sentence-text {
+  font-size: 104px;
+  line-height: 1.3;
+}
+
+.class-battle .btn-word {
+  min-height: 140px;
+  font-size: 96px;
+}
+
+.class-battle .choice-buttons {
+  flex-wrap: wrap;
+}
+
+.class-battle .btn-choice {
+  min-width: 420px;
+  min-height: 150px;
+  font-size: 88px;
+}
+
+.class-battle .letter {
+  width: 120px;
+  height: 140px;
+  font-size: 104px;
+}
+
+.class-battle .gap {
+  height: 140px;
+}
+
+.class-battle .gap.is-spaced {
+  width: 56px;
+}
+
+.class-battle .gap-hit {
+  width: 120px;
+}
+
+.class-battle .feedback-card {
+  width: 1840px;
+  max-height: 1060px;
+  padding: 28px 60px;
+  gap: 16px;
+}
+
+.class-battle .feedback-title {
+  font-size: 88px;
+}
+
+.class-battle .feedback-label {
+  font-size: 48px;
+  color: var(--color-text);
+}
+
+/* 설명 창의 "내가 자른 문장"은 보조 표시라서 문장 카드보다 작게(개인 모드보다는 크게) */
+.class-battle .feedback-card .letter {
+  width: 76px;
+  height: 88px;
+  font-size: 64px;
+}
+
+.class-battle .feedback-card .gap {
+  height: 88px;
+}
+
+.class-battle .feedback-card .gap.is-spaced {
+  width: 40px;
+}
+
+.class-battle .feedback-sentence {
+  font-size: 104px;
+  line-height: 1.25;
+}
+
+.class-battle .feedback-explain {
+  font-size: 80px;
+  line-height: 1.3;
+}
+
+.class-battle .feedback-mana {
+  font-size: 56px;
+}
+
+.class-result-note {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 600;
+}

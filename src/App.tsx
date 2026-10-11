@@ -4,10 +4,12 @@ import { ALL_PROBLEMS } from './data/problems';
 import { availableProblems, readPlayOptions } from './game/pool';
 import { buildStageProblems, noteProblems, recordReview, recordStage } from './game/progress';
 import { setSoundEnabled } from './game/sound';
-import { STAGE_PROBLEM_COUNT, stageOutcomes, summarize, type GameState, type StageSummary } from './game/stage';
+import { STAGE_PROBLEM_COUNT, shuffle, stageOutcomes, summarize, type GameState, type StageSummary } from './game/stage';
 import { findStage, isUnlocked, stagePool, stagesOf, type StageDef } from './game/stages';
 import { TAGS, type Level, type Problem } from './judge/types';
 import { BattleScreen } from './screens/BattleScreen';
+import { ClassBattleScreen } from './screens/ClassBattleScreen';
+import { ClassSetupScreen, type ClassSettings } from './screens/ClassSetupScreen';
 import { DexScreen } from './screens/DexScreen';
 import { LevelSelectScreen } from './screens/LevelSelectScreen';
 import { MapScreen } from './screens/MapScreen';
@@ -27,6 +29,9 @@ function poolOf(stage: StageDef): Problem[] {
 
 const levelProblems = (level: Level) => AVAILABLE.filter((p) => p.level === level);
 const OPEN_LEVELS = ([1, 2, 3] as Level[]).filter((level) => levelProblems(level).length > 0);
+const levelTags = (level: Level) => TAGS[level].filter((tag) => levelProblems(level).some((p) => p.tag === tag));
+const classPool = ({ level, tags }: Pick<ClassSettings, 'level' | 'tags'>) =>
+  levelProblems(level).filter((p) => tags.includes(p.tag));
 
 type Screen =
   | { name: 'start' }
@@ -43,12 +48,16 @@ type Screen =
     }
   | { name: 'review'; problems: Problem[] }
   | { name: 'notes' }
-  | { name: 'dex' };
+  | { name: 'dex' }
+  | { name: 'classSetup' }
+  | { name: 'classBattle'; problems: Problem[] };
 
 export function App() {
   const [save, setSave] = useState(loadSave);
   const [screen, setScreen] = useState<Screen>({ name: 'start' });
   const [round, setRound] = useState(0);
+  // 학급 수비전에서 마지막으로 고른 값. 기록이 아니라서 저장하지 않는다
+  const [classSettings, setClassSettings] = useState<ClassSettings | null>(null);
 
   useEffect(() => writeSave(save), [save]);
   useEffect(() => setSoundEnabled(save.soundOn), [save.soundOn]);
@@ -81,6 +90,13 @@ export function App() {
     });
   };
 
+  // 학급 수비전은 save를 바꾸지 않는다(기획서 5.2: 기록 없음)
+  const startClass = (settings: ClassSettings) => {
+    setClassSettings(settings);
+    setRound((r) => r + 1);
+    setScreen({ name: 'classBattle', problems: shuffle(classPool(settings)).slice(0, settings.count) });
+  };
+
   const goMap = () => setScreen(level ? { name: 'map' } : { name: 'level' });
 
   return (
@@ -89,6 +105,7 @@ export function App() {
         <StartScreen
           nickname={save.nickname}
           onStart={goMap}
+          onClassMode={() => setScreen({ name: 'classSetup' })}
           onClearRecords={() => {
             clearSave();
             setSave(emptySave());
@@ -169,9 +186,32 @@ export function App() {
       {screen.name === 'dex' && level && (
         <DexScreen
           level={level}
-          tags={TAGS[level].filter((tag) => levelProblems(level).some((p) => p.tag === tag))}
+          tags={levelTags(level)}
           dex={save.dex}
           onBack={goMap}
+        />
+      )}
+
+      {screen.name === 'classSetup' && (
+        <ClassSetupScreen
+          openLevels={OPEN_LEVELS}
+          tagsOf={levelTags}
+          poolSize={(level, tags) => classPool({ level, tags }).length}
+          settings={classSettings}
+          onStart={startClass}
+          onBack={() => setScreen({ name: 'start' })}
+        />
+      )}
+
+      {screen.name === 'classBattle' && classSettings && (
+        <ClassBattleScreen
+          key={round}
+          problems={screen.problems}
+          soundOn={save.soundOn}
+          onToggleSound={toggleSound}
+          onAgain={() => startClass(classSettings)}
+          onSetup={() => setScreen({ name: 'classSetup' })}
+          onHome={() => setScreen({ name: 'start' })}
         />
       )}
     </Stage>

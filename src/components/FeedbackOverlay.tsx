@@ -8,8 +8,21 @@ export interface Feedback extends AnswerResult {
   problem: Problem;
 }
 
+interface Props {
+  feedback: Feedback;
+  /** 맞혔을 때 보여 줄 보상 */
+  reward?: string;
+  closeLabel?: string;
+  onClose: () => void;
+}
+
 /** 정답·오답 설명. 떠 있는 동안 게임 전체가 멈춘다(기획서 7.2) */
-export function FeedbackOverlay({ feedback, onClose }: { feedback: Feedback; onClose: () => void }) {
+export function FeedbackOverlay({
+  feedback,
+  reward = `마나 +${MANA_PER_CORRECT}`,
+  closeLabel = '계속하기',
+  onClose,
+}: Props) {
   const { problem, correct, spacing } = feedback;
   const studentAnswer = spacing && !correct ? toGaps(spacing.answer) : null;
 
@@ -39,10 +52,10 @@ export function FeedbackOverlay({ feedback, onClose }: { feedback: Feedback; onC
         </div>
 
         <p className="feedback-explain">{problem.explain}</p>
-        {correct && <p className="feedback-mana">마나 +{MANA_PER_CORRECT}</p>}
+        {correct && <p className="feedback-mana">{reward}</p>}
 
         <button type="button" className="btn btn-primary btn-large" onClick={onClose}>
-          계속하기
+          {closeLabel}
         </button>
       </section>
     </div>

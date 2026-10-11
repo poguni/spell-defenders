@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 interface Props {
   nickname: string | null;
   onStart: () => void;
+  onClassMode: () => void;
   onClearRecords: () => void;
 }
 
-export function StartScreen({ nickname, onStart, onClearRecords }: Props) {
+export function StartScreen({ nickname, onStart, onClassMode, onClearRecords }: Props) {
   const [isFullscreen, setIsFullscreen] = useState(Boolean(document.fullscreenElement));
   const [confirming, setConfirming] = useState(false);
   const [cleared, setCleared] = useState(false);
@@ -40,6 +41,9 @@ export function StartScreen({ nickname, onStart, onClearRecords }: Props) {
       <div className="start-buttons">
         <button type="button" className="btn btn-primary btn-large" onClick={onStart}>
           시작하기
+        </button>
+        <button type="button" className="btn btn-large" onClick={onClassMode}>
+          학급 수비전
         </button>
         {document.fullscreenEnabled && (
           <button type="button" className="btn btn-large" onClick={toggleFullscreen}>
