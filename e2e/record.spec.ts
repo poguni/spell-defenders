@@ -53,11 +53,11 @@ test('플레이 → 새로고침 → 기록 유지 → 내 기록 지우기', as
   await page.getByRole('button', { name: '내 기록', exact: true }).click();
   await page.getByRole('button', { name: '내 기록 지우기' }).click();
   await page.getByRole('dialog').getByRole('button', { name: '그만두기' }).click();
-  await expect(page.locator('.record-summary')).toContainText('민지');
+  await expect(page.getByRole('heading', { name: '민지 수비대원 성적표' })).toBeVisible();
   await page.getByRole('button', { name: '내 기록 지우기' }).click();
   await page.getByRole('dialog').getByRole('button', { name: '지우기', exact: true }).click();
   await expect(page.getByText('기록을 모두 지웠어요.')).toBeVisible();
-  await expect(page.locator('.record-summary')).toContainText('없음');
+  await expect(page.getByRole('heading', { name: '수비대원 성적표', exact: true })).toBeVisible();
 
   await page.reload();
   await expect(page.getByText('민지 수비대원')).toHaveCount(0);
@@ -167,7 +167,7 @@ for (const size of SIZES) {
 
     await page.getByRole('button', { name: '처음으로' }).click();
     await page.getByRole('button', { name: '내 기록', exact: true }).click();
-    await expectInsideStage(page, '.record-summary, .record-screen .btn');
+    await expectInsideStage(page, '.report-card, .record-screen .btn');
     await expectTouchSize(page, '.record-screen .btn');
     await page.screenshot({ path: `docs/screenshots/M15/record-${name}.png` });
     await page.getByRole('button', { name: '내 기록 지우기' }).click();

@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { TAGS } from '../src/judge/types';
 import { cleanGraffiti, enterStage, playThrough } from './helpers';
 
 // 기록 내보내기·불러오기(docs/기록 내보내기·불러오기 개발 계획.md M15)
@@ -29,7 +30,8 @@ async function openRecordFile(page: Page, name: string, text: string) {
   });
 }
 
-const summary = (page: Page) => page.locator('.record-body .record-summary');
+const report = (page: Page) => page.getByRole('region', { name: '성적표' });
+const totalStars = (page: Page) => report(page).locator('.report-numbers div', { hasText: '모은 별' }).locator('dd');
 
 test('플레이 → 기록 저장 → 지우기 → 파일 불러오기 → 별·오답 노트·도감이 그대로 돌아온다', async ({ page }) => {
   test.setTimeout(120_000);
@@ -52,8 +54,8 @@ test('플레이 → 기록 저장 → 지우기 → 파일 불러오기 → 별�
   // 내 기록: 요약 → 저장하기
   await page.getByRole('button', { name: '처음으로' }).click();
   await page.getByRole('button', { name: '내 기록', exact: true }).click();
-  await expect(summary(page)).toContainText('민지');
-  await expect(summary(page)).not.toContainText('0개');
+  await expect(report(page).getByRole('heading', { name: '민지 수비대원 성적표' })).toBeVisible();
+  await expect(totalStars(page)).not.toHaveText('0개');
   const file = await saveRecordFile(page);
   expect(file.name).toMatch(/^맞춤법수비대-기록-민지-\d{4}-\d{2}-\d{2}\.json$/);
   const saved = JSON.parse(file.text);
@@ -64,8 +66,8 @@ test('플레이 → 기록 저장 → 지우기 → 파일 불러오기 → 별�
   // 지우기 → 빈 기록
   await page.getByRole('button', { name: '내 기록 지우기' }).click();
   await page.getByRole('dialog').getByRole('button', { name: '지우기', exact: true }).click();
-  await expect(summary(page)).toContainText('없음');
-  await expect(summary(page)).toContainText('0개');
+  await expect(report(page).getByRole('heading', { name: '수비대원 성적표', exact: true })).toBeVisible();
+  await expect(totalStars(page)).toHaveText('0개');
 
   // 불러오기: 지금 기록과 파일 기록을 나란히 보여 주고, 그만두면 그대로
   await openRecordFile(page, file.name, file.text);
@@ -74,12 +76,12 @@ test('플레이 → 기록 저장 → 지우기 → 파일 불러오기 → 별�
   await expect(dialog.locator('.record-summary').nth(1)).toContainText('민지');
   await page.screenshot({ path: 'docs/screenshots/M15/import-confirm-1920x1080.png' });
   await dialog.getByRole('button', { name: '그만두기' }).click();
-  await expect(summary(page)).toContainText('없음');
+  await expect(totalStars(page)).toHaveText('0개');
 
   await openRecordFile(page, file.name, file.text);
   await dialog.getByRole('button', { name: '이 기록으로 바꾸기' }).click();
   await expect(page.getByText('기록을 불러왔어요.')).toBeVisible();
-  await expect(summary(page)).toContainText('민지');
+  await expect(report(page).getByRole('heading', { name: '민지 수비대원 성적표' })).toBeVisible();
 
   // 새로고침해도 불러온 기록이 남고, 저장하기 전과 똑같다
   await page.reload();
@@ -170,3 +172,87 @@ for (const size of SIZES) {
     await page.screenshot({ path: `docs/screenshots/M15/import-confirm-${name}.png` });
   });
 }
+
+// 성적표(M16): 모든 단계 별 3개, 모든 유형 익힘·도감(가장 길 때)
+test.describe('성적표', () => {
+  const STAGE_IDS = ['L1-1', 'L1-2', 'L1-3', 'L2-1', 'L2-2', 'L2-3', 'L3-1', 'L3-2', 'L3-3', 'L3-4'];
+  const ALL_TAGS = [...TAGS[1], ...TAGS[2], ...TAGS[3].filter((t) => t !== '보조 용언')];
+
+  for (const size of SIZES) {
+    const name = `${size.width}x${size.height}`;
+    test(`${name}: 성적표와 버튼이 화면 한 장에 들어온다`, async ({ page }) => {
+      await page.setViewportSize(size);
+      await page.addInitScript(
+        (save) => window.localStorage.setItem('spell-defenders', save),
+        JSON.stringify({
+          version: 1,
+          nickname: '가나다라마바사아자차',
+          level: 3,
+          stars: Object.fromEntries(STAGE_IDS.map((id) => [id, 3])),
+          tagStreaks: Object.fromEntries(ALL_TAGS.map((t) => [t, 3])),
+          wrongNotes: {},
+          dex: ALL_TAGS,
+          soundOn: true,
+        }),
+      );
+      await page.goto('/');
+      await page.evaluate(() => document.fonts.ready);
+      await page.getByRole('button', { name: '내 기록', exact: true }).click();
+
+      const stage = (await page.locator('.stage').boundingBox())!;
+      for (const el of await page.locator('.report-card, .record-screen .btn, .report-tags li').all()) {
+        const box = (await el.boundingBox())!;
+        expect(box.x).toBeGreaterThanOrEqual(stage.x - 0.5);
+        expect(box.y).toBeGreaterThanOrEqual(stage.y - 0.5);
+        expect(box.x + box.width).toBeLessThanOrEqual(stage.x + stage.width + 0.5);
+        expect(box.y + box.height).toBeLessThanOrEqual(stage.y + stage.height + 0.5);
+      }
+      // 위쪽 제목 막대가 눌리지 않는다(무대 좌표 130px)
+      const scale = Number(await page.locator('.stage').getAttribute('data-scale'));
+      expect((await page.locator('.record-screen .screen-header').boundingBox())!.height / scale).toBeCloseTo(130, 0);
+      await page.screenshot({ path: `docs/screenshots/M16/report-full-${name}.png` });
+    });
+  }
+
+  test('성적표 숫자가 기록·지도·도감과 같다', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.addInitScript(
+      (save) => window.localStorage.setItem('spell-defenders', save),
+      JSON.stringify({
+        version: 1,
+        nickname: '민지',
+        level: 2,
+        stars: { 'L2-1': 3, 'L2-2': 1, 'L1-1': 2 },
+        tagStreaks: { '되/돼': 3, '안/않': 2, 받침: 4 },
+        wrongNotes: { 'L2-an-001': '안/않', 'L2-an-002': '안/않' },
+        dex: ['되/돼', '안/않', '받침'],
+        soundOn: true,
+      }),
+    );
+    await page.goto('/');
+    await page.getByRole('button', { name: '내 기록', exact: true }).click();
+    const card = page.getByRole('region', { name: '성적표' });
+
+    await expect(card.getByRole('heading', { name: '민지 수비대원 성적표' })).toBeVisible();
+    const today = new Date();
+    await expect(card.locator('.report-date')).toHaveText(`${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`);
+    // 단계마다 스테이지 별
+    await expect(card.locator('td[data-stage="L2-1"]').getByRole('img')).toHaveAccessibleName('별 3개');
+    await expect(card.locator('td[data-stage="L2-2"]').getByRole('img')).toHaveAccessibleName('별 1개');
+    await expect(card.locator('td[data-stage="L2-3"]').getByRole('img')).toHaveAccessibleName('별 0개');
+    await expect(card.locator('td[data-stage="L1-1"]').getByRole('img')).toHaveAccessibleName('별 2개');
+    await expect(card.locator('tr')).toHaveCount(3);
+    // 익힌 유형: 3번 연속 정답(받침 1단계, 되/돼 2단계 순서), 안/않은 아직
+    await expect(card.locator('.report-tags li')).toHaveText(['받침', '되/돼']);
+    await expect(card.getByText('익힌 유형 2개')).toBeVisible();
+    await expect(card.locator('.report-numbers dd')).toHaveText(['6개', `3 / ${ALL_TAGS.length}`, '2문제']);
+    await page.screenshot({ path: 'docs/screenshots/M16/report-1920x1080.png' });
+
+    // 지도의 별과 오답 노트 수가 같다
+    await page.getByRole('button', { name: '처음으로' }).click();
+    await page.getByRole('button', { name: '시작하기' }).click();
+    await expect(page.getByRole('button', { name: /스테이지 1/ }).getByRole('img')).toHaveAccessibleName('별 3개');
+    await expect(page.locator('.map-screen .btn', { hasText: '오답 노트' })).toContainText('(2)');
+  });
+});
+

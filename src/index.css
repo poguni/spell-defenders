@@ -1013,13 +1013,135 @@ button {
 
 /* 오답 노트·도감: 목록이 길면 무대 안에서 위아래로 넘긴다 */
 /* 내 기록: 요약, 저장하기·불러오기·지우기 */
+.record-screen .screen-header {
+  flex-shrink: 0;
+}
+
 .record-body {
   flex: 1;
-  padding: 40px 80px;
+  padding: 20px 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 16px;
+}
+
+/* 성적표: 화면 캡처 한 장에 들어가게 */
+.report-card {
+  width: 1640px;
+  padding: 20px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 5px solid var(--color-card-edge);
+  border-radius: 28px;
+  background: var(--color-card);
+}
+
+.report-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.report-title {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 900;
+}
+
+.report-date {
+  margin: 0;
+  font-size: 36px;
+  color: var(--color-text-soft);
+}
+
+.report-table {
+  border-collapse: collapse;
+}
+
+.report-table th {
+  width: 260px;
+  padding: 4px 0;
+  font-size: 40px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.report-table td {
+  padding: 4px 16px 4px 0;
+}
+
+.report-stage {
+  display: block;
+  font-size: 28px;
+  color: var(--color-text-soft);
+}
+
+.star.report-star {
+  width: 44px;
+  height: 44px;
+}
+
+.report-stars {
+  gap: 6px;
+}
+
+.report-mastered {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+
+.report-label {
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.report-tags {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.report-tags li {
+  padding: 4px 16px;
+  border-radius: 999px;
+  background: var(--color-sky);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.report-empty {
+  font-size: 32px;
+  color: var(--color-text-soft);
+}
+
+.report-numbers {
+  margin: 0;
+  display: flex;
+  gap: 64px;
+}
+
+.report-numbers div {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.report-numbers dt {
+  font-size: 36px;
+  color: var(--color-text-soft);
+}
+
+.report-numbers dd {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 800;
 }
 
 .record-summary {

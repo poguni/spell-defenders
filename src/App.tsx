@@ -198,6 +198,10 @@ export function App() {
       {screen.name === 'record' && (
         <RecordScreen
           save={save}
+          scope={{
+            levels: OPEN_LEVELS.map((n) => ({ level: n, stages: stagesOf(n) })),
+            tags: OPEN_LEVELS.flatMap(levelTags),
+          }}
           onReplace={setSave}
           onClear={() => {
             clearSave();

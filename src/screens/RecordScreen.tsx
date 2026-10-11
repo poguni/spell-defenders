@@ -1,10 +1,21 @@
 import { useState } from 'react';
+import { MASTERY_STREAK } from '../game/progress';
+import { LEVEL_INFO, type StageDef } from '../game/stages';
+import type { Level } from '../judge/types';
 import { downloadText } from '../share/download';
 import { exportRecord, importRecord, recordFileName, summarizeRecord } from '../storage/recordFile';
 import type { SaveData } from '../storage/save';
 
+/** 성적표에 보여 줄 단계와 유형(문제가 있는 것만) */
+export interface ReportScope {
+  levels: { level: Level; stages: StageDef[] }[];
+  /** 문제가 있는 유형 태그(단계 순서). 도감 전체 수와 익힌 유형 순서에 쓴다 */
+  tags: string[];
+}
+
 interface Props {
   save: SaveData;
+  scope: ReportScope;
   /** 불러온 기록으로 지금 기록을 바꾼다 */
   onReplace: (save: SaveData) => void;
   onClear: () => void;
@@ -40,11 +51,87 @@ function RecordSummaryList({ save }: { save: SaveData }) {
   );
 }
 
+function Stars({ count }: { count: number }) {
+  return (
+    <span className="map-stars report-stars" role="img" aria-label={`별 ${count}개`}>
+      {[1, 2, 3].map((n) => (
+        <span key={n} className={`star report-star${n <= count ? ' is-on' : ''}`} />
+      ))}
+    </span>
+  );
+}
+
+/** 성적표: 화면 캡처 한 장으로 선생님께 보여 줄 수 있게 한 화면에 모은다(기획서 6.2) */
+function ReportCard({ save, scope }: { save: SaveData; scope: ReportScope }) {
+  const s = summarizeRecord(save);
+  const mastered = scope.tags.filter((tag) => (save.tagStreaks[tag] ?? 0) >= MASTERY_STREAK);
+  const found = scope.tags.filter((tag) => save.dex.includes(tag)).length;
+  const today = new Date();
+  return (
+    <section className="report-card" aria-label="성적표">
+      <header className="report-head">
+        <h2 className="report-title">{s.nickname ? `${s.nickname} 수비대원 성적표` : '수비대원 성적표'}</h2>
+        <p className="report-date">
+          {today.getFullYear()}년 {today.getMonth() + 1}월 {today.getDate()}일
+        </p>
+      </header>
+
+      <table className="report-table">
+        <tbody>
+          {scope.levels.map(({ level, stages }) => (
+            <tr key={level}>
+              <th scope="row">
+                {level}단계 {LEVEL_INFO[level].place}
+              </th>
+              {stages.map((stage) => (
+                <td key={stage.id} data-stage={stage.id}>
+                  <span className="report-stage">{stage.tags ? `스테이지 ${stage.number}` : '모두 섞기'}</span>
+                  <Stars count={save.stars[stage.id] ?? 0} />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="report-mastered">
+        <span className="report-label">익힌 유형 {mastered.length}개</span>
+        {mastered.length > 0 ? (
+          <ul className="report-tags">
+            {mastered.map((tag) => (
+              <li key={tag}>{tag}</li>
+            ))}
+          </ul>
+        ) : (
+          <span className="report-empty">같은 유형을 3번 연속 맞히면 여기에 나와요.</span>
+        )}
+      </div>
+
+      <dl className="report-numbers">
+        <div>
+          <dt>모은 별</dt>
+          <dd>{s.stars}개</dd>
+        </div>
+        <div>
+          <dt>몬스터 도감</dt>
+          <dd>
+            {found} / {scope.tags.length}
+          </dd>
+        </div>
+        <div>
+          <dt>오답 노트</dt>
+          <dd>{s.notes}문제</dd>
+        </div>
+      </dl>
+    </section>
+  );
+}
+
 /**
  * 내 기록: 기록을 파일로 저장하기·불러오기·지우기(docs/기록 내보내기·불러오기 개발 계획.md M15).
  * 기록은 이 기기의 브라우저에만 있으므로, 파일로 저장해 두면 기기가 바뀌거나 기록이 지워져도 되살릴 수 있다.
  */
-export function RecordScreen({ save, onReplace, onClear, onHome }: Props) {
+export function RecordScreen({ save, scope, onReplace, onClear, onHome }: Props) {
   const [dialog, setDialog] = useState<Dialog>(null);
   const [message, setMessage] = useState<{ text: string; error?: boolean } | null>(null);
 
@@ -81,8 +168,8 @@ export function RecordScreen({ save, onReplace, onClear, onHome }: Props) {
       </header>
 
       <div className="record-body">
+        <ReportCard save={save} scope={scope} />
         <p className="list-guide">기록은 이 기기에만 있어요. 파일로 저장해 두면 다른 기기에서도 이어서 할 수 있어요.</p>
-        <RecordSummaryList save={save} />
 
         <div className="record-buttons">
           <button type="button" className="btn btn-primary btn-large" onClick={saveFile}>
