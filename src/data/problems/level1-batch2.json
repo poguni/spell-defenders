@@ -20,7 +20,7 @@
     ],
     "explain": "[바치]로 소리 나도 '밭이'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-sori-007",
@@ -43,7 +43,7 @@
     ],
     "explain": "[끄치]로 소리 나도 '끝이'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-sori-008",
@@ -66,7 +66,7 @@
     ],
     "explain": "'책'에 '을'이 붙은 말이라 '책을'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-sori-009",
@@ -89,7 +89,7 @@
     ],
     "explain": "'손'에 '을'이 붙은 말이라 '손을'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-sori-010",
@@ -112,7 +112,7 @@
     ],
     "explain": "'웃다'의 '웃'을 살려 '웃어요'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-batchim-006",
@@ -135,7 +135,7 @@
     ],
     "explain": "낮에 자는 잠이라 받침 'ㅈ'을 써서 '낮잠'이에요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-batchim-007",
@@ -158,7 +158,7 @@
     ],
     "explain": "'꽃'은 받침 'ㅊ'을 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-batchim-008",
@@ -181,7 +181,7 @@
     ],
     "explain": "'흙'은 받침 'ㄺ'을 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-batchim-009",
@@ -204,7 +204,7 @@
     ],
     "explain": "'없다'는 받침 'ㅄ'을 살려 '없어요'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-batchim-010",
@@ -227,7 +227,7 @@
     ],
     "explain": "'읽다'는 받침 'ㄺ'을 살려 '읽어요'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-aee-006",
@@ -250,7 +250,7 @@
     ],
     "explain": "'새우'는 'ㅐ'를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-aee-007",
@@ -273,7 +273,7 @@
     ],
     "explain": "'네모'는 'ㅔ'를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-aee-008",
@@ -296,7 +296,7 @@
     ],
     "explain": "'어제'는 'ㅔ'를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-aee-009",
@@ -319,7 +319,7 @@
     ],
     "explain": "'그네'는 'ㅔ'를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-aee-010",
@@ -342,7 +342,7 @@
     ],
     "explain": "'매미'는 'ㅐ'를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-doen-006",
@@ -365,7 +365,7 @@
     ],
     "explain": "[께]로 소리 나도 '게'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-doen-007",
@@ -388,7 +388,7 @@
     ],
     "explain": "[께]로 소리 나도 '게'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-doen-008",
@@ -411,7 +411,7 @@
     ],
     "explain": "[찌]로 소리 나도 '지'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-doen-009",
@@ -434,7 +434,7 @@
     ],
     "explain": "[쑤]로 소리 나도 '수록'으로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-doen-010",
@@ -457,7 +457,7 @@
     ],
     "explain": "[껄]로 소리 나도 '걸'로 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-punct-006",
@@ -480,7 +480,7 @@
     ],
     "explain": "묻는 문장 끝에는 물음표(?)를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-punct-007",
@@ -503,7 +503,7 @@
     ],
     "explain": "묻는 문장 끝에는 물음표(?)를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-punct-008",
@@ -526,7 +526,7 @@
     ],
     "explain": "설명하는 문장 끝에는 마침표(.)를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-punct-009",
@@ -549,7 +549,7 @@
     ],
     "explain": "설명하는 문장 끝에는 마침표(.)를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-punct-010",
@@ -572,7 +572,7 @@
     ],
     "explain": "느낌이 큰 문장 끝에는 느낌표(!)를 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-spacing-006",
@@ -587,7 +587,7 @@
     ],
     "explain": "낱말과 낱말 사이를 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-spacing-007",
@@ -602,7 +602,7 @@
     ],
     "explain": "낱말과 낱말 사이를 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-spacing-008",
@@ -617,7 +617,7 @@
     ],
     "explain": "낱말과 낱말 사이를 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-spacing-009",
@@ -632,7 +632,7 @@
     ],
     "explain": "낱말과 낱말 사이를 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   },
   {
     "id": "L1-spacing-010",
@@ -647,6 +647,6 @@
     ],
     "explain": "낱말과 낱말 사이를 띄어 써요.",
     "source": "builtin",
-    "reviewed": false
+    "reviewed": true
   }
 ]
