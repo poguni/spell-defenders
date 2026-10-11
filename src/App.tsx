@@ -205,6 +205,8 @@ export function App() {
             setSave((s) => ({ ...s, level: chosen, nickname: cleanNickname(nickname) }));
             setScreen({ name: 'map' });
           }}
+          onHome={() => setScreen({ name: 'start' })}
+          onBack={level ? () => setScreen({ name: 'map' }) : null}
         />
       )}
 

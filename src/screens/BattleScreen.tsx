@@ -36,6 +36,31 @@ function bubbleText(sentence: string) {
   return letters.length > BUBBLE_LETTERS ? `${letters.slice(0, BUBBLE_LETTERS).join('')}…` : sentence;
 }
 
+const monsterLeft = (progress: number) => MONSTER_START_LEFT + progress * (MONSTER_END_LEFT - MONSTER_START_LEFT);
+const monsterTop = (lane: number) => LANE_TOPS[lane] + MONSTER_TOP_OFFSET;
+
+// 정화 마법 줄기: 수비대원의 깃펜 끝에서 몬스터 그림 가운데까지(무대 좌표)
+const QUILL_TIP = { x: 1600, y: 340 };
+const MONSTER_CENTER = { x: 180, y: 119 }; // 몬스터 버튼 왼쪽 위에서 그림 가운데까지
+
+function CastBolt({ left, top }: { left: number; top: number }) {
+  const x = left + MONSTER_CENTER.x;
+  const y = top + MONSTER_CENTER.y;
+  const dx = QUILL_TIP.x - x;
+  const dy = QUILL_TIP.y - y;
+  return (
+    <div className="cast-effect" aria-hidden="true" data-testid="cast-bolt">
+      <div
+        className="cast-bolt"
+        style={{ left: x, top: y, width: Math.hypot(dx, dy), transform: `rotate(${Math.atan2(dy, dx)}rad)` }}
+      >
+        <div className="cast-bolt-beam" />
+      </div>
+      <div className="cast-burst" style={{ left: x, top: y }} />
+    </div>
+  );
+}
+
 function monsterClass(monster: Monster, selectedId: number | null) {
   if (monster.status === 'walking') return monster.id === selectedId ? 'is-selected' : 'is-walking';
   return `is-${monster.status}`;
@@ -52,7 +77,8 @@ interface Props {
 export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Props) {
   const [game, setGame] = useState(() => createStage(problems));
   const [speed, setSpeed] = useState<Speed>('normal');
-  const [feedback, setFeedback] = useState<Feedback | null>(null);
+  // monsterId: 답한 몬스터. 맞혔으면 정화 연출(마법 줄기)이 이 몬스터를 향한다
+  const [feedback, setFeedback] = useState<(Feedback & { monsterId: number }) | null>(null);
 
   // 설명이 떠 있는 동안 게임 전체가 멈춘다
   const running: Speed = feedback ? 'paused' : speed;
@@ -68,9 +94,12 @@ export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Pro
 
   const level = problems[0]?.level ?? 3;
   const selected = game.monsters.find((m) => m.id === game.selectedId) ?? null;
+  // 웨이브의 마지막 몬스터를 정화하면 바로 다음 웨이브로 넘어가므로, 설명이 떠 있는 동안은 그 몬스터도 그린다
   const visible = game.monsters.filter(
-    (m) => m.wave === game.wave && m.status !== 'waiting' && m.status !== 'arrived',
+    (m) =>
+      (m.wave === game.wave || m.id === feedback?.monsterId) && m.status !== 'waiting' && m.status !== 'arrived',
   );
+  const castTarget = feedback?.correct ? game.monsters.find((m) => m.id === feedback.monsterId) : undefined;
   const graffitiCount = game.monsters.filter((m) => m.status === 'arrived').length;
 
   // 몬스터가 성에 닿을 때마다 소리
@@ -83,7 +112,7 @@ export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Pro
   const handleResult = (result: AnswerResult) => {
     if (!selected) return;
     setGame((g) => answer(g, selected.id, result.correct));
-    setFeedback({ ...result, problem: selected.problem });
+    setFeedback({ ...result, problem: selected.problem, monsterId: selected.id });
     playSound(result.correct ? 'correct' : 'wrong');
   };
 
@@ -136,8 +165,8 @@ export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Pro
           type="button"
           className={`monster ${monsterClass(m, game.selectedId)}`}
           style={{
-            left: MONSTER_START_LEFT + m.progress * (MONSTER_END_LEFT - MONSTER_START_LEFT),
-            top: LANE_TOPS[m.lane] + MONSTER_TOP_OFFSET,
+            left: monsterLeft(m.progress),
+            top: monsterTop(m.lane),
           }}
           disabled={m.status !== 'walking'}
           aria-label={`오타 몬스터: ${m.problem.wrong}`}
@@ -160,6 +189,8 @@ export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Pro
         </div>
       </div>
 
+      {castTarget && <CastBolt left={monsterLeft(castTarget.progress)} top={monsterTop(castTarget.lane)} />}
+
       {canSkip(game) && !feedback ? (
         <section className="sentence-card skip-card" aria-label="문장 카드">
           <p className="card-hint card-hint-idle">더 풀 몬스터가 없어요. 틀린 몬스터가 성에 닿으면 넘어가요.</p>
@@ -171,7 +202,9 @@ export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Pro
         <SentenceCard problem={selected?.problem ?? null} onResult={handleResult} />
       )}
 
-      {feedback && <FeedbackOverlay feedback={feedback} onClose={() => setFeedback(null)} />}
+      {feedback && (
+        <FeedbackOverlay feedback={feedback} delayed={feedback.correct} onClose={() => setFeedback(null)} />
+      )}
     </div>
   );
 }

@@ -127,7 +127,10 @@ for (const size of SIZES) {
       await expectInsideStage(page, dialog);
       await expectReadable(dialog.locator('.feedback-explain'));
       await expectTouchSize(dialog.locator('.btn'));
-      if (problem.kind === 'spacing') await page.screenshot({ path: `docs/screenshots/M5/feedback-${name}.png` });
+      // 맞히면 설명 창이 정화 연출 뒤 나타나므로 애니메이션을 끝낸 모습을 찍는다
+      if (problem.kind === 'spacing') {
+        await page.screenshot({ path: `docs/screenshots/M5/feedback-${name}.png`, animations: 'disabled' });
+      }
       await dialog.getByRole('button', { name: '계속하기' }).click();
     }
   });

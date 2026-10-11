@@ -284,7 +284,7 @@ button {
 
 /* 정화: 정화 상태 그림으로 바뀐 뒤 반짝이며 떠오른다 */
 .monster.is-purified {
-  animation: monster-purify 1.2s ease-out forwards;
+  animation: monster-purify 1.2s ease-out 0.25s forwards; /* 마법 줄기가 닿은 뒤 */
 }
 
 .monster.is-purified .monster-bubble {
@@ -518,6 +518,83 @@ button {
 
 .art-defender.is-casting {
   transform: translateX(-10px);
+  filter: drop-shadow(0 0 10px var(--color-target)) drop-shadow(0 0 24px var(--color-target));
+  animation: defender-cast 0.5s ease-out;
+}
+
+@keyframes defender-cast {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  40% {
+    transform: translateX(-24px) scale(1.08);
+  }
+  100% {
+    transform: translateX(-10px) scale(1);
+  }
+}
+
+/* 정화 마법: 수비대원의 깃펜에서 몬스터로 빛줄기가 뻗고, 닿은 곳에서 빛이 터진다 */
+.cast-effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.cast-bolt {
+  position: absolute;
+  height: 0;
+  transform-origin: left center;
+}
+
+.cast-bolt-beam {
+  position: absolute;
+  inset: -9px 0;
+  border-radius: 9px;
+  background: linear-gradient(to left, #fffbe0, var(--color-target) 60%, rgba(255, 255, 255, 0.9));
+  box-shadow:
+    0 0 16px var(--color-target),
+    0 0 36px var(--color-target);
+  transform-origin: right center;
+  animation: cast-beam 0.7s ease-out forwards;
+}
+
+@keyframes cast-beam {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  35% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+.cast-burst {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  margin: -120px 0 0 -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffbe0 0%, var(--color-target) 35%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  animation: cast-burst 0.7s ease-out 0.2s forwards;
+}
+
+@keyframes cast-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
 }
 
 /* 띄어쓰기 칼: 글자 칸 하나가 80px(실제 48px 이상)이라 글자 사이를 누르기 쉽다 */
@@ -607,6 +684,29 @@ button {
   justify-content: center;
   background: var(--color-backdrop);
   z-index: 5;
+}
+
+/* 맞혔을 때: 정화 마법(약 1초)을 먼저 보여 준 뒤 설명 창이 나타난다 */
+.feedback-backdrop.is-delayed {
+  animation: feedback-in 0.3s ease-out 1s backwards;
+}
+
+@keyframes feedback-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback-backdrop.is-delayed,
+  .art-defender.is-casting,
+  .cast-effect {
+    animation: none;
+  }
+
+  .cast-effect {
+    display: none;
+  }
 }
 
 .feedback-card {
@@ -766,6 +866,19 @@ button {
 }
 
 /* 단계 선택 */
+.level-screen {
+  position: relative;
+}
+
+/* 단계 선택에서 돌아가는 버튼(왼쪽 위) */
+.level-screen-nav {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  display: flex;
+  gap: 16px;
+}
+
 .level-buttons {
   display: flex;
   gap: 40px;

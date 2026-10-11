@@ -72,7 +72,9 @@ export function ReviewScreen({ problems, soundOn, onToggleSound, onAnswer, onDon
         <SentenceCard key={attempt} problem={current} onResult={handleResult} />
       )}
 
-      {feedback && <FeedbackOverlay feedback={feedback} onClose={() => setFeedback(null)} />}
+      {feedback && (
+        <FeedbackOverlay feedback={feedback} delayed={feedback.correct} onClose={() => setFeedback(null)} />
+      )}
     </div>
   );
 }

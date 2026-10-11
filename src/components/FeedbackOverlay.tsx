@@ -13,6 +13,8 @@ interface Props {
   /** 맞혔을 때 보여 줄 보상 */
   reward?: string;
   closeLabel?: string;
+  /** 맞혔을 때 수비대원의 정화 동작을 먼저 보여 주고 설명 창은 조금 뒤에 나타난다 */
+  delayed?: boolean;
   onClose: () => void;
 }
 
@@ -21,13 +23,14 @@ export function FeedbackOverlay({
   feedback,
   reward = `마나 +${MANA_PER_CORRECT}`,
   closeLabel = '계속하기',
+  delayed = false,
   onClose,
 }: Props) {
   const { problem, correct, spacing } = feedback;
   const studentAnswer = spacing && !correct ? toGaps(spacing.answer) : null;
 
   return (
-    <div className="feedback-backdrop">
+    <div className={`feedback-backdrop${delayed ? ' is-delayed' : ''}`}>
       <section className="feedback-card" role="dialog" aria-label={correct ? '정답' : '오답'}>
         <h2 className={`feedback-title ${correct ? 'is-correct' : 'is-wrong'}`}>
           {correct ? '정화 성공!' : '아쉬워요'}

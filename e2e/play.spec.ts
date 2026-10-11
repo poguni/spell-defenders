@@ -161,3 +161,67 @@ test('더 풀 몬스터가 없으면 틀린 몬스터를 기다리지 않고 건
   await expect(page.locator('.result-screen')).toBeVisible();
   await expect(page.getByTestId('result-missed')).toHaveText('1');
 });
+
+test('단계 선택 화면에서 처음 화면이나 지도로 돌아갈 수 있다', async ({ page }) => {
+  await page.goto('/');
+  // 처음 들어온 단계 선택: 고른 단계가 없으니 "지도로"는 없다
+  await page.getByRole('button', { name: '시작하기' }).click();
+  await expect(page.getByRole('button', { name: '지도로' })).toHaveCount(0);
+  await page.getByRole('button', { name: '처음으로' }).click();
+  await expect(page.getByRole('button', { name: '시작하기' })).toBeVisible();
+
+  await page.getByRole('button', { name: '시작하기' }).click();
+  await page.getByRole('button', { name: /3단계 성/ }).click();
+  await page.getByRole('button', { name: '출발!' }).click();
+  await expect(page.getByRole('heading', { name: '3단계 성' })).toBeVisible();
+
+  // 지도 → 단계 바꾸기 → 고르지 않고 지도로
+  await page.getByRole('button', { name: '단계 바꾸기' }).click();
+  await page.getByRole('button', { name: /1단계 마을/ }).click();
+  await page.getByRole('button', { name: '지도로' }).click();
+  await expect(page.getByRole('heading', { name: '3단계 성' })).toBeVisible();
+
+  // 단계 바꾸기 → 처음으로
+  await page.getByRole('button', { name: '단계 바꾸기' }).click();
+  await page.getByRole('button', { name: '처음으로' }).click();
+  await expect(page.getByRole('button', { name: '시작하기' })).toBeVisible();
+  await page.screenshot({ path: 'docs/screenshots/M14/start-after-back-1920x1080.png' });
+});
+
+test('맞히면 수비대원이 정화 마법을 쓰는 모습을 먼저 보여 준 뒤 설명 창이 나온다', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.clock.install();
+  const two = ALL_PROBLEMS.filter((p) => p.level === 3 && p.kind === 'spelling' && !p.noError && p.reviewed).slice(0, 2);
+  await page.goto(`/?dev&problem=${two.map((p) => p.id).join(',')}`);
+  await enterStage(page);
+
+  const dialog = page.getByRole('dialog');
+  const backdrop = page.locator('.feedback-backdrop');
+  for (let answered = 0; answered < 2; ) {
+    if (!(await openWalkingMonster(page))) {
+      await page.clock.runFor(500);
+      continue;
+    }
+    const problem = await openProblem(page);
+    if (answered === 0) {
+      // 맞히면: 수비대원 정화 동작, 몬스터로 뻗는 마법 줄기, 설명 창은 늦게 나타남
+      await answerCorrectly(page, problem);
+      await expect(page.locator('.art-defender.is-casting')).toBeVisible();
+      await expect(page.getByTestId('cast-bolt')).toBeVisible();
+      await expect(page.locator('.monster.is-purified')).toHaveCount(1);
+      await expect(backdrop).toHaveClass(/is-delayed/);
+      await page.screenshot({ path: 'docs/screenshots/M14/cast-1920x1080.png' });
+      await dialog.getByRole('button', { name: '계속하기' }).click();
+      await expect(page.getByTestId('cast-bolt')).toHaveCount(0);
+      await expect(page.locator('.art-defender.is-casting')).toHaveCount(0);
+    } else {
+      // 틀리면: 정화 연출 없이 설명 창이 바로 나온다
+      await page.getByRole('button', { name: '고칠 곳 없음' }).click();
+      await expect(dialog.getByRole('heading', { name: '아쉬워요' })).toBeVisible();
+      await expect(backdrop).not.toHaveClass(/is-delayed/);
+      await expect(page.getByTestId('cast-bolt')).toHaveCount(0);
+      await dialog.getByRole('button', { name: '계속하기' }).click();
+    }
+    answered++;
+  }
+});

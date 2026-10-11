@@ -9,15 +9,28 @@ interface Props {
   /** 낼 문제가 있는 단계 */
   openLevels: Level[];
   onConfirm: (level: Level, nickname: string) => void;
+  onHome: () => void;
+  /** 지도에서 "단계 바꾸기"로 왔을 때만: 고르지 않고 지도로 돌아가기 */
+  onBack: (() => void) | null;
 }
 
 /** 단계 선택과 (선택) 닉네임 입력(기획서 5.1) */
-export function LevelSelectScreen({ level, nickname, openLevels, onConfirm }: Props) {
+export function LevelSelectScreen({ level, nickname, openLevels, onConfirm, onHome, onBack }: Props) {
   const [chosen, setChosen] = useState<Level | null>(level && openLevels.includes(level) ? level : null);
   const [name, setName] = useState(nickname ?? '');
 
   return (
     <div className="result-screen level-screen">
+      <nav className="level-screen-nav">
+        <button type="button" className="btn btn-small" onClick={onHome}>
+          처음으로
+        </button>
+        {onBack && (
+          <button type="button" className="btn btn-small" onClick={onBack}>
+            지도로
+          </button>
+        )}
+      </nav>
       <h1 className="result-title">단계를 골라요</h1>
       <div className="level-buttons" role="group" aria-label="단계">
         {([1, 2, 3] as Level[]).map((n) => {
