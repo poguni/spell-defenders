@@ -12,6 +12,8 @@ export interface MapStage {
 interface Props {
   level: Level;
   stages: MapStage[];
+  /** 불러온 선생님 문제 세트 스테이지(없으면 null) */
+  teacherStage: { id: string; name: string; stars: number } | null;
   noteCount: number;
   onPlay: (stageId: string) => void;
   onNotes: () => void;
@@ -21,7 +23,7 @@ interface Props {
 }
 
 /** 단계별 스테이지 지도(기획서 7.3): 별 기록, 앞 스테이지를 끝내면 다음이 열린다 */
-export function MapScreen({ level, stages, noteCount, onPlay, onNotes, onDex, onChangeLevel, onHome }: Props) {
+export function MapScreen({ level, stages, teacherStage, noteCount, onPlay, onNotes, onDex, onChangeLevel, onHome }: Props) {
   return (
     <div className={`map-screen map-level-${level}`}>
       <header className="screen-header">
@@ -36,7 +38,7 @@ export function MapScreen({ level, stages, noteCount, onPlay, onNotes, onDex, on
         </button>
       </header>
 
-      <ol className="map-stages">
+      <ol className={`map-stages${teacherStage ? ' has-teacher' : ''}`}>
         {stages.map(({ stage, stars, unlocked, ready }) => {
           const playable = unlocked && ready;
           return (
@@ -60,6 +62,19 @@ export function MapScreen({ level, stages, noteCount, onPlay, onNotes, onDex, on
             </li>
           );
         })}
+        {teacherStage && (
+          <li>
+            <button type="button" className="map-stage is-teacher" onClick={() => onPlay(teacherStage.id)}>
+              <span className="map-stage-number">선생님 문제</span>
+              <span className="map-stars" role="img" aria-label={`별 ${teacherStage.stars}개`}>
+                {[1, 2, 3].map((n) => (
+                  <span key={n} className={`star star-small${n <= teacherStage.stars ? ' is-on' : ''}`} />
+                ))}
+              </span>
+              <span className="map-stage-tags">{teacherStage.name}</span>
+            </button>
+          </li>
+        )}
       </ol>
 
       <div className="start-buttons">

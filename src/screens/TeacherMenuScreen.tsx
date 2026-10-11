@@ -5,6 +5,7 @@ interface Props {
   sets: ProblemSet[];
   onToggleSet: (setId: string) => void;
   onOpenSet: (setId: string) => void;
+  onShareSet: (setId: string) => void;
   onDeleteSet: (setId: string) => void;
   onGenerate: () => void;
   onKeySettings: () => void;
@@ -12,7 +13,7 @@ interface Props {
 }
 
 /** 교사 메뉴: 문제 세트 목록과 관리(기획서 5.3) */
-export function TeacherMenuScreen({ sets, onToggleSet, onOpenSet, onDeleteSet, onGenerate, onKeySettings, onBack }: Props) {
+export function TeacherMenuScreen({ sets, onToggleSet, onOpenSet, onShareSet, onDeleteSet, onGenerate, onKeySettings, onBack }: Props) {
   const [deleting, setDeleting] = useState<string | null>(null);
 
   return (
@@ -63,6 +64,9 @@ export function TeacherMenuScreen({ sets, onToggleSet, onOpenSet, onDeleteSet, o
                 </button>
                 <button type="button" className="btn" onClick={() => onOpenSet(set.id)}>
                   승인·수정
+                </button>
+                <button type="button" className="btn" disabled={approved === 0} onClick={() => onShareSet(set.id)}>
+                  나눠 주기
                 </button>
                 {deleting === set.id ? (
                   <>

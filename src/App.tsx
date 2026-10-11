@@ -12,6 +12,7 @@ import { ClassBattleScreen } from './screens/ClassBattleScreen';
 import { ClassSetupScreen, type ClassSettings } from './screens/ClassSetupScreen';
 import { DexScreen } from './screens/DexScreen';
 import { GenerateScreen } from './screens/GenerateScreen';
+import { ImportScreen, type ImportSource } from './screens/ImportScreen';
 import { KeySettingsScreen } from './screens/KeySettingsScreen';
 import { LevelSelectScreen } from './screens/LevelSelectScreen';
 import { MapScreen } from './screens/MapScreen';
@@ -19,10 +20,13 @@ import { NotesScreen } from './screens/NotesScreen';
 import { ProblemSetScreen } from './screens/ProblemSetScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { ReviewScreen } from './screens/ReviewScreen';
+import { ShareScreen } from './screens/ShareScreen';
 import { StartScreen } from './screens/StartScreen';
 import { TeacherGateScreen } from './screens/TeacherGateScreen';
 import { TeacherMenuScreen } from './screens/TeacherMenuScreen';
+import { HASH_PREFIX, type SharedSet } from './share/shareCode';
 import { cleanNickname, clearSave, emptySave, loadSave, writeSave } from './storage/save';
+import { loadSharedSet, sharedStageId, writeSharedSet } from './storage/sharedSet';
 import {
   activeProblems,
   emptyTeacher,
@@ -33,6 +37,18 @@ import {
 } from './storage/teacher';
 
 const PLAY = readPlayOptions(window.location.search, import.meta.env.DEV);
+
+/**
+ * 공유 링크(#set=...)로 열었으면 불러오기 화면부터. 주소의 코드는 지워 새로 고침해도 다시 묻지 않게 한다.
+ * 화면 상태 초기값은 개발 모드에서 두 번 계산되므로, 주소는 처음 한 번만 읽는다.
+ */
+const SHARED_CODE = window.location.hash.startsWith(HASH_PREFIX)
+  ? window.location.hash.slice(HASH_PREFIX.length)
+  : null;
+if (SHARED_CODE !== null) window.history.replaceState(null, '', window.location.pathname + window.location.search);
+
+const firstScreen = (): Screen =>
+  SHARED_CODE !== null ? { name: 'import', source: { code: SHARED_CODE } } : { name: 'start' };
 
 type Screen =
   | { name: 'start' }
@@ -56,11 +72,13 @@ type Screen =
   | { name: 'teacher' }
   | { name: 'teacherKey' }
   | { name: 'teacherGenerate' }
-  | { name: 'teacherSet'; setId: string };
+  | { name: 'teacherSet'; setId: string }
+  | { name: 'teacherShare'; setId: string }
+  | { name: 'import'; source: ImportSource };
 
 export function App() {
   const [save, setSave] = useState(loadSave);
-  const [screen, setScreen] = useState<Screen>({ name: 'start' });
+  const [screen, setScreen] = useState<Screen>(firstScreen);
   const [round, setRound] = useState(0);
   // 학급 수비전에서 마지막으로 고른 값. 기록이 아니라서 저장하지 않는다
   const [classSettings, setClassSettings] = useState<ClassSettings | null>(null);
@@ -69,6 +87,9 @@ export function App() {
   const [teacherUnlocked, setTeacherUnlocked] = useState(false);
 
   useEffect(() => writeTeacher(teacher), [teacher]);
+  // 학생 기기에 불러온 선생님 문제 세트(지도의 "선생님 문제" 스테이지)
+  const [sharedSet, setSharedSet] = useState(loadSharedSet);
+  const sharedId = sharedSet ? sharedStageId(sharedSet) : null;
 
   // 출제할 문제: 내장 문제 + 출제가 켜진 교사 세트의 승인한 문제
   const AVAILABLE = useMemo(() => availableProblems([...ALL_PROBLEMS, ...activeProblems(teacher)], PLAY), [teacher]);
@@ -76,6 +97,11 @@ export function App() {
   /** 스테이지에서 낼 수 있는 문제. 개발 스위치로 문제를 골랐으면 그 문제만 */
   const poolOf = (stage: StageDef): Problem[] => (PLAY.problemIds ? AVAILABLE : stagePool(stage, AVAILABLE));
   const levelProblems = (level: Level) => AVAILABLE.filter((p) => p.level === level);
+  /** 오답 노트에 보일 수 있는 문제: 출제 문제 + 불러온 세트 */
+  const noteSource = (level: Level) => [
+    ...levelProblems(level),
+    ...(sharedSet?.problems.filter((p) => p.level === level) ?? []),
+  ];
   const OPEN_LEVELS = ([1, 2, 3] as Level[]).filter((level) => levelProblems(level).length > 0);
   const levelTags = (level: Level) => TAGS[level].filter((tag) => levelProblems(level).some((p) => p.tag === tag));
   const classPool = ({ level, tags }: Pick<ClassSettings, 'level' | 'tags'>) =>
@@ -102,12 +128,27 @@ export function App() {
   const level = save.level;
 
   const startStage = (stageId: string) => {
-    const stage = findStage(stageId)!;
-    // 간격 반복: 같은 단계 오답 노트 문제를 섞는다
-    const notes = noteProblems(save, PLAY.problemIds ? AVAILABLE : levelProblems(stage.level));
-    const problems = buildStageProblems(poolOf(stage), notes, STAGE_PROBLEM_COUNT);
+    let problems: Problem[];
+    if (sharedSet && stageId === sharedId) {
+      // 선생님 문제: 그 세트의 문제와, 그 세트에서 틀린 문제
+      problems = buildStageProblems(sharedSet.problems, noteProblems(save, sharedSet.problems), STAGE_PROBLEM_COUNT);
+    } else {
+      const stage = findStage(stageId)!;
+      // 간격 반복: 같은 단계 오답 노트 문제를 섞는다
+      const notes = noteProblems(save, PLAY.problemIds ? AVAILABLE : noteSource(stage.level));
+      problems = buildStageProblems(poolOf(stage), notes, STAGE_PROBLEM_COUNT);
+    }
     setRound((r) => r + 1); // round가 바뀌면 BattleScreen을 새로 만든다
     setScreen({ name: 'battle', stageId, problems });
+  };
+
+  /** 불러온 세트를 저장하고 바로 한 판 */
+  const importSet = (set: SharedSet) => {
+    writeSharedSet(set);
+    setSharedSet(set);
+    const problems = buildStageProblems(set.problems, noteProblems(save, set.problems), STAGE_PROBLEM_COUNT);
+    setRound((r) => r + 1);
+    setScreen({ name: 'battle', stageId: sharedStageId(set), problems });
   };
 
   const finishStage = (stageId: string, state: GameState) => {
@@ -143,6 +184,7 @@ export function App() {
           onStart={goMap}
           onClassMode={() => setScreen({ name: 'classSetup' })}
           onTeacher={() => setScreen(teacherUnlocked ? { name: 'teacher' } : { name: 'teacherGate' })}
+          onImportFile={(fileText) => setScreen({ name: 'import', source: { fileText } })}
           onClearRecords={() => {
             clearSave();
             setSave(emptySave());
@@ -171,7 +213,8 @@ export function App() {
             unlocked: isUnlocked(stage, save.stars),
             ready: poolOf(stage).length > 0,
           }))}
-          noteCount={noteProblems(save, levelProblems(level)).length}
+          teacherStage={sharedSet && sharedId ? { id: sharedId, name: sharedSet.name, stars: save.stars[sharedId] ?? 0 } : null}
+          noteCount={noteProblems(save, noteSource(level)).length}
           onPlay={startStage}
           onNotes={() => setScreen({ name: 'notes' })}
           onDex={() => setScreen({ name: 'dex' })}
@@ -214,7 +257,7 @@ export function App() {
 
       {screen.name === 'notes' && level && (
         <NotesScreen
-          problems={noteProblems(save, levelProblems(level))}
+          problems={noteProblems(save, noteSource(level))}
           tagStreaks={save.tagStreaks}
           onBack={goMap}
         />
@@ -273,6 +316,7 @@ export function App() {
           sets={teacher.sets}
           onToggleSet={(setId) => updateSets((sets) => sets.map((s) => (s.id === setId ? { ...s, active: !s.active } : s)))}
           onOpenSet={(setId) => setScreen({ name: 'teacherSet', setId })}
+          onShareSet={(setId) => setScreen({ name: 'teacherShare', setId })}
           onDeleteSet={(setId) => updateSets((sets) => sets.filter((s) => s.id !== setId))}
           onGenerate={() => setScreen({ name: 'teacherGenerate' })}
           onKeySettings={() => setScreen({ name: 'teacherKey' })}
@@ -310,6 +354,21 @@ export function App() {
             />
           ) : null;
         })()}
+
+      {screen.name === 'teacherShare' &&
+        (() => {
+          const set = teacher.sets.find((s) => s.id === screen.setId);
+          return set ? <ShareScreen set={set} onBack={() => setScreen({ name: 'teacher' })} /> : null;
+        })()}
+
+      {screen.name === 'import' && (
+        <ImportScreen
+          source={screen.source}
+          currentName={sharedSet?.name ?? null}
+          onImport={importSet}
+          onCancel={() => setScreen({ name: 'start' })}
+        />
+      )}
     </Stage>
   );
 }

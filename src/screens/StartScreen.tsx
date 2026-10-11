@@ -5,10 +5,12 @@ interface Props {
   onStart: () => void;
   onClassMode: () => void;
   onTeacher: () => void;
+  /** 선생님이 보낸 문제 파일 */
+  onImportFile: (text: string) => void;
   onClearRecords: () => void;
 }
 
-export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onClearRecords }: Props) {
+export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onImportFile, onClearRecords }: Props) {
   const [isFullscreen, setIsFullscreen] = useState(Boolean(document.fullscreenElement));
   const [confirming, setConfirming] = useState(false);
   const [cleared, setCleared] = useState(false);
@@ -57,6 +59,18 @@ export function StartScreen({ nickname, onStart, onClassMode, onTeacher, onClear
         <button type="button" className="btn btn-small" onClick={onTeacher}>
           교사 메뉴
         </button>
+        <label className="btn btn-small file-button">
+          문제 파일 불러오기
+          <input
+            type="file"
+            accept=".json,application/json"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (file) void file.text().then(onImportFile);
+            }}
+          />
+        </label>
         {cleared ? (
           <p className="start-note">기록을 모두 지웠어요.</p>
         ) : (
