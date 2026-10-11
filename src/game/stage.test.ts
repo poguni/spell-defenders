@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import type { Problem } from '../judge/types';
 import {
-  CROSS_SECONDS,
   FIRST_SPAWN_SECONDS,
   MANA_PER_CORRECT,
   SLOW_FACTOR,
   WALL_DAMAGE,
+  STAGE_SETTINGS,
   WALL_MAX,
   answer,
   canSkip,
   createStage,
   selectMonster,
+  settingsFor,
   skipFailed,
   splitWaves,
   stageOutcomes,
@@ -20,10 +21,12 @@ import {
   type GameState,
 } from './stage';
 
-function makeProblems(count: number): Problem[] {
+const CROSS_SECONDS = STAGE_SETTINGS[3].crossSeconds;
+
+function makeProblems(count: number, level: Problem['level'] = 3): Problem[] {
   return Array.from({ length: count }, (_, i) => ({
     id: `T-${i}`,
-    level: 3,
+    level,
     kind: 'spelling',
     tag: '웬/왠',
     rule: '-',
@@ -65,16 +68,49 @@ function clearWave(state: GameState): GameState {
 
 describe('splitWaves', () => {
   it('10문제는 3, 3, 4로 나눈다', () => {
-    expect(splitWaves(10)).toEqual([3, 3, 4]);
+    expect(splitWaves(10, 3)).toEqual([3, 3, 4]);
   });
 
   it('8문제는 2, 3, 3으로 나눈다', () => {
-    expect(splitWaves(8)).toEqual([2, 3, 3]);
+    expect(splitWaves(8, 3)).toEqual([2, 3, 3]);
   });
 
-  it('문제가 3개보다 적으면 빈 웨이브는 뺀다', () => {
-    expect(splitWaves(2)).toEqual([1, 1]);
-    expect(splitWaves(0)).toEqual([]);
+  it('웨이브 2개면 8문제는 4, 4로 나눈다', () => {
+    expect(splitWaves(8, 2)).toEqual([4, 4]);
+    expect(splitWaves(7, 2)).toEqual([3, 4]);
+  });
+
+  it('문제가 웨이브 수보다 적으면 빈 웨이브는 뺀다', () => {
+    expect(splitWaves(2, 3)).toEqual([1, 1]);
+    expect(splitWaves(0, 3)).toEqual([]);
+  });
+});
+
+describe('단계별 수치', () => {
+  it('3단계는 10문제, 웨이브 3개, 45초, 웨이브마다 빨라짐(지금까지와 같음)', () => {
+    expect(STAGE_SETTINGS[3]).toEqual({ problemCount: 10, waveCount: 3, crossSeconds: 45, waveSpeedup: 0.9 });
+  });
+
+  it('1단계는 8문제, 웨이브 2개(4·4), 60초, 빨라지지 않음', () => {
+    const state = createStage(makeProblems(30, 1), fixedRandom);
+    expect(state.monsters).toHaveLength(8);
+    expect(state.monsters.map((m) => m.wave)).toEqual([0, 0, 0, 0, 1, 1, 1, 1]);
+    expect(state.settings).toEqual({ problemCount: 8, waveCount: 2, crossSeconds: 60, waveSpeedup: 1 });
+  });
+
+  it('1단계 몬스터는 두 번째 웨이브에서도 60초 걸려 성에 닿는다', () => {
+    let state = createStage(makeProblems(2, 1), fixedRandom); // 웨이브마다 1마리
+    state = tick(tick(state, FIRST_SPAWN_SECONDS, 'normal'), 60, 'normal'); // 0번 성에 닿음 → 웨이브 2
+    expect(state.wave).toBe(1);
+    state = tick(tick(state, FIRST_SPAWN_SECONDS, 'normal'), 59, 'normal');
+    expect(state.monsters[1].status).toBe('walking');
+    state = tick(state, 1, 'normal');
+    expect(state.monsters[1].status).toBe('arrived');
+  });
+
+  it('여러 단계가 섞이면 가장 낮은 단계 수치를 쓴다', () => {
+    expect(settingsFor([...makeProblems(3, 3), ...makeProblems(1, 1)])).toBe(STAGE_SETTINGS[1]);
+    expect(settingsFor([])).toBe(STAGE_SETTINGS[3]);
   });
 });
 

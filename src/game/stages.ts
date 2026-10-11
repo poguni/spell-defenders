@@ -15,11 +15,15 @@ export const LEVEL_INFO: Record<Level, { place: string; grade: string }> = {
   3: { place: '성', grade: '초5~6' },
 };
 
+const t1 = TAGS[1];
 const t3 = TAGS[3];
 
 export const STAGES: StageDef[] = [
-  // 1·2단계는 문제가 생기면 태그 묶음으로 나눈다
-  { id: 'L1-1', level: 1, number: 1, tags: null },
+  // 1단계: ① 소리와 글자가 다른 낱말 ② 나머지 ③ 모두 섞기(docs/1단계 마을 개발 계획.md 3장)
+  { id: 'L1-1', level: 1, number: 1, tags: [t1[0], t1[1], t1[3]] },
+  { id: 'L1-2', level: 1, number: 2, tags: [t1[2], t1[4], t1[5]] },
+  { id: 'L1-3', level: 1, number: 3, tags: null },
+  // 2단계는 문제가 생기면 태그 묶음으로 나눈다
   { id: 'L2-1', level: 2, number: 1, tags: null },
   { id: 'L3-1', level: 3, number: 1, tags: [t3[0], t3[1], t3[2]] },
   { id: 'L3-2', level: 3, number: 2, tags: [t3[3], t3[4], t3[5]] },

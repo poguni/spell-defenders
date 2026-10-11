@@ -14,6 +14,14 @@ describe('스테이지 지도', () => {
     expect(level3[3].tags).toBeNull();
   });
 
+  it('1단계: 태그 묶음 2개 + 모두 섞기, 6개 태그가 한 번씩', () => {
+    const level1 = stagesOf(1);
+    expect(level1.map((s) => s.id)).toEqual(['L1-1', 'L1-2', 'L1-3']);
+    const tags = level1.flatMap((s) => s.tags ?? []);
+    expect([...tags].sort()).toEqual([...TAGS[1]].sort());
+    expect(level1[2].tags).toBeNull();
+  });
+
   it('id가 겹치지 않는다', () => {
     expect(new Set(STAGES.map((s) => s.id)).size).toBe(STAGES.length);
   });

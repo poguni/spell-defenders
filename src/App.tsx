@@ -4,7 +4,7 @@ import { ALL_PROBLEMS } from './data/problems';
 import { availableProblems, readPlayOptions } from './game/pool';
 import { buildStageProblems, noteProblems, recordReview, recordStage } from './game/progress';
 import { setSoundEnabled } from './game/sound';
-import { STAGE_PROBLEM_COUNT, shuffle, stageOutcomes, summarize, type GameState, type StageSummary } from './game/stage';
+import { STAGE_SETTINGS, settingsFor, shuffle, stageOutcomes, summarize, type GameState, type StageSummary } from './game/stage';
 import { findStage, isUnlocked, stagePool, stagesOf, type StageDef } from './game/stages';
 import { TAGS, type Level, type Problem } from './judge/types';
 import { BattleScreen } from './screens/BattleScreen';
@@ -131,12 +131,16 @@ export function App() {
     let problems: Problem[];
     if (sharedSet && stageId === sharedId) {
       // 선생님 문제: 그 세트의 문제와, 그 세트에서 틀린 문제
-      problems = buildStageProblems(sharedSet.problems, noteProblems(save, sharedSet.problems), STAGE_PROBLEM_COUNT);
+      problems = buildStageProblems(
+        sharedSet.problems,
+        noteProblems(save, sharedSet.problems),
+        settingsFor(sharedSet.problems).problemCount,
+      );
     } else {
       const stage = findStage(stageId)!;
       // 간격 반복: 같은 단계 오답 노트 문제를 섞는다
       const notes = noteProblems(save, PLAY.problemIds ? AVAILABLE : noteSource(stage.level));
-      problems = buildStageProblems(poolOf(stage), notes, STAGE_PROBLEM_COUNT);
+      problems = buildStageProblems(poolOf(stage), notes, STAGE_SETTINGS[stage.level].problemCount);
     }
     setRound((r) => r + 1); // round가 바뀌면 BattleScreen을 새로 만든다
     setScreen({ name: 'battle', stageId, problems });
@@ -146,7 +150,7 @@ export function App() {
   const importSet = (set: SharedSet) => {
     writeSharedSet(set);
     setSharedSet(set);
-    const problems = buildStageProblems(set.problems, noteProblems(save, set.problems), STAGE_PROBLEM_COUNT);
+    const problems = buildStageProblems(set.problems, noteProblems(save, set.problems), settingsFor(set.problems).problemCount);
     setRound((r) => r + 1);
     setScreen({ name: 'battle', stageId: sharedStageId(set), problems });
   };

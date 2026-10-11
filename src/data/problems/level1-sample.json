@@ -1,0 +1,652 @@
+[
+  {
+    "id": "L1-sori-001",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "소리 나는 대로 쓰기",
+    "rule": "한글 맞춤법 제6항",
+    "wrong": "친구랑 가치 놀자.",
+    "correct": "친구랑 같이 놀자.",
+    "target": {
+      "wrongText": "가치",
+      "start": 4
+    },
+    "choices": [
+      "같이",
+      "가치"
+    ],
+    "acceptedAnswers": [
+      "친구랑 같이 놀자."
+    ],
+    "explain": "[가치]로 소리 나도 '같이'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-sori-002",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "소리 나는 대로 쓰기",
+    "rule": "한글 맞춤법 제6항",
+    "wrong": "구지 안 가도 돼.",
+    "correct": "굳이 안 가도 돼.",
+    "target": {
+      "wrongText": "구지",
+      "start": 0
+    },
+    "choices": [
+      "굳이",
+      "구지"
+    ],
+    "acceptedAnswers": [
+      "굳이 안 가도 돼."
+    ],
+    "explain": "[구지]로 소리 나도 '굳이'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-sori-003",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "소리 나는 대로 쓰기",
+    "rule": "한글 맞춤법 제6항",
+    "wrong": "바다에서 해도지를 봤어.",
+    "correct": "바다에서 해돋이를 봤어.",
+    "target": {
+      "wrongText": "해도지를",
+      "start": 5
+    },
+    "choices": [
+      "해돋이를",
+      "해도지를"
+    ],
+    "acceptedAnswers": [
+      "바다에서 해돋이를 봤어."
+    ],
+    "explain": "해가 돋는 것이라 '해돋이'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-sori-004",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "소리 나는 대로 쓰기",
+    "rule": "한글 맞춤법 제14항",
+    "wrong": "새 오슬 입었어요.",
+    "correct": "새 옷을 입었어요.",
+    "target": {
+      "wrongText": "오슬",
+      "start": 2
+    },
+    "choices": [
+      "옷을",
+      "오슬"
+    ],
+    "acceptedAnswers": [
+      "새 옷을 입었어요."
+    ],
+    "explain": "'옷'에 '을'이 붙은 말이라 '옷을'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-sori-005",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "소리 나는 대로 쓰기",
+    "rule": "한글 맞춤법 제15항",
+    "wrong": "밥을 맛있게 머거요.",
+    "correct": "밥을 맛있게 먹어요.",
+    "target": {
+      "wrongText": "머거요",
+      "start": 7
+    },
+    "choices": [
+      "먹어요",
+      "머거요"
+    ],
+    "acceptedAnswers": [
+      "밥을 맛있게 먹어요."
+    ],
+    "explain": "'먹다'의 '먹'을 살려 '먹어요'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-batchim-001",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "받침",
+    "rule": "표준국어대사전 '닭'",
+    "wrong": "마당에 닥이 있어요.",
+    "correct": "마당에 닭이 있어요.",
+    "target": {
+      "wrongText": "닥이",
+      "start": 4
+    },
+    "choices": [
+      "닭이",
+      "닥이"
+    ],
+    "acceptedAnswers": [
+      "마당에 닭이 있어요."
+    ],
+    "explain": "꼬끼오 우는 새는 받침 'ㄺ'을 써서 '닭'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-batchim-002",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "받침",
+    "rule": "표준국어대사전 '부엌'",
+    "wrong": "부억에서 밥을 해요.",
+    "correct": "부엌에서 밥을 해요.",
+    "target": {
+      "wrongText": "부억에서",
+      "start": 0
+    },
+    "choices": [
+      "부엌에서",
+      "부억에서"
+    ],
+    "acceptedAnswers": [
+      "부엌에서 밥을 해요."
+    ],
+    "explain": "밥을 하는 곳은 받침 'ㅋ'을 써서 '부엌'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-batchim-003",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "받침",
+    "rule": "표준국어대사전 '밖'",
+    "wrong": "박에 나가 놀자.",
+    "correct": "밖에 나가 놀자.",
+    "target": {
+      "wrongText": "박에",
+      "start": 0
+    },
+    "choices": [
+      "밖에",
+      "박에"
+    ],
+    "acceptedAnswers": [
+      "밖에 나가 놀자."
+    ],
+    "explain": "안의 반대는 받침 'ㄲ'을 써서 '밖'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-batchim-004",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "받침",
+    "rule": "표준국어대사전 '앉다'",
+    "wrong": "의자에 안자요.",
+    "correct": "의자에 앉아요.",
+    "target": {
+      "wrongText": "안자요",
+      "start": 4
+    },
+    "choices": [
+      "앉아요",
+      "안자요"
+    ],
+    "acceptedAnswers": [
+      "의자에 앉아요."
+    ],
+    "explain": "'앉다'는 받침 'ㄵ'을 살려 '앉아요'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-batchim-005",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "받침",
+    "rule": "표준국어대사전 '햇빛'",
+    "wrong": "햇빗이 따뜻해요.",
+    "correct": "햇빛이 따뜻해요.",
+    "target": {
+      "wrongText": "햇빗이",
+      "start": 0
+    },
+    "choices": [
+      "햇빛이",
+      "햇빗이"
+    ],
+    "acceptedAnswers": [
+      "햇빛이 따뜻해요."
+    ],
+    "explain": "해의 빛이라 받침 'ㅊ'을 써서 '햇빛'이에요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-aee-001",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "ㅐ/ㅔ",
+    "rule": "표준국어대사전 '베개'",
+    "wrong": "배개를 베고 자요.",
+    "correct": "베개를 베고 자요.",
+    "target": {
+      "wrongText": "배개를",
+      "start": 0
+    },
+    "choices": [
+      "베개를",
+      "배개를"
+    ],
+    "acceptedAnswers": [
+      "베개를 베고 자요."
+    ],
+    "explain": "머리를 베는 것은 '베개'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-aee-002",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "ㅐ/ㅔ",
+    "rule": "표준국어대사전 '깨끗이'",
+    "wrong": "손을 께끗이 씻어요.",
+    "correct": "손을 깨끗이 씻어요.",
+    "target": {
+      "wrongText": "께끗이",
+      "start": 3
+    },
+    "choices": [
+      "깨끗이",
+      "께끗이"
+    ],
+    "acceptedAnswers": [
+      "손을 깨끗이 씻어요."
+    ],
+    "explain": "'깨끗이'는 'ㅐ'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-aee-003",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "ㅐ/ㅔ",
+    "rule": "표준국어대사전 '에게'",
+    "wrong": "동생애게 줬어요.",
+    "correct": "동생에게 줬어요.",
+    "target": {
+      "wrongText": "동생애게",
+      "start": 0
+    },
+    "choices": [
+      "동생에게",
+      "동생애게"
+    ],
+    "acceptedAnswers": [
+      "동생에게 줬어요."
+    ],
+    "explain": "누구에게 줄 때는 'ㅔ'를 써서 '에게'예요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-aee-004",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "ㅐ/ㅔ",
+    "rule": "표준국어대사전 '재미'",
+    "wrong": "제미있는 책이에요.",
+    "correct": "재미있는 책이에요.",
+    "target": {
+      "wrongText": "제미있는",
+      "start": 0
+    },
+    "choices": [
+      "재미있는",
+      "제미있는"
+    ],
+    "acceptedAnswers": [
+      "재미있는 책이에요."
+    ],
+    "explain": "'재미'는 'ㅐ'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-aee-005",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "ㅐ/ㅔ",
+    "rule": "표준국어대사전 '숙제'",
+    "wrong": "숙재를 다 했어요.",
+    "correct": "숙제를 다 했어요.",
+    "target": {
+      "wrongText": "숙재를",
+      "start": 0
+    },
+    "choices": [
+      "숙제를",
+      "숙재를"
+    ],
+    "acceptedAnswers": [
+      "숙제를 다 했어요."
+    ],
+    "explain": "'숙제'는 'ㅔ'를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-doen-001",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "된소리",
+    "rule": "한글 맞춤법 제53항",
+    "wrong": "내가 도와줄께.",
+    "correct": "내가 도와줄게.",
+    "target": {
+      "wrongText": "도와줄께",
+      "start": 3
+    },
+    "choices": [
+      "도와줄게",
+      "도와줄께"
+    ],
+    "acceptedAnswers": [
+      "내가 도와줄게."
+    ],
+    "explain": "[께]로 소리 나도 '게'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-doen-002",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "된소리",
+    "rule": "한글 맞춤법 제53항",
+    "wrong": "내일 또 올께요.",
+    "correct": "내일 또 올게요.",
+    "target": {
+      "wrongText": "올께요",
+      "start": 5
+    },
+    "choices": [
+      "올게요",
+      "올께요"
+    ],
+    "acceptedAnswers": [
+      "내일 또 올게요."
+    ],
+    "explain": "[께]로 소리 나도 '게'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-doen-003",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "된소리",
+    "rule": "한글 맞춤법 제53항",
+    "wrong": "우산을 가져올껄.",
+    "correct": "우산을 가져올걸.",
+    "target": {
+      "wrongText": "가져올껄",
+      "start": 4
+    },
+    "choices": [
+      "가져올걸",
+      "가져올껄"
+    ],
+    "acceptedAnswers": [
+      "우산을 가져올걸."
+    ],
+    "explain": "[껄]로 소리 나도 '걸'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-doen-004",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "된소리",
+    "rule": "한글 맞춤법 제53항",
+    "wrong": "비가 올찌 몰라.",
+    "correct": "비가 올지 몰라.",
+    "target": {
+      "wrongText": "올찌",
+      "start": 3
+    },
+    "choices": [
+      "올지",
+      "올찌"
+    ],
+    "acceptedAnswers": [
+      "비가 올지 몰라."
+    ],
+    "explain": "[찌]로 소리 나도 '지'로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-doen-005",
+    "level": 1,
+    "kind": "spelling",
+    "tag": "된소리",
+    "rule": "한글 맞춤법 제53항",
+    "wrong": "먹을쑤록 맛있어.",
+    "correct": "먹을수록 맛있어.",
+    "target": {
+      "wrongText": "먹을쑤록",
+      "start": 0
+    },
+    "choices": [
+      "먹을수록",
+      "먹을쑤록"
+    ],
+    "acceptedAnswers": [
+      "먹을수록 맛있어."
+    ],
+    "explain": "[쑤]로 소리 나도 '수록'으로 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-punct-001",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "밥 먹었니.",
+    "correct": "밥 먹었니?",
+    "target": {
+      "wrongText": ".",
+      "start": 5
+    },
+    "choices": [
+      "?",
+      "."
+    ],
+    "acceptedAnswers": [
+      "밥 먹었니?"
+    ],
+    "explain": "묻는 문장 끝에는 물음표(?)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-punct-002",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "너는 몇 살이니!",
+    "correct": "너는 몇 살이니?",
+    "target": {
+      "wrongText": "!",
+      "start": 8
+    },
+    "choices": [
+      "?",
+      "!"
+    ],
+    "acceptedAnswers": [
+      "너는 몇 살이니?"
+    ],
+    "explain": "묻는 문장 끝에는 물음표(?)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-punct-003",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "나는 밥을 먹었다?",
+    "correct": "나는 밥을 먹었다.",
+    "target": {
+      "wrongText": "?",
+      "start": 9
+    },
+    "choices": [
+      ".",
+      "?"
+    ],
+    "acceptedAnswers": [
+      "나는 밥을 먹었다."
+    ],
+    "explain": "설명하는 문장 끝에는 마침표(.)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-punct-004",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "강아지가 잠을 잔다?",
+    "correct": "강아지가 잠을 잔다.",
+    "target": {
+      "wrongText": "?",
+      "start": 10
+    },
+    "choices": [
+      ".",
+      "?"
+    ],
+    "acceptedAnswers": [
+      "강아지가 잠을 잔다."
+    ],
+    "explain": "설명하는 문장 끝에는 마침표(.)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-punct-005",
+    "level": 1,
+    "kind": "punctuation",
+    "tag": "문장 부호",
+    "rule": "한글 맞춤법 부록 문장 부호",
+    "wrong": "우아, 정말 멋지다?",
+    "correct": "우아, 정말 멋지다!",
+    "target": {
+      "wrongText": "?",
+      "start": 10
+    },
+    "choices": [
+      "!",
+      "?"
+    ],
+    "acceptedAnswers": [
+      "우아, 정말 멋지다!"
+    ],
+    "explain": "느낌이 큰 문장 끝에는 느낌표(!)를 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-spacing-001",
+    "level": 1,
+    "kind": "spacing",
+    "tag": "띄어쓰기 기초",
+    "rule": "한글 맞춤법 제2항, 제41항",
+    "wrong": "나는학교에간다.",
+    "correct": "나는 학교에 간다.",
+    "acceptedAnswers": [
+      "나는 학교에 간다."
+    ],
+    "explain": "낱말과 낱말 사이를 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-spacing-002",
+    "level": 1,
+    "kind": "spacing",
+    "tag": "띄어쓰기 기초",
+    "rule": "한글 맞춤법 제2항, 제41항",
+    "wrong": "엄마가밥을해요.",
+    "correct": "엄마가 밥을 해요.",
+    "acceptedAnswers": [
+      "엄마가 밥을 해요."
+    ],
+    "explain": "낱말과 낱말 사이를 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-spacing-003",
+    "level": 1,
+    "kind": "spacing",
+    "tag": "띄어쓰기 기초",
+    "rule": "한글 맞춤법 제2항, 제41항",
+    "wrong": "토끼가깡충뛰어요.",
+    "correct": "토끼가 깡충 뛰어요.",
+    "acceptedAnswers": [
+      "토끼가 깡충 뛰어요."
+    ],
+    "explain": "낱말과 낱말 사이를 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-spacing-004",
+    "level": 1,
+    "kind": "spacing",
+    "tag": "띄어쓰기 기초",
+    "rule": "한글 맞춤법 제2항, 제41항",
+    "wrong": "하늘이참파래요.",
+    "correct": "하늘이 참 파래요.",
+    "acceptedAnswers": [
+      "하늘이 참 파래요."
+    ],
+    "explain": "낱말과 낱말 사이를 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  },
+  {
+    "id": "L1-spacing-005",
+    "level": 1,
+    "kind": "spacing",
+    "tag": "띄어쓰기 기초",
+    "rule": "한글 맞춤법 제2항, 제41항",
+    "wrong": "친구와공을차요.",
+    "correct": "친구와 공을 차요.",
+    "acceptedAnswers": [
+      "친구와 공을 차요."
+    ],
+    "explain": "낱말과 낱말 사이를 띄어 써요.",
+    "source": "builtin",
+    "reviewed": false
+  }
+]

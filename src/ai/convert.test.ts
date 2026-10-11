@@ -67,7 +67,7 @@ describe('convertAiProblems', () => {
       wrong: '아. 배고파.',
       correct: '아. 배고파!',
       wrongText: '.',
-      choices: ['!', '.', '?'],
+      choices: ['!', '.'],
       explain: '느끼는 문장에는 느낌표를 써요.',
       rule: '문장 부호',
     };

@@ -126,6 +126,23 @@ describe('validateProblem: 맞춤법 문제', () => {
     );
   });
 
+  it('1단계 보기는 2개여야 한다', () => {
+    const level1 = {
+      ...spelling,
+      id: 'L1-test-001',
+      level: 1,
+      tag: '문장 부호',
+      kind: 'punctuation',
+      wrong: '밥 먹었니.',
+      correct: '밥 먹었니?',
+      target: { wrongText: '.', start: 5 },
+      choices: ['?', '.'],
+      acceptedAnswers: ['밥 먹었니?'],
+    };
+    expect(validateProblem(level1)).toEqual([]);
+    expect(validateProblem({ ...level1, choices: ['?', '.', '!'] })).toContain('1단계 choices는 2개여야 함');
+  });
+
   it('target이나 choices가 없으면 실패', () => {
     expect(validateProblem({ ...spelling, target: undefined })).toContain('target이 없음');
     expect(validateProblem({ ...spelling, choices: undefined })).toContain('choices가 없음');

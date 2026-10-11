@@ -1,6 +1,6 @@
 // AI 문제 생성 지침(기획서 9.2, 9.3). 태그 설명은 기획서 4.2.
 // 이 파일의 문구가 OpenRouter로 보내는 내용 전부다(API 키는 따로 머리글로만 보낸다).
-import { MAX_LENGTH, type Level, type ProblemKind } from '../judge/types';
+import { LEVEL1_CHOICE_COUNT, MAX_LENGTH, type Level, type ProblemKind } from '../judge/types';
 
 export const MAX_GENERATE_COUNT = 20;
 
@@ -14,7 +14,7 @@ export const TAG_GUIDE: Record<string, { kind: ProblemKind; guide: string }> = {
   받침: { kind: 'spelling', guide: '받침을 잘못 쓴 낱말. 예: 닥 → 닭, 일따 → 읽다' },
   'ㅐ/ㅔ': { kind: 'spelling', guide: "'ㅐ'와 'ㅔ'를 바꿔 쓴 낱말. 예: 배개 → 베개, 께끗이 → 깨끗이" },
   된소리: { kind: 'spelling', guide: '된소리로 잘못 쓴 어미. 예: 할께 → 할게 (한글 맞춤법 제53항)' },
-  '문장 부호': { kind: 'punctuation', guide: '문장 끝 부호(마침표, 물음표, 느낌표)를 잘못 쓴 문장. 예: 밥 먹었니. → 밥 먹었니?' },
+  '문장 부호': { kind: 'punctuation', guide: "문장 끝 부호(마침표, 물음표, 느낌표)를 잘못 쓴 문장. 예: 밥 먹었니. → 밥 먹었니? 느낌표가 정답인 문장은 '우아', '와'처럼 감탄하는 말이 들어 있어야 하고, 마침표도 맞을 수 있으므로 wrong에는 마침표 대신 물음표를 쓴다." },
   '띄어쓰기 기초': { kind: 'spacing', guide: '낱말을 붙여 쓴 짧은 문장. 예: 나는학교에간다 → 나는 학교에 간다 (한글 맞춤법 제2항)' },
   // 2단계(초3~4) 헷갈리는 낱말
   '되/돼': { kind: 'spelling', guide: "'되'와 '돼'. '되어'로 바꿔 말이 되면 '돼'. 예: 열 살이 되요 → 열 살이 돼요" },
@@ -53,7 +53,7 @@ export const SYSTEM_PROMPT = `너는 초등학생용 한국어 맞춤법 게임�
 - wrong: 학생에게 보여 줄 문장(틀린 곳이 하나 있는 문장).
 - correct: wrong을 바르게 고친 문장.
 - wrongText: 맞춤법 문제는 wrong에서 틀린 부분(그 어절 전체 또는 틀린 글자가 든 부분). wrong 안에 정확히 한 번만 나와야 한다. 문장 부호 문제는 틀린 부호 한 글자. 띄어쓰기 문제와 "고칠 곳 없음" 문제는 null.
-- choices: 맞춤법·문장 부호 문제의 보기 3개. 첫째는 wrongText 자리에 들어갈 바른 말, 둘째는 wrongText 그대로, 셋째는 학생이 헷갈릴 만한 다른 틀린 표기. 띄어쓰기 문제와 "고칠 곳 없음" 문제는 null.
+- choices: 맞춤법·문장 부호 문제의 보기. 개수는 요청을 따른다. 첫째는 wrongText 자리에 들어갈 바른 말, 둘째는 wrongText 그대로, 셋째(3개일 때)는 학생이 헷갈릴 만한 다른 틀린 표기. 띄어쓰기 문제와 "고칠 곳 없음" 문제는 null.
 - explain: 초등학생이 읽을 쉬운 해요체 설명 한두 문장, 60자 이내. 왜 그렇게 쓰는지 뜻이나 소리로 설명한다. 어려운 문법 용어는 쓰지 않는다.
 - rule: 근거 조항. 예: "한글 맞춤법 제57항", "표준국어대사전 '어떡하다'".
 
@@ -86,10 +86,14 @@ export function buildUserPrompt(request: GenerateRequest): string {
     `- 유형 설명: ${guide}`,
     `- 종류(kind): ${kind}`,
     `- 문장 길이: 띄어쓰기와 문장 부호를 포함해 ${MAX_LENGTH[request.level]}자 이하`,
+    `- 보기(choices): 맞춤법·문장 부호 문제는 ${request.level === 1 ? LEVEL1_CHOICE_COUNT : 3}개`,
     noError > 0
       ? `- ${request.count}개 가운데 ${noError}개는 "고칠 곳 없음" 문제(noError: true), 나머지는 틀린 곳이 하나 있는 문제`
       : '- 모두 틀린 곳이 하나 있는 문제(noError: false)',
   ];
+  if (request.level === 1) {
+    lines.push('- 2학년이 읽으므로 2학년이 아는 쉬운 낱말만 쓰고, explain은 40자 이내로 아주 쉽게 쓴다');
+  }
   if (request.topic.trim()) lines.push(`- 소재: ${request.topic.trim()}`);
   return lines.join('\n');
 }

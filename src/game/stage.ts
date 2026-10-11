@@ -1,19 +1,38 @@
 // 한 스테이지의 게임 상태와 상태 변화(순수 함수). 화면은 이 상태를 그리기만 한다.
-import type { Problem } from '../judge/types';
+import type { Level, Problem } from '../judge/types';
 import type { ProblemOutcome } from './progress';
 
 // 게임 수치: 현장 테스트 뒤 조정하기 쉽게 한곳에 모은다
-export const STAGE_PROBLEM_COUNT = 10;
-export const WAVE_COUNT = 3;
 export const LANE_COUNT = 3;
 export const FIRST_SPAWN_SECONDS = 1; // 웨이브 시작 뒤 첫 몬스터가 나오기까지
 export const SPAWN_GAP_SECONDS = 5; // 같은 웨이브 안 몬스터 사이 간격
-export const CROSS_SECONDS = 45; // 첫 웨이브 몬스터가 "보통" 속도로 레인 끝까지 가는 시간
-export const WAVE_SPEEDUP = 0.9; // 웨이브마다 CROSS_SECONDS에 곱한다(조금씩 빨라짐)
 export const SLOW_FACTOR = 0.5; // "느리게"는 보통의 절반 빠르기
 export const MANA_PER_CORRECT = 10;
 export const WALL_MAX = 100;
 export const WALL_DAMAGE = 10;
+
+/** 단계마다 다른 수치 */
+export interface StageSettings {
+  problemCount: number;
+  waveCount: number;
+  /** 첫 웨이브 몬스터가 "보통" 속도로 레인 끝까지 가는 시간(초) */
+  crossSeconds: number;
+  /** 웨이브마다 crossSeconds에 곱한다(1이면 빨라지지 않음) */
+  waveSpeedup: number;
+}
+
+export const STAGE_SETTINGS: Record<Level, StageSettings> = {
+  // 초2: 읽는 시간을 넉넉히, 한 판은 짧게
+  1: { problemCount: 8, waveCount: 2, crossSeconds: 60, waveSpeedup: 1 },
+  2: { problemCount: 10, waveCount: 3, crossSeconds: 45, waveSpeedup: 0.9 },
+  3: { problemCount: 10, waveCount: 3, crossSeconds: 45, waveSpeedup: 0.9 },
+};
+
+/** 문제들 가운데 가장 낮은 단계의 수치. 여러 단계가 섞인 선생님 문제는 쉬운 쪽에 맞춘다 */
+export function settingsFor(problems: readonly Problem[]): StageSettings {
+  const level = Math.min(3, ...problems.map((p) => p.level)) as Level;
+  return STAGE_SETTINGS[level];
+}
 
 export type Speed = 'normal' | 'slow' | 'paused';
 /** waiting: 아직 안 나옴, walking: 걷는 중, purified: 정화됨, failed: 틀려서 고칠 수 없이 걷는 중, arrived: 성에 닿음 */
@@ -34,6 +53,7 @@ export interface Monster {
 }
 
 export interface GameState {
+  settings: StageSettings;
   monsters: Monster[];
   wave: number;
   waveCount: number;
@@ -65,15 +85,19 @@ export function shuffle<T>(list: readonly T[], random: () => number = Math.rando
 }
 
 /** 문제 수를 웨이브에 나눈다. 남는 문제는 뒤 웨이브에 붙인다(10 → 3, 3, 4). 빈 웨이브는 뺀다. */
-export function splitWaves(count: number): number[] {
-  const base = Math.floor(count / WAVE_COUNT);
-  const extra = count % WAVE_COUNT;
-  return Array.from({ length: WAVE_COUNT }, (_, i) => base + (i >= WAVE_COUNT - extra ? 1 : 0)).filter((n) => n > 0);
+export function splitWaves(count: number, waveCount: number): number[] {
+  const base = Math.floor(count / waveCount);
+  const extra = count % waveCount;
+  return Array.from({ length: waveCount }, (_, i) => base + (i >= waveCount - extra ? 1 : 0)).filter((n) => n > 0);
 }
 
-export function createStage(pool: readonly Problem[], random: () => number = Math.random): GameState {
-  const picked = shuffle(pool, random).slice(0, STAGE_PROBLEM_COUNT);
-  const sizes = splitWaves(picked.length);
+export function createStage(
+  pool: readonly Problem[],
+  random: () => number = Math.random,
+  settings: StageSettings = settingsFor(pool),
+): GameState {
+  const picked = shuffle(pool, random).slice(0, settings.problemCount);
+  const sizes = splitWaves(picked.length, settings.waveCount);
   const monsters: Monster[] = [];
   let next = 0;
   sizes.forEach((size, wave) => {
@@ -93,6 +117,7 @@ export function createStage(pool: readonly Problem[], random: () => number = Mat
     }
   });
   return {
+    settings,
     monsters,
     wave: 0,
     waveCount: sizes.length,
@@ -120,7 +145,8 @@ export function tick(state: GameState, dt: number, speed: Speed): GameState {
   if (state.finished || speed === 'paused' || dt <= 0) return state;
   const gameDt = speed === 'slow' ? dt * SLOW_FACTOR : dt;
   const waveTime = state.waveTime + gameDt;
-  const step = gameDt / (CROSS_SECONDS * WAVE_SPEEDUP ** state.wave);
+  const { crossSeconds, waveSpeedup } = state.settings;
+  const step = gameDt / (crossSeconds * waveSpeedup ** state.wave);
   let wall = state.wall;
 
   const monsters = state.monsters.map((m): Monster => {

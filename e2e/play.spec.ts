@@ -124,7 +124,7 @@ test('속도 버튼: 일시정지하면 몬스터가 멈추고, 몬스터를 누
 });
 
 test('개발 스위치가 꺼져 있으면 검수 전 문제만 있는 단계는 고를 수 없다', async ({ page }) => {
-  // 1단계에는 아직 검수 전 임시 문제(문장 부호 2개)만 있다
+  // 1단계에는 아직 검수 전 샘플 문제만 있다
   await page.goto('/');
   await page.getByRole('button', { name: '시작하기' }).click();
   await expect(page.getByRole('button', { name: /1단계 마을/ })).toBeDisabled();
