@@ -8,8 +8,10 @@ import type { Problem } from '../judge/types';
 import {
   WALL_MAX,
   answer,
+  canSkip,
   createStage,
   selectMonster,
+  skipFailed,
   tick,
   type GameState,
   type Monster,
@@ -158,7 +160,16 @@ export function BattleScreen({ problems, soundOn, onToggleSound, onFinish }: Pro
         </div>
       </div>
 
-      <SentenceCard problem={selected?.problem ?? null} onResult={handleResult} />
+      {canSkip(game) && !feedback ? (
+        <section className="sentence-card skip-card" aria-label="문장 카드">
+          <p className="card-hint card-hint-idle">더 풀 몬스터가 없어요. 틀린 몬스터가 성에 닿으면 넘어가요.</p>
+          <button type="button" className="btn btn-primary btn-large" onClick={() => setGame(skipFailed)}>
+            건너뛰기
+          </button>
+        </section>
+      ) : (
+        <SentenceCard problem={selected?.problem ?? null} onResult={handleResult} />
+      )}
 
       {feedback && <FeedbackOverlay feedback={feedback} onClose={() => setFeedback(null)} />}
     </div>

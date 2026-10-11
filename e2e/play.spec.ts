@@ -1,5 +1,14 @@
 import { expect, test } from '@playwright/test';
-import { answerCorrectly, cleanGraffiti, enterStage, openProblem, openWalkingMonster, wordIndexOf } from './helpers';
+import {
+  ALL_PROBLEMS,
+  answerCorrectly,
+  answerWrongly,
+  cleanGraffiti,
+  enterStage,
+  openProblem,
+  openWalkingMonster,
+  wordIndexOf,
+} from './helpers';
 
 // 한 스테이지를 처음부터 끝까지 플레이한다(기획서 7.1).
 // 시간은 Playwright 가짜 시계로 빨리 돌린다.
@@ -125,4 +134,24 @@ test('개발 스위치가 꺼져 있으면 검수 전 문제만 있는 단계는
   await page.goto('/?dev');
   await page.getByRole('button', { name: '시작하기' }).click();
   await expect(page.getByRole('button', { name: /1단계 마을/ })).toBeEnabled();
+});
+
+test('더 풀 몬스터가 없으면 틀린 몬스터를 기다리지 않고 건너뛴다', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.clock.install();
+  // 문제 하나짜리 스테이지(개발 스위치)
+  const one = ALL_PROBLEMS.find((p) => p.level === 3 && p.kind === 'spelling' && !p.noError && p.reviewed)!;
+  await page.goto(`/?dev&problem=${one.id}`);
+  await enterStage(page);
+  while (!(await openWalkingMonster(page))) await page.clock.runFor(500);
+  await answerWrongly(page, await openProblem(page));
+  await page.getByRole('dialog').getByRole('button', { name: '계속하기' }).click();
+
+  // 틀린 몬스터는 아직 길 위에 있고, 건너뛰기를 누르면 바로 성에 닿은 것으로 처리된다
+  await expect(page.locator('.monster.is-failed')).toHaveCount(1);
+  await expect(page.getByText('더 풀 몬스터가 없어요.', { exact: false })).toBeVisible();
+  await page.screenshot({ path: 'docs/screenshots/M7/skip-1920x1080.png' });
+  await page.getByRole('button', { name: '건너뛰기' }).click();
+  await expect(page.locator('.result-screen')).toBeVisible();
+  await expect(page.getByTestId('result-missed')).toHaveText('1');
 });

@@ -158,6 +158,25 @@ export function answer(state: GameState, id: number, correct: boolean): GameStat
   });
 }
 
+/** 지금 웨이브에 더 풀 몬스터가 없고 틀린 몬스터만 걷고 있으면 건너뛸 수 있다 */
+export function canSkip(state: GameState): boolean {
+  if (state.finished) return false;
+  const wave = state.monsters.filter((m) => m.wave === state.wave);
+  return wave.some((m) => m.status === 'failed') && !wave.some((m) => m.status === 'waiting' || m.status === 'walking');
+}
+
+/** 건너뛰기: 틀린 몬스터가 바로 성에 닿는다. 기다렸을 때와 같게 성벽도 깎인다 */
+export function skipFailed(state: GameState): GameState {
+  if (!canSkip(state)) return state;
+  let wall = state.wall;
+  const monsters = state.monsters.map((m): Monster => {
+    if (m.wave !== state.wave || m.status !== 'failed') return m;
+    wall = Math.max(0, wall - WALL_DAMAGE);
+    return { ...m, progress: 1, status: 'arrived' };
+  });
+  return advanceWave({ ...state, monsters, wall });
+}
+
 /** 별: 성벽 상태 기준(기획서 7.1) */
 export function starsFor(wall: number): number {
   if (wall >= 80) return 3;

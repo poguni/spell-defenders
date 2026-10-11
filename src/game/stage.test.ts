@@ -8,8 +8,10 @@ import {
   WALL_DAMAGE,
   WALL_MAX,
   answer,
+  canSkip,
   createStage,
   selectMonster,
+  skipFailed,
   splitWaves,
   stageOutcomes,
   starsFor,
@@ -258,5 +260,39 @@ describe('stageOutcomes', () => {
       [id(2), 'correct'],
       [id(1), 'missed'],
     ]);
+  });
+});
+
+describe('건너뛰기', () => {
+  it('더 풀 몬스터가 없고 틀린 몬스터만 걸으면 건너뛸 수 있고, 성에 닿은 것과 같게 처리한다', () => {
+    let state = createStage(makeProblems(6), fixedRandom); // 웨이브마다 2마리
+    state = spawnFirst(state);
+    state = answer(state, 0, false);
+    expect(canSkip(state)).toBe(false); // 1번이 아직 나오지 않음
+    state = tick(state, 5, 'normal');
+    expect(canSkip(state)).toBe(false); // 1번이 걷는 중
+    state = answer(state, 1, true);
+    expect(canSkip(state)).toBe(true);
+
+    const skipped = skipFailed(state);
+    expect(skipped.monsters[0].status).toBe('arrived');
+    expect(skipped.wall).toBe(WALL_MAX - WALL_DAMAGE);
+    expect(skipped.wave).toBe(1); // 다음 웨이브로
+    expect(canSkip(skipped)).toBe(false);
+    expect(stageOutcomes(skipped).find((o) => o.problem.id === state.monsters[0].problem.id)?.outcome).toBe('wrong');
+  });
+
+  it('틀린 몬스터가 없거나 건너뛸 수 없으면 그대로', () => {
+    const state = spawnFirst(createStage(makeProblems(3), fixedRandom));
+    expect(canSkip(state)).toBe(false);
+    expect(skipFailed(state)).toBe(state);
+  });
+
+  it('마지막 웨이브에서 건너뛰면 스테이지가 끝난다', () => {
+    let state = createStage(makeProblems(1), fixedRandom);
+    state = answer(spawnFirst(state), 0, false);
+    state = skipFailed(state);
+    expect(state.finished).toBe(true);
+    expect(summarize(state).missed).toBe(1);
   });
 });
