@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>맞춤법 수비대 개발 보고서 v1</title>
+<style>
+  :root { --sidebar-w: 260px; --accent: #4F46E5; --text: #1f2430; --muted: #6b7280; --bg: #ffffff; --panel: #f7f7fb; --border: #e5e7eb; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", "Noto Sans KR", sans-serif; color: var(--text); background: var(--bg); }
+  .layout { display: flex; min-height: 100vh; }
+  nav.sidebar { position: sticky; top: 0; align-self: flex-start; width: var(--sidebar-w); flex-shrink: 0; height: 100vh; overflow-y: auto; padding: 24px 16px; background: var(--panel); border-right: 1px solid var(--border); }
+  nav.sidebar h1 { font-size: 15px; margin: 0 0 4px; }
+  nav.sidebar .meta { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  nav.sidebar a { display: block; padding: 7px 10px; margin: 2px 0; font-size: 13.5px; color: var(--text); text-decoration: none; border-radius: 8px; }
+  nav.sidebar a:hover { background: #eceafd; }
+  nav.sidebar a.active { background: var(--accent); color: #fff; }
+  main { flex: 1; min-width: 0; padding: 40px 48px; max-width: 860px; }
+  main section { margin-bottom: 48px; scroll-margin-top: 24px; }
+  main h2 { font-size: 22px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  main h3 { font-size: 17px; color: var(--accent); }
+  main table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  main th, main td { border: 1px solid var(--border); padding: 8px 10px; font-size: 14px; text-align: left; }
+  main code { background: #f1f1f5; padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+  main pre { background: #1f2430; color: #eee; padding: 14px; border-radius: 8px; overflow-x: auto; }
+  main pre code { background: none; padding: 0; color: inherit; }
+  main li { margin: 4px 0; line-height: 1.6; }
+  main p { line-height: 1.7; }
+  .doc-title { font-size: 28px; margin: 0 0 8px; }
+  .doc-meta { color: var(--muted); font-size: 14px; padding-left: 18px; margin-bottom: 36px; }
+  @media (max-width: 800px) {
+    .layout { flex-direction: column; }
+    nav.sidebar { position: relative; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    main { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <h1>맞춤법 수비대</h1>
+    <div class="meta">개발 보고서 v1 · 2026-10-11</div>
+    <a href="#sec-1">1. 개요</a>
+    <a href="#sec-2">2. 목표 및 배경</a>
+    <a href="#sec-3">3. 주요 기능</a>
+    <a href="#sec-4">4. 기술 스택 및 아키텍처</a>
+    <a href="#sec-5">5. 개발 과정 (타임라인)</a>
+    <a href="#sec-6">6. 주요 의사결정과 이유</a>
+    <a href="#sec-7">7. 문제 해결 기록</a>
+    <a href="#sec-8">8. 보안·성능 고려사항</a>
+    <a href="#sec-9">9. 테스트 및 검증</a>
+    <a href="#sec-10">10. 배포</a>
+    <a href="#sec-11">11. 알려진 한계</a>
+    <a href="#sec-12">12. 향후 개선 아이디어 / 업데이트 계획</a>
+  </nav>
+  <main id="content">
+    <h1 class="doc-title">맞춤법 수비대 개발 보고서 (v1)</h1>
+    <ul class="doc-meta"><li>작성일: 2026-10-11</li><li>버전: v1</li><li>기준 커밋: <code>5f84734</code> 시작 화면 배경 그림 적용</li></ul>
+    <section id="sec-1"><h2>1. 개요</h2>
+<table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>
+<tr><td>앱 이름</td><td>맞춤법 수비대 (Spell Defenders)</td></tr>
+<tr><td>한 줄 소개</td><td>틀린 맞춤법을 들고 성으로 행진하는 "오타 몬스터"를 바르게 고쳐 정화하는 맞춤법·띄어쓰기 타워 디펜스 게임</td></tr>
+<tr><td>대상 사용자</td><td>초등 학생(MVP 콘텐츠는 3단계, 5~6학년), 수업에 활용하는 담임·국어 교사</td></tr>
+<tr><td>사용 기기</td><td>학생 디벗(크롬북, 1920×1080, 1366×768도 대응), 교실 전자칠판</td></tr>
+<tr><td>배포 주소</td><td><a href="https://poguni.github.io/spell-defenders/">https://poguni.github.io/spell-defenders/</a></td></tr>
+<tr><td>개발 기간</td><td>기획 2026-10-09 → 개발 2026-10-10 ~ 2026-10-11 (M1~M8)</td></tr>
+</tbody></table>
+    </section>
+    <section id="sec-2"><h2>2. 목표 및 배경</h2>
+<ul><li>초등학생이 자주 틀리는 맞춤법(로서/로써, 웬/왠, 맞히다/맞추다 등)과 띄어쓰기를 <strong>반복 노출 + 즉각 피드백 + 아이 눈높이의 규칙 한 줄</strong>로 익히게 한다.</li><li>설치·로그인 없이 <strong>링크 하나로 시작</strong>, 한 판이 <strong>3~5분</strong>이라 수업 마무리 10분이나 자투리 시간에 끼워 넣기 쉽다.</li><li>교사가 자기 반 학생이 자주 틀리는 문장을 <strong>AI로 빠르게 문제로 만들어 학생 기기에 나눠 줄 수 있다.</strong></li><li>파일럿: 5학년 우리 반, 2학기 국어·창체 시간, 사전·사후 간이 평가(20문항)로 효과 확인.</li><li>일정 원칙: 마감 없이 <strong>작은 단위(마일스톤) 하나씩</strong> 개발하고, 단위마다 실행 가능한 상태와 진행 기록(<code>docs/진행 기록.md</code>)을 남긴다.</li></ul>
+    </section>
+    <section id="sec-3"><h2>3. 주요 기능</h2>
+<h3>학생 — 개인 수비 모드</h3>
+<ul><li>3레인 실시간 수비전: 몬스터가 문장을 들고 걸어오고, 눌러서 고치면 정화된다. 속도 조절(보통/느리게/일시정지), 누른 몬스터만 멈춤.</li><li>고치는 방식 3가지: 틀린 낱말 찾기 → 보기 고르기 / "고칠 곳 없음" 버튼 / <strong>띄어쓰기 칼</strong>(글자 사이를 눌러 띄움·붙임 → 자르기)</li><li>정답·오답마다 바른 문장과 규칙 한 줄 설명, 띄어쓰기 오답은 틀린 곳을 빨간색으로 강조</li><li>결과 화면(별 1~3개), <strong>낙서 지우기</strong>(틀리거나 놓친 문제를 시간 제한 없이 복습)</li><li><strong>오답 노트</strong>(태그별 규칙 카드), <strong>간격 반복</strong>(오답이 다음 스테이지에 최대 3개 섞임, 같은 태그 3번 연속 정답이면 "익힘"), <strong>몬스터 도감</strong></li><li>단계 선택·스테이지 지도, 닉네임(선택), 효과음 켜기/끄기, 내 기록 지우기</li><li>틀린 몬스터만 남으면 "건너뛰기"</li></ul>
+<h3>교사 — 학급 수비전(전자칠판)</h3>
+<ul><li>단계·유형(여러 개)·몬스터 수(5/10/15) 고르기 → 한 마리씩 크게, 시간 제한 없이 → 학급 점수</li><li>글자 크기 개인 모드의 2배, 학생 기록을 바꾸지 않음</li></ul>
+<h3>교사 — 교사 메뉴(PIN)</h3>
+<ul><li>OpenRouter API 키 입력·연결 확인·모델 선택(Sonnet 5.5 기본 / Gemini 3.8 Flash / GPT-6 Luna / 직접 입력)</li><li><strong>AI 문제 생성 → 자동 검증 → 교사 승인·수정</strong>, 문제 세트별 출제 켜기/끄기</li><li><strong>나눠 주기</strong>: 공유 링크, QR(작은 세트), JSON 파일 → 학생 기기에서 "선생님 문제" 스테이지로 불러오기</li><li>교사용 안내 문서(<code>docs/교사용 안내.md</code>·<code>.html</code>): 단원 연결표, 수업 활용 예시, 사전·사후 평가지 20문항씩</li></ul>
+<h3>문제 콘텐츠</h3>
+<ul><li>내장 3단계 문제 80개(교사 검수 완료) + 1단계 임시 문제 2개(검수 전, 개발 모드에서만)</li><li>3단계 태그 9개 × 몬스터 9종, 모두 나노바나나로 그린 그림</li></ul>
+    </section>
+    <section id="sec-4"><h2>4. 기술 스택 및 아키텍처</h2>
+<table><thead><tr><th>영역</th><th>선택</th><th>이유</th></tr></thead><tbody>
+<tr><td>프레임워크</td><td>React 18.3 + Vite 6.4 + TypeScript 5.9</td><td>서버 없는 정적 사이트, 빠른 개발 서버. Vite 기본 템플릿은 React 19라 직접 구성</td></tr>
+<tr><td>게임 화면</td><td>DOM + CSS 애니메이션 + <code>requestAnimationFrame</code></td><td>한글 문장이 핵심이라 Canvas보다 글자 표시·터치·접근성에 유리</td></tr>
+<tr><td>화면 크기</td><td>1920×1080 고정 좌표 무대를 통째로 확대·축소</td><td>크롬북·노트북·전자칠판에서 같은 배치</td></tr>
+<tr><td>저장</td><td>localStorage(학생 기록, 교사 데이터, 불러온 세트를 따로), API 키는 기본 sessionStorage</td><td>로그인·서버 없음, 개인정보 수집 안 함</td></tr>
+<tr><td>AI</td><td>브라우저에서 OpenRouter 직접 호출, strict JSON 스키마</td><td>키는 사용자가 앱 화면에서만 입력</td></tr>
+<tr><td>공유</td><td>브라우저 내장 deflate(<code>CompressionStream</code>) + base64url, 주소 <code>#set=</code></td><td>서버 없이 전달, 라이브러리 불필요</td></tr>
+<tr><td>QR</td><td><code>qrcode</code> 1.5.4 (나눠 주기 화면에서만 지연 로드)</td><td>첫 화면 용량 유지</td></tr>
+<tr><td>효과음</td><td>Web Audio API</td><td>소리 파일 없음</td></tr>
+<tr><td>글꼴</td><td>Pretendard (dynamic subset)</td><td>가독성, 필요한 글자 조각만 다운로드</td></tr>
+<tr><td>테스트</td><td>Vitest 5.0(단위), Playwright 1.64(화면 흐름)</td><td>정답 판정 오류 방지가 최우선</td></tr>
+<tr><td>배포</td><td>GitHub Pages + GitHub Actions</td><td>무료, 비밀 값 없음</td></tr>
+</tbody></table>
+<h3>폴더 구조</h3>
+<pre><code>src/
+  judge/     정답 판정·정규화·문제 검증 (순수 함수)
+  game/      스테이지 상태, 게임 루프, 출제, 학습 규칙(간격 반복), 스테이지 지도, 효과음
+  storage/   학생 기록, 교사 데이터·API 키, 불러온 세트
+  ai/        생성 지침·스키마, OpenRouter 요청, 응답 → 문제 변환
+  share/     공유 코드(압축·검사), QR
+  components/ 무대, 문장 카드, 띄어쓰기 칼, 설명 창, 그림
+  screens/   화면 17개 (시작, 단계 선택, 지도, 수비전, 결과, 낙서 지우기, 오답 노트, 도감,
+             학급 준비·수비전, 교사 PIN·메뉴·키 설정·생성·세트, 나눠 주기, 불러오기)
+  data/      내장 문제 JSON, 태그별 몬스터 이름·규칙
+scripts/validate-problems.ts   문제 파일 검증 (npm run validate)
+e2e/                           Playwright 화면 테스트</code></pre>
+<p><strong>핵심 흐름</strong>: 문제 JSON → <code>validate.ts</code>(같은 검증을 내장 문제·AI 문제·공유 받은 문제에 모두 적용) → <code>pool.ts</code>(승인한 문제만) → <code>stages.ts</code>/<code>progress.ts</code>(스테이지 구성 + 오답 섞기) → <code>stage.ts</code>(순수 상태 함수) ← <code>useGameLoop.ts</code>(시간 흐름) → 화면.</p>
+    </section>
+    <section id="sec-5"><h2>5. 개발 과정 (타임라인)</h2>
+<table><thead><tr><th>날짜</th><th>단계</th><th>내용</th><th>테스트(단위/화면)</th></tr></thead><tbody>
+<tr><td>10-09</td><td>기획</td><td>기획서 v0.1~v0.4, 개발용 AI 모델 비교, 그림 프롬프트</td><td>—</td></tr>
+<tr><td>10-10</td><td>M1</td><td>프로젝트 생성, 16:9 무대, 임시 그림으로 수비전 배치</td><td>5 / 4</td></tr>
+<tr><td>10-10</td><td>M2</td><td>정답 판정(맞춤법·띄어쓰기·고칠 곳 없음), 문제 검증 스크립트, 샘플 30문제</td><td>58 / —</td></tr>
+<tr><td>10-10</td><td>M3</td><td>개인 수비 게임 루프, 문장 카드, 띄어쓰기 칼, 설명 창, 결과 화면</td><td>88 / 7</td></tr>
+<tr><td>10-10</td><td>M4</td><td>낙서 지우기, 오답 노트, 간격 반복, 로컬 저장, 지도, 도감</td><td>128 / 13</td></tr>
+<tr><td>10-10</td><td>M5</td><td>그림 21장 적용, 효과음, 추가 50문제 초안, GitHub Pages 배포 설정</td><td>129 / 14</td></tr>
+<tr><td>10-11</td><td>M5 마무리</td><td>몬스터 3종 그림 연결, 추가 50문제 검수 반영 → 80문제</td><td>129 / 14</td></tr>
+<tr><td>10-11</td><td>M6</td><td>학급 수비전(전자칠판)</td><td>129 / 16</td></tr>
+<tr><td>10-11</td><td>M7</td><td>교사 메뉴(PIN), API 키, AI 문제 생성·검증·승인</td><td>151 / 18</td></tr>
+<tr><td>10-11</td><td>M7 덧붙임</td><td>실제 키로 생성·플레이 확인, 틀린 몬스터 건너뛰기</td><td>154 / 19</td></tr>
+<tr><td>10-11</td><td>M8</td><td>공유 링크·QR·파일, 학생 불러오기, 교사용 안내</td><td>169 / 22</td></tr>
+<tr><td>10-11</td><td>덧붙임</td><td>5학년 2학기 단원 연결표, 시작 화면 배경 그림</td><td>169 / 22</td></tr>
+</tbody></table>
+<p>마일스톤마다 "결정한 것 / 한 일 / 확인 결과 / 남은 일 / 다음 단계에서 먼저 볼 파일"을 <code>docs/진행 기록.md</code>에 남겨, 쉬었다가 다시 시작해도 이어 갈 수 있게 했다. 문제 검수, 태그 규칙 검수, 그림 제작은 선생님이 개발과 별개로 진행했다.</p>
+    </section>
+    <section id="sec-6"><h2>6. 주요 의사결정과 이유</h2>
+<table><thead><tr><th>결정</th><th>이유</th></tr></thead><tbody>
+<tr><td>서버·로그인 없이 기기 저장만</td><td>학생 개인정보를 모으지 않고, 운영 부담 없이 링크 하나로 쓰기 위해. 대신 교사 대시보드는 없음</td></tr>
+<tr><td>Canvas 대신 DOM</td><td>게임의 중심이 한글 문장이라 글자 렌더링·줄바꿈(<code>keep-all</code>)·터치 영역 관리가 쉬움</td></tr>
+<tr><td>1920×1080 고정 무대를 확대·축소</td><td>디벗·노트북·전자칠판에서 배치가 같고, 테스트에서 "실제 글자 크기"를 계산해 검사 가능</td></tr>
+<tr><td>맞춤법은 MVP에서 선택형만</td><td>저학년 입력 부담과 한글 입력기 조합 문제를 피함. 판정 함수는 직접 입력도 받을 수 있게 설계</td></tr>
+<tr><td><code>reviewed: true</code> 문제만 출제</td><td>잘못된 맞춤법을 가르치는 것이 가장 치명적인 위험이라, 내장·AI·공유 문제 모두 교사 승인을 거침</td></tr>
+<tr><td>'보조 용언' 태그 제외</td><td>띄어쓰기 두 가지가 모두 허용되어 오답 처리 위험</td></tr>
+<tr><td>AI에게 틀린 글자만 받고 위치는 앱이 찾음</td><td>AI가 글자 위치(<code>start</code>)를 자주 틀리게 셈. id·<code>acceptedAnswers</code>·<code>source</code>도 앱이 채움</td></tr>
+<tr><td>API 키 기본 sessionStorage</td><td>공용 기기에 키가 남지 않게. "이 기기에 저장"을 직접 고를 때만 localStorage</td></tr>
+<tr><td>익힘은 수비전 정답만 셈</td><td>시간 제한 없는 복습에서 맞힌 것까지 세면 너무 쉽게 익힘 판정됨</td></tr>
+<tr><td>오답 노트에는 실제로 틀린 문제만</td><td>성에 닿아 놓친 문제는 읽지 못한 것일 수 있어 낙서 지우기에서 먼저 다시 풀게 함</td></tr>
+<tr><td>건너뛰기해도 낙서·성벽 감소</td><td>건너뛰기로 별을 지키는 꼼수를 막음</td></tr>
+<tr><td>공유는 링크 중심, QR은 작은 세트만</td><td>한글은 압축이 잘 안 돼 30문제가 QR 한 장에 안 들어감. 5문제도 QR 버전 20</td></tr>
+<tr><td><code>lz-string</code> 대신 내장 deflate</td><td>측정 결과 약 20% 짧고 라이브러리가 필요 없음</td></tr>
+<tr><td>모양이 틀린 문제가 하나라도 있으면 세트 전체 거부</td><td>조작된 링크를 일부만 받아들이는 애매한 상태를 만들지 않기 위해</td></tr>
+<tr><td>공유 문제 id를 받는 쪽에서 내용 해시로</td><td>같은 세트를 다시 받아도 별·오답 노트가 이어지고 내장 id와 겹치지 않음</td></tr>
+<tr><td>효과음은 소리 파일 없이 Web Audio</td><td>용량과 저작권 걱정 없음</td></tr>
+<tr><td>개발: 구조·판정은 Opus, 일상 작업은 Sonnet</td><td><code>docs/개발용 AI 모델 비교</code> 5.2. 처음에 잘 잡아야 하는 부분에 더 강한 모델</td></tr>
+</tbody></table>
+    </section>
+    <section id="sec-7"><h2>7. 문제 해결 기록</h2>
+<table><thead><tr><th>문제</th><th>해결</th></tr></thead><tbody>
+<tr><td>Vite 기본 템플릿이 React 19</td><td>기획대로 React 18.3으로 직접 구성</td></tr>
+<tr><td>Vitest 3.2에 보안 권고</td><td>5.0.3으로 올려 <code>npm audit</code> 0건</td></tr>
+<tr><td>몬스터 말풍선 글자가 1366×650에서 약 18px로 작음</td><td>말풍선은 앞 8글자 + '…'만 크게(실제 약 25px), 전체 문장은 문장 카드에서 읽게 함</td></tr>
+<tr><td>탭을 비웠다 돌아오면 몬스터가 한꺼번에 뜀</td><td>게임 루프에서 한 프레임 최대 0.1초로 제한</td></tr>
+<tr><td>Playwright 병렬 실행 중 Claude Code가 두 번 꺼짐</td><td><code>--workers=1</code>로 하나씩 실행, 테스트 전용 포트 5179 + 기존 서버 재사용 안 함</td></tr>
+<tr><td>배경 그림의 길은 2줄인데 게임은 3레인</td><td>반투명 흙길 3줄을 덧그림(배경 다시 만들기는 현장 테스트 뒤 결정)</td></tr>
+<tr><td>몬스터가 성·수비대원과 겹침</td><td>몬스터 170px, 말풍선 아래로 끌어올리고 길 끝을 앞당김</td></tr>
+<tr><td>GitHub Pages 하위 경로에서 그림 경로</td><td><code>base: './'</code> + <code>import.meta.env.BASE_URL</code> 기준 경로, <code>/spell-defenders/</code> 아래에서 직접 열어 확인</td></tr>
+<tr><td>학급 모드 띄어쓰기 오답 설명 창이 화면을 118px 넘침</td><td>"내가 자른 문장"만 104px → 64px</td></tr>
+<tr><td>틀린 몬스터가 성에 닿을 때까지 기다려야 다음 웨이브</td><td><code>canSkip</code>/<code>skipFailed</code>와 "건너뛰기" 버튼</td></tr>
+<tr><td>30문제 공유 코드가 QR에 안 들어감</td><td>링크 중심, 30문제 초과는 JSON 파일로</td></tr>
+<tr><td>작은 코드가 거대하게 풀리는 공격(압축 폭탄)</td><td>코드 길이·풀린 크기 상한</td></tr>
+<tr><td>개발 모드에서 초기값이 두 번 계산되어 공유 주소 처리가 꼬임</td><td>주소는 처음 한 번만 읽고, 읽은 뒤 <code>#set=</code>을 지움</td></tr>
+<tr><td>시작 화면 버튼이 배경 그림의 몬스터 행렬·성을 가림</td><td>그림 속 제목을 그대로 쓰고 글자 제목은 화면 읽기용으로만, 버튼은 빈 잔디밭으로 옮김</td></tr>
+</tbody></table>
+    </section>
+    <section id="sec-8"><h2>8. 보안·성능 고려사항</h2>
+<h3>보안</h3>
+<ul><li>API 키는 코드·<code>.env</code>·저장소·배포 설정 어디에도 없음. 키는 <code><a href="https://openrouter.ai/api/v1">https://openrouter.ai/api/v1</a></code>로만, Authorization 머리글로만 전송. <code>fetch</code>는 <code>src/ai/openrouter.ts</code> 한 곳.</li><li>저장한 키는 화면에 다시 보여 주지 않음, 비밀번호 형식 입력, 키 지우기, OpenRouter 사용 한도 설정 안내.</li><li>교사 PIN은 SHA-256 해시로만 저장. 클라이언트 쪽 보호(학생의 우연한 접근 방지 수준)라는 점을 화면에 안내.</li><li>공유 코드는 주소의 <code>#</code> 뒤라 서버로 보내지지 않음. 받을 때 길이·풀린 크기 상한, 문제마다 다시 검증, 승인 전 문제 버림, 세트 이름 30자.</li><li>마일스톤마다 저장소와 <code>dist/</code>에서 키 모양 문자열 검사, 빌드 JS의 외부 주소가 openrouter.ai뿐인지 확인. <code>npm audit</code> 0건.</li></ul>
+<h3>성능(학교 와이파이 고려)</h3>
+<ul><li>첫 화면: JS 약 80KB + CSS 약 17KB(압축) + 글꼴 조각 약 180KB.</li><li>3단계 수비전까지 약 1.8MB(그림은 WebP). QR 라이브러리 10KB는 나눠 주기 화면에서만 로드.</li></ul>
+    </section>
+    <section id="sec-9"><h2>9. 테스트 및 검증</h2>
+<table><thead><tr><th>종류</th><th>도구</th><th>현재 결과</th><th>다루는 것</th></tr></thead><tbody>
+<tr><td>단위 테스트</td><td>Vitest</td><td><strong>169개 통과</strong></td><td>판정(NFD 한글, 공백, 복수 정답), 문제 검증, 게임 상태, 학습 규칙, 저장 손상·마이그레이션, 출제, AI 변환·OpenRouter 오류, 교사 데이터, 공유 코드 왕복·손상·조작·압축 폭탄</td></tr>
+<tr><td>문제 검증</td><td><code>npm run validate</code></td><td>파일 3개, 문제 82개 통과</td><td>필드, 태그, 정규화, 길이, 오류 위치, 보기, id 중복</td></tr>
+<tr><td>화면 테스트</td><td>Playwright (가짜 시계, <code>--workers=1</code>)</td><td><strong>22개 통과</strong></td><td>한 스테이지 끝까지, 새로고침 뒤 기록 유지, 간격 반복, 학급 수비전, 교사 메뉴 전체 흐름(가짜 OpenRouter), 공유 링크를 저장소가 다른 새 창에서 불러와 플레이</td></tr>
+<tr><td>화면 크기</td><td>Playwright</td><td>1920×1080, 1536×864, 1366×768, 1366×650</td><td>무대 밖으로 나가지 않음, 버튼 실제 48px 이상, 글자 실제 24px 이상</td></tr>
+<tr><td>스크린숏</td><td><code>docs/screenshots/M1</code>~<code>M8</code></td><td>—</td><td>단계별 화면 기록</td></tr>
+<tr><td>사람 확인</td><td>선생님</td><td>—</td><td>문제 80개·태그 규칙 9개 검수, 실제 OpenRouter 키로 5문제 생성·승인·플레이</td></tr>
+</tbody></table>
+    </section>
+    <section id="sec-10"><h2>10. 배포</h2>
+<ul><li>GitHub Pages: <strong><a href="https://poguni.github.io/spell-defenders/">https://poguni.github.io/spell-defenders/</a></strong></li><li><code>.github/workflows/deploy.yml</code>: main에 push → <code>npm test</code> → <code>npm run validate</code> → <code>npm run build</code> → Pages 배포. 비밀 값 없음.</li><li>저장소 Settings → Pages → Source를 "GitHub Actions"로 설정(처음 한 번).</li><li><code>vite.config.ts</code>의 <code>base: './'</code>로 하위 경로에서도 동작.</li></ul>
+    </section>
+    <section id="sec-11"><h2>11. 알려진 한계</h2>
+<ul><li><strong>서버가 없어</strong> 교사가 학생 기록을 모아 볼 수 없고, 브라우저 데이터를 지우면 진도가 사라진다(기록 내보내기 미구현).</li><li><strong>PIN은 클라이언트 쪽 보호</strong>라 기술적으로는 우회할 수 있다.</li><li><strong>콘텐츠가 3단계 위주</strong>: 1·2단계는 문제가 없어(1단계 임시 2개뿐) "준비 중"으로 나온다.</li><li>공유 링크는 30문제까지, QR은 약 5문제까지. 학생 기기는 한 번에 한 세트만 갖고, 지우는 버튼이 없다.</li><li>배경 그림의 길(2줄)과 게임 레인(3줄)이 맞지 않아 흙길을 덧그렸다.</li><li>시작 화면 그림 오른쪽 아래에 생성 도구의 작은 반짝이 표시(✦)가 있다.</li><li>AI 검증 오류 문구가 검증 모듈 문구 그대로라 조금 기술적이다(예: "choices 중 정답이 0개임").</li><li>AI 생성 문제가 내장 문제와 같은 문장인지는 검사하지 않는다.</li><li>평가지 문장이 앱 안에도 있어 사후 평가 전에 학생이 볼 수 있다.</li><li><strong>현장 확인 전</strong>: 디벗에서 배포 주소 접속·QR 찍기, 전자칠판에서 교실 뒤까지 읽히는지, 첫 학교 테스트는 아직 하지 않았다.</li><li>성취기준 번호를 국가교육과정정보센터 고시 원문과 대조하지 않았고, 단원 연결표의 학습 내용은 단원명으로 짐작한 것이다.</li></ul>
+    </section>
+    <section id="sec-12"><h2>12. 향후 개선 아이디어 / 업데이트 계획</h2>
+<h3>다음에 하면 좋을 것 (파일럿 준비)</h3>
+<ol><li><strong>현장 확인</strong>: 디벗에서 배포 주소 열기·한 스테이지 완료, QR·링크로 세트 불러오기, 전자칠판 가독성 → 기획서 10장 "현장 테스트 반영"</li><li><strong>첫 학교 테스트(10~15분)</strong> 뒤 게임 수치 조정: 몬스터 속도, 성벽 감소, 별 기준(<code>src/game/stage.ts</code> 맨 위)</li><li><strong>AI 모델 3종 비교</strong>: 같은 지침으로 20개씩 생성해 오류율 비교 → 기본 모델 확정(기획서 14.3 남은 질문)</li><li><strong>기록 내보내기·불러오기</strong>: 서버가 없어 기록 유실이 가장 큰 운영 위험. 화면 캡처용 "성적표"도 함께(기획서 6.2)</li><li>성취기준 번호 원문 대조, 2단원(올바른 문장으로 글을 써요) 실제 학습 내용 확인 → 필요하면 문제 유형 추가</li></ol>
+<h3>여유 있으면</h3>
+<ul><li><strong>"문제 신고" 버튼</strong>: 기획서 13장 위험 대응에 있으나 아직 없음. 학생이 이상한 문제를 표시하면 교사 기기로 가져올 방법(파일)과 함께</li><li>AI 검증 오류·제외 이유를 교사용 쉬운 말로 바꾸기</li><li>내장 문제와 같은 문장인 AI 문제 걸러 내기</li><li>학생 기기에서 불러온 "선생님 문제" 세트 지우기 버튼, 여러 세트 보관</li><li>3레인에 맞춘 배경 그림 다시 만들기, 시작 화면 그림의 ✦ 표시 지우기</li><li>PWA 오프라인(학교 와이파이 불안정 대비) — 그림이 약 4MB라 캐시 효과가 큼</li><li>학급 수비전에서 정답 뒤 "왜 그럴까?" 토론용 잠깐 멈춤 화면</li></ul>
+<h3>확장 (파일럿 결과를 보고 결정)</h3>
+<ul><li>1·2단계 문제은행과 몬스터 확장(각 20문제 샘플부터), 1단계 문장 부호 정식 문제</li><li>5~6학년용 <strong>직접 입력 모드</strong>(한글 입력기 조합 중 판정 안 함)</li><li>문장 읽어주기(TTS, Web Speech API)</li><li>모둠 협동 수비 모드(한 기기 화면 나누기부터)</li><li>"변장 몬스터": 바른 문장을 든 주민은 공격하지 않는 판별 유형</li><li>태그별 정답률을 기기 안에서 보여 주는 학생용 "나의 약점" 화면</li></ul>
+    </section>
+  </main>
+</div>
+<script>
+  const links = document.querySelectorAll('nav.sidebar a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  const setActive = (id) => links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => { if (entry.isIntersecting) setActive(entry.target.id); });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach((el) => el && observer.observe(el));
+</script>
+</body>
+</html>
