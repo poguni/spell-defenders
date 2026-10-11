@@ -16,6 +16,7 @@ export const LEVEL_INFO: Record<Level, { place: string; grade: string }> = {
 };
 
 const t1 = TAGS[1];
+const t2 = TAGS[2];
 const t3 = TAGS[3];
 
 export const STAGES: StageDef[] = [
@@ -23,8 +24,10 @@ export const STAGES: StageDef[] = [
   { id: 'L1-1', level: 1, number: 1, tags: [t1[0], t1[1], t1[3]] },
   { id: 'L1-2', level: 1, number: 2, tags: [t1[2], t1[4], t1[5]] },
   { id: 'L1-3', level: 1, number: 3, tags: null },
-  // 2단계는 문제가 생기면 태그 묶음으로 나눈다
-  { id: 'L2-1', level: 2, number: 1, tags: null },
+  // 2단계: ① 되/돼·안/않·조사 붙여 쓰기 ② 자주 틀리는 낱말·뜻이 다른 낱말·단위 띄어쓰기 ③ 모두 섞기(docs/2단계 숲 개발 계획.md 2장)
+  { id: 'L2-1', level: 2, number: 1, tags: [t2[0], t2[1], t2[4]] },
+  { id: 'L2-2', level: 2, number: 2, tags: [t2[2], t2[3], t2[5]] },
+  { id: 'L2-3', level: 2, number: 3, tags: null },
   { id: 'L3-1', level: 3, number: 1, tags: [t3[0], t3[1], t3[2]] },
   { id: 'L3-2', level: 3, number: 2, tags: [t3[3], t3[4], t3[5]] },
   { id: 'L3-3', level: 3, number: 3, tags: [t3[6], t3[7], t3[8]] },

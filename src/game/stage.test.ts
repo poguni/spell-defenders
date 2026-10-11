@@ -91,6 +91,10 @@ describe('단계별 수치', () => {
     expect(STAGE_SETTINGS[3]).toEqual({ problemCount: 10, waveCount: 3, crossSeconds: 45, waveSpeedup: 0.9 });
   });
 
+  it('2단계는 10문제, 웨이브 3개, 50초, 웨이브마다 0.95배', () => {
+    expect(STAGE_SETTINGS[2]).toEqual({ problemCount: 10, waveCount: 3, crossSeconds: 50, waveSpeedup: 0.95 });
+  });
+
   it('1단계는 8문제, 웨이브 2개(4·4), 60초, 빨라지지 않음', () => {
     const state = createStage(makeProblems(30, 1), fixedRandom);
     expect(state.monsters).toHaveLength(8);

@@ -45,5 +45,5 @@ export const TAGS: Record<Level, string[]> = {
 // 단계별 문장 길이 상한(띄어쓰기·문장 부호 포함): 기획서 9.3
 export const MAX_LENGTH: Record<Level, number> = { 1: 15, 2: 25, 3: 40 };
 
-// 1단계 맞춤법·문장 부호 보기 개수(기획서 7.4). 2·3단계는 3개로 만든다.
-export const LEVEL1_CHOICE_COUNT = 2;
+// 맞춤법·문장 부호 보기 개수(기획서 7.4). 1단계 2개, 2단계 3개. 3단계는 개수를 정하지 않지만 3개로 만든다.
+export const CHOICE_COUNT: Partial<Record<Level, number>> = { 1: 2, 2: 3 };

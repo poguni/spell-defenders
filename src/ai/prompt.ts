@@ -1,6 +1,6 @@
 // AI 문제 생성 지침(기획서 9.2, 9.3). 태그 설명은 기획서 4.2.
 // 이 파일의 문구가 OpenRouter로 보내는 내용 전부다(API 키는 따로 머리글로만 보낸다).
-import { LEVEL1_CHOICE_COUNT, MAX_LENGTH, type Level, type ProblemKind } from '../judge/types';
+import { CHOICE_COUNT, MAX_LENGTH, type Level, type ProblemKind } from '../judge/types';
 
 export const MAX_GENERATE_COUNT = 20;
 
@@ -17,12 +17,12 @@ export const TAG_GUIDE: Record<string, { kind: ProblemKind; guide: string }> = {
   '문장 부호': { kind: 'punctuation', guide: "문장 끝 부호(마침표, 물음표, 느낌표)를 잘못 쓴 문장. 예: 밥 먹었니. → 밥 먹었니? 느낌표가 정답인 문장은 '우아', '와'처럼 감탄하는 말이 들어 있어야 하고, 마침표도 맞을 수 있으므로 wrong에는 마침표 대신 물음표를 쓴다." },
   '띄어쓰기 기초': { kind: 'spacing', guide: '낱말을 붙여 쓴 짧은 문장. 예: 나는학교에간다 → 나는 학교에 간다 (한글 맞춤법 제2항)' },
   // 2단계(초3~4) 헷갈리는 낱말
-  '되/돼': { kind: 'spelling', guide: "'되'와 '돼'. '되어'로 바꿔 말이 되면 '돼'. 예: 열 살이 되요 → 열 살이 돼요" },
-  '안/않': { kind: 'spelling', guide: "'안'과 '않'. '아니'로 바꿀 수 있으면 '안', '아니하'면 '않'. 예: 하지 안았다 → 하지 않았다" },
-  '자주 틀리는 낱말': { kind: 'spelling', guide: '자주 틀리는 낱말. 예: 몇일 → 며칠, 금새 → 금세, 설겆이 → 설거지, 역활 → 역할, 일부로 → 일부러' },
-  '뜻이 다른 낱말': { kind: 'spelling', guide: '뜻이 다른데 헷갈리는 낱말. 예: 잊어버리다/잃어버리다, 가르치다/가리키다, 낫다/낮다/낳다' },
-  '조사 붙여 쓰기': { kind: 'spacing', guide: '조사를 앞말과 띄어 쓴 문장. 예: 친구 와 함께 → 친구와 함께 (한글 맞춤법 제41항)' },
-  '단위 띄어쓰기': { kind: 'spacing', guide: '단위를 나타내는 말을 붙여 쓴 문장. 예: 사과한개 → 사과 한 개 (한글 맞춤법 제43항)' },
+  '되/돼': { kind: 'spelling', guide: "'되'와 '돼'. '되어'로 바꿔 말이 되면 '돼'. 예: 열 살이 되요 → 열 살이 돼요. '되라/돼라'처럼 둘 다 쓰이는 경우는 넣지 않는다." },
+  '안/않': { kind: 'spelling', guide: "'안'과 '않'. '아니'로 바꿀 수 있으면 '안', '아니하'면 '않'. 예: 하지 안아요 → 하지 않아요, 숙제를 않 했다 → 숙제를 안 했다. '안했다 → 안 했다'처럼 띄어쓰기까지 바뀌는 문장은 만들지 않는다." },
+  '자주 틀리는 낱말': { kind: 'spelling', guide: '자주 틀리는 낱말. 예: 몇일 → 며칠, 금새 → 금세, 설겆이 → 설거지, 역활 → 역할, 일부로 → 일부러, 오랫만 → 오랜만' },
+  '뜻이 다른 낱말': { kind: 'spelling', guide: "뜻이 다른데 헷갈리는 낱말. 예: 잊어버리다/잃어버리다, 가르치다/가리키다, 낫다/낮다/낳다, 짓다/짖다. 두 낱말이 모두 말이 되는 문장(예: 숙제를 잃어버렸다/잊어버렸다)은 만들지 않는다. '다르다/틀리다'는 넣지 않는다." },
+  '조사 붙여 쓰기': { kind: 'spacing', guide: "조사를 앞말과 띄어 쓴 문장. 예: 친구 와 함께 → 친구와 함께 (한글 맞춤법 제41항). '만큼, 대로, 뿐, 밖에'는 의존 명사도 되므로 넣지 않는다." },
+  '단위 띄어쓰기': { kind: 'spacing', guide: "단위를 나타내는 말을 붙여 쓴 문장. 예: 사과한개 → 사과 한 개 (한글 맞춤법 제43항). 수는 한글로만 쓴다(아라비아 숫자나 순서를 나타내는 말은 붙여 써도 되므로 넣지 않는다)." },
   // 3단계(초5~6) 구별해 쓰는 말과 띄어쓰기 심화
   '로서/로써': { kind: 'spelling', guide: "자격은 '로서', 방법·도구·재료는 '로써'. 예: 반장으로써 → 반장으로서 (한글 맞춤법 제57항)" },
   '든지/던지': { kind: 'spelling', guide: "고를 때는 '든지', 지난 일을 떠올릴 때는 '던지'. 예: 사과든지 배든지 / 얼마나 춥던지 (한글 맞춤법 제56항)" },
@@ -86,7 +86,7 @@ export function buildUserPrompt(request: GenerateRequest): string {
     `- 유형 설명: ${guide}`,
     `- 종류(kind): ${kind}`,
     `- 문장 길이: 띄어쓰기와 문장 부호를 포함해 ${MAX_LENGTH[request.level]}자 이하`,
-    `- 보기(choices): 맞춤법·문장 부호 문제는 ${request.level === 1 ? LEVEL1_CHOICE_COUNT : 3}개`,
+    `- 보기(choices): 맞춤법·문장 부호 문제는 ${CHOICE_COUNT[request.level] ?? 3}개`,
     noError > 0
       ? `- ${request.count}개 가운데 ${noError}개는 "고칠 곳 없음" 문제(noError: true), 나머지는 틀린 곳이 하나 있는 문제`
       : '- 모두 틀린 곳이 하나 있는 문제(noError: false)',

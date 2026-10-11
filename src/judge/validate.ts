@@ -1,7 +1,7 @@
 // 문제 자동 검증(기획서 9.1 ③). 내장 문제 스크립트와 앱 안 AI 생성(M7)에서 함께 쓴다.
 import { judgeFix, toGaps } from './judge';
 import { normalize } from './normalize';
-import { LEVEL1_CHOICE_COUNT, MAX_LENGTH, TAGS, type Level, type Problem } from './types';
+import { CHOICE_COUNT, MAX_LENGTH, TAGS, type Level, type Problem } from './types';
 
 export interface ValidationIssue {
   /** list 안에서의 위치 */
@@ -113,9 +113,8 @@ export function validateProblem(data: unknown): string[] {
     errors.push('choices가 없음');
   } else {
     if (new Set(problem.choices).size !== problem.choices.length) errors.push('choices에 같은 보기가 두 번 있음');
-    if (level === 1 && problem.choices.length !== LEVEL1_CHOICE_COUNT) {
-      errors.push(`1단계 choices는 ${LEVEL1_CHOICE_COUNT}개여야 함`);
-    }
+    const count = CHOICE_COUNT[level];
+    if (count !== undefined && problem.choices.length !== count) errors.push(`${level}단계 choices는 ${count}개여야 함`);
     const rightChoices = problem.choices.filter((choice) => judgeFix(problem, choice));
     if (rightChoices.length !== 1) errors.push(`choices 중 정답이 ${rightChoices.length}개임(정확히 1개여야 함)`);
   }

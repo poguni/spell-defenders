@@ -143,6 +143,22 @@ describe('validateProblem: 맞춤법 문제', () => {
     expect(validateProblem({ ...level1, choices: ['?', '.', '!'] })).toContain('1단계 choices는 2개여야 함');
   });
 
+  it('2단계 보기는 3개여야 한다', () => {
+    const level2 = {
+      ...spelling,
+      id: 'L2-test-001',
+      level: 2,
+      tag: '되/돼',
+      wrong: '열 살이 되요.',
+      correct: '열 살이 돼요.',
+      target: { wrongText: '되요', start: 5 },
+      choices: ['돼요', '되요', '돼여'],
+      acceptedAnswers: ['열 살이 돼요.'],
+    };
+    expect(validateProblem(level2)).toEqual([]);
+    expect(validateProblem({ ...level2, choices: ['돼요', '되요'] })).toContain('2단계 choices는 3개여야 함');
+  });
+
   it('target이나 choices가 없으면 실패', () => {
     expect(validateProblem({ ...spelling, target: undefined })).toContain('target이 없음');
     expect(validateProblem({ ...spelling, choices: undefined })).toContain('choices가 없음');

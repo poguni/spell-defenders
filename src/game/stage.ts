@@ -24,7 +24,8 @@ export interface StageSettings {
 export const STAGE_SETTINGS: Record<Level, StageSettings> = {
   // 초2: 읽는 시간을 넉넉히, 한 판은 짧게
   1: { problemCount: 8, waveCount: 2, crossSeconds: 60, waveSpeedup: 1 },
-  2: { problemCount: 10, waveCount: 3, crossSeconds: 45, waveSpeedup: 0.9 },
+  // 초3~4: 1단계와 3단계의 중간
+  2: { problemCount: 10, waveCount: 3, crossSeconds: 50, waveSpeedup: 0.95 },
   3: { problemCount: 10, waveCount: 3, crossSeconds: 45, waveSpeedup: 0.9 },
 };
 

@@ -22,6 +22,15 @@ describe('스테이지 지도', () => {
     expect(level1[2].tags).toBeNull();
   });
 
+  it('2단계: 태그 묶음 2개 + 모두 섞기, 6개 태그가 한 번씩', () => {
+    const level2 = stagesOf(2);
+    expect(level2.map((s) => s.id)).toEqual(['L2-1', 'L2-2', 'L2-3']);
+    const tags = level2.flatMap((s) => s.tags ?? []);
+    expect([...tags].sort()).toEqual([...TAGS[2]].sort());
+    expect(level2[0].tags).toEqual(['되/돼', '안/않', '조사 붙여 쓰기']);
+    expect(level2[2].tags).toBeNull();
+  });
+
   it('id가 겹치지 않는다', () => {
     expect(new Set(STAGES.map((s) => s.id)).size).toBe(STAGES.length);
   });
