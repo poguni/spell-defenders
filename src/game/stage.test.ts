@@ -3,6 +3,7 @@ import type { Problem } from '../judge/types';
 import {
   FIRST_SPAWN_SECONDS,
   MANA_PER_CORRECT,
+  FAST_FACTOR,
   SLOW_FACTOR,
   WALL_DAMAGE,
   STAGE_SETTINGS,
@@ -163,11 +164,13 @@ describe('tick: 시간 흐름', () => {
     expect(oneBigStep.monsters[0].progress).toBeCloseTo(0.1 / CROSS_SECONDS);
   });
 
-  it('느리게는 보통보다 천천히, 일시정지는 멈춤', () => {
+  it('느리게는 보통보다 천천히, 빠르게는 더 빨리, 일시정지는 멈춤', () => {
     const state = spawnFirst(createStage(makeProblems(10), fixedRandom));
     const normal = tick(state, 1, 'normal').monsters[0].progress;
     const slow = tick(state, 1, 'slow').monsters[0].progress;
+    const fast = tick(state, 1, 'fast').monsters[0].progress;
     expect(slow).toBeCloseTo(normal * SLOW_FACTOR);
+    expect(fast).toBeCloseTo(normal * FAST_FACTOR);
     expect(tick(state, 1, 'paused')).toBe(state);
   });
 

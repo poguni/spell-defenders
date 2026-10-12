@@ -26,8 +26,9 @@ const MONSTER_END_LEFT = 1340; // progress 1: 몸이 길 끝(성 앞)에 닿는 
 const BUBBLE_LETTERS = 8;
 
 const SPEEDS: { value: Speed; label: string }[] = [
-  { value: 'normal', label: '보통' },
   { value: 'slow', label: '느리게' },
+  { value: 'normal', label: '보통' },
+  { value: 'fast', label: '빠르게' },
   { value: 'paused', label: '일시정지' },
 ];
 

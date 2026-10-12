@@ -7,6 +7,7 @@ export const LANE_COUNT = 3;
 export const FIRST_SPAWN_SECONDS = 1; // 웨이브 시작 뒤 첫 몬스터가 나오기까지
 export const SPAWN_GAP_SECONDS = 5; // 같은 웨이브 안 몬스터 사이 간격
 export const SLOW_FACTOR = 0.5; // "느리게"는 보통의 절반 빠르기
+export const FAST_FACTOR = 1.5; // "빠르게"는 보통보다 50% 빠르기
 export const MANA_PER_CORRECT = 10;
 export const WALL_MAX = 100;
 export const WALL_DAMAGE = 10;
@@ -35,7 +36,7 @@ export function settingsFor(problems: readonly Problem[]): StageSettings {
   return STAGE_SETTINGS[level];
 }
 
-export type Speed = 'normal' | 'slow' | 'paused';
+export type Speed = 'normal' | 'slow' | 'fast' | 'paused';
 /** waiting: 아직 안 나옴, walking: 걷는 중, purified: 정화됨, failed: 틀려서 고칠 수 없이 걷는 중, arrived: 성에 닿음 */
 export type MonsterStatus = 'waiting' | 'walking' | 'purified' | 'failed' | 'arrived';
 
@@ -144,7 +145,7 @@ function advanceWave(state: GameState): GameState {
 /** 게임 시간 dt초를 흘린다 */
 export function tick(state: GameState, dt: number, speed: Speed): GameState {
   if (state.finished || speed === 'paused' || dt <= 0) return state;
-  const gameDt = speed === 'slow' ? dt * SLOW_FACTOR : dt;
+  const gameDt = speed === 'slow' ? dt * SLOW_FACTOR : speed === 'fast' ? dt * FAST_FACTOR : dt;
   const waveTime = state.waveTime + gameDt;
   const { crossSeconds, waveSpeedup } = state.settings;
   const step = gameDt / (crossSeconds * waveSpeedup ** state.wave);
